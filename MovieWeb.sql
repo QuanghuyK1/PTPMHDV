@@ -1,0 +1,421 @@
+CREATE DATABASE  IF NOT EXISTS `web_phim` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `web_phim`;
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: web_phim
+-- ------------------------------------------------------
+-- Server version	8.0.31
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `accounts`
+--
+
+DROP TABLE IF EXISTS `accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `accounts` (
+  `account_name` varchar(50) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `client_id` int NOT NULL,
+  `role_id` int NOT NULL,
+  PRIMARY KEY (`account_name`),
+  UNIQUE KEY `client_id_UNIQUE` (`client_id`),
+  KEY `role_id_idx` (`role_id`),
+  CONSTRAINT `client_id` FOREIGN KEY (`client_id`) REFERENCES `users` (`client_id`) ON UPDATE CASCADE,
+  CONSTRAINT `role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `accounts`
+--
+
+LOCK TABLES `accounts` WRITE;
+/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `actors`
+--
+
+DROP TABLE IF EXISTS `actors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `actors` (
+  `actor_id` int NOT NULL AUTO_INCREMENT,
+  `actor_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`actor_id`),
+  UNIQUE KEY `actor_name_UNIQUE` (`actor_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `actors`
+--
+
+LOCK TABLES `actors` WRITE;
+/*!40000 ALTER TABLE `actors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `actors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categories`
+--
+
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categories` (
+  `category_id` int NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`category_id`),
+  UNIQUE KEY `category_name_UNIQUE` (`category_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `directors`
+--
+
+DROP TABLE IF EXISTS `directors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `directors` (
+  `director_id` int NOT NULL AUTO_INCREMENT,
+  `director_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`director_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `directors`
+--
+
+LOCK TABLES `directors` WRITE;
+/*!40000 ALTER TABLE `directors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `directors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discount_details`
+--
+
+DROP TABLE IF EXISTS `discount_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `discount_details` (
+  `discount_id` int NOT NULL,
+  `film_package_id` int NOT NULL,
+  PRIMARY KEY (`discount_id`,`film_package_id`),
+  KEY `film_package_id_idx` (`film_package_id`),
+  KEY `discount_details_film_package_id_idx` (`film_package_id`),
+  CONSTRAINT `discount_details_film_package_id` FOREIGN KEY (`film_package_id`) REFERENCES `film_packages` (`film_package_id`) ON UPDATE CASCADE,
+  CONSTRAINT `discount_id` FOREIGN KEY (`discount_id`) REFERENCES `discounts` (`discount_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discount_details`
+--
+
+LOCK TABLES `discount_details` WRITE;
+/*!40000 ALTER TABLE `discount_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `discount_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `discounts`
+--
+
+DROP TABLE IF EXISTS `discounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `discounts` (
+  `discount_id` int NOT NULL AUTO_INCREMENT,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `discount_rate` int NOT NULL,
+  PRIMARY KEY (`discount_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `discounts`
+--
+
+LOCK TABLES `discounts` WRITE;
+/*!40000 ALTER TABLE `discounts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `discounts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `film_packages`
+--
+
+DROP TABLE IF EXISTS `film_packages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `film_packages` (
+  `film_package_id` int NOT NULL AUTO_INCREMENT,
+  `used_time` int NOT NULL,
+  `applicable_date` date NOT NULL,
+  PRIMARY KEY (`film_package_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `film_packages`
+--
+
+LOCK TABLES `film_packages` WRITE;
+/*!40000 ALTER TABLE `film_packages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `film_packages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `film_packages_of_clients`
+--
+
+DROP TABLE IF EXISTS `film_packages_of_clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `film_packages_of_clients` (
+  `client_id` int NOT NULL,
+  `film_packages_id` int NOT NULL,
+  `purchase_date` date NOT NULL,
+  `expiration_date` date NOT NULL,
+  PRIMARY KEY (`client_id`,`film_packages_id`),
+  KEY `film_package_id_idx` (`film_packages_id`),
+  CONSTRAINT `film_package_id` FOREIGN KEY (`film_packages_id`) REFERENCES `film_packages` (`film_package_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fpoc_clien_id` FOREIGN KEY (`client_id`) REFERENCES `users` (`client_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `film_packages_of_clients`
+--
+
+LOCK TABLES `film_packages_of_clients` WRITE;
+/*!40000 ALTER TABLE `film_packages_of_clients` DISABLE KEYS */;
+/*!40000 ALTER TABLE `film_packages_of_clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `film_producers`
+--
+
+DROP TABLE IF EXISTS `film_producers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `film_producers` (
+  `film_producer_id` int NOT NULL AUTO_INCREMENT,
+  `film_producer_name` varchar(80) NOT NULL,
+  PRIMARY KEY (`film_producer_id`),
+  UNIQUE KEY `film_producer_name_UNIQUE` (`film_producer_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `film_producers`
+--
+
+LOCK TABLES `film_producers` WRITE;
+/*!40000 ALTER TABLE `film_producers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `film_producers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `films`
+--
+
+DROP TABLE IF EXISTS `films`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `films` (
+  `film_id` int NOT NULL AUTO_INCREMENT,
+  `film_name` varchar(80) NOT NULL,
+  `film_producer_id` int NOT NULL,
+  `nation_id` int NOT NULL,
+  `director_id` int NOT NULL,
+  PRIMARY KEY (`film_id`),
+  UNIQUE KEY `film_name_UNIQUE` (`film_name`),
+  KEY `film_producer_id_idx` (`film_producer_id`),
+  KEY `nation_id_idx` (`nation_id`),
+  KEY `director_id_idx` (`director_id`),
+  CONSTRAINT `director_id` FOREIGN KEY (`director_id`) REFERENCES `directors` (`director_id`) ON UPDATE CASCADE,
+  CONSTRAINT `film_producer_id` FOREIGN KEY (`film_producer_id`) REFERENCES `film_producers` (`film_producer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `nation_id` FOREIGN KEY (`nation_id`) REFERENCES `nations` (`nation_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `films`
+--
+
+LOCK TABLES `films` WRITE;
+/*!40000 ALTER TABLE `films` DISABLE KEYS */;
+/*!40000 ALTER TABLE `films` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `films_actors`
+--
+
+DROP TABLE IF EXISTS `films_actors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `films_actors` (
+  `film_id` int NOT NULL,
+  `actor_id` int NOT NULL,
+  PRIMARY KEY (`film_id`,`actor_id`),
+  KEY `actor_id_idx` (`actor_id`),
+  CONSTRAINT `actor_id` FOREIGN KEY (`actor_id`) REFERENCES `actors` (`actor_id`) ON UPDATE CASCADE,
+  CONSTRAINT `movie_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `films_actors`
+--
+
+LOCK TABLES `films_actors` WRITE;
+/*!40000 ALTER TABLE `films_actors` DISABLE KEYS */;
+/*!40000 ALTER TABLE `films_actors` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `films_categories`
+--
+
+DROP TABLE IF EXISTS `films_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `films_categories` (
+  `film_id` int NOT NULL,
+  `category_id` int NOT NULL,
+  PRIMARY KEY (`film_id`,`category_id`),
+  KEY `category_id_idx` (`category_id`),
+  CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON UPDATE CASCADE,
+  CONSTRAINT `film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `films_categories`
+--
+
+LOCK TABLES `films_categories` WRITE;
+/*!40000 ALTER TABLE `films_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `films_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `nations`
+--
+
+DROP TABLE IF EXISTS `nations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `nations` (
+  `nation_id` int NOT NULL AUTO_INCREMENT,
+  `nation_name` varchar(60) NOT NULL,
+  PRIMARY KEY (`nation_id`),
+  UNIQUE KEY `nation_name_UNIQUE` (`nation_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `nations`
+--
+
+LOCK TABLES `nations` WRITE;
+/*!40000 ALTER TABLE `nations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `nations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `roles` (
+  `role_id` int NOT NULL AUTO_INCREMENT,
+  `role_name` varchar(50) NOT NULL,
+  `client_id` int NOT NULL,
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `role_name_UNIQUE` (`role_name`),
+  UNIQUE KEY `client_id_UNIQUE` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `client_id` int NOT NULL AUTO_INCREMENT,
+  `client_name` varchar(50) NOT NULL,
+  `phone_number` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `sex` tinyint(1) NOT NULL DEFAULT '0',
+  `birthday` date NOT NULL,
+  PRIMARY KEY (`client_id`),
+  UNIQUE KEY `phone_UNIQUE` (`phone_number`),
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-03-08 19:08:23
