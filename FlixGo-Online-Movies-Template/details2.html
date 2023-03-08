@@ -242,32 +242,33 @@
 										</thead>
 
 										<tbody>
-											<tr>
-												<th>1</th>
-												<td>Pilot</td>
-												<td>Tuesday, November 16th, 2004</td>
+											<tr class='clickable-row' data-href='details1.html'>
+													<th>1</th>
+													<td>Pilot</a></td>
+													<td>Tuesday, November 16th, 2004</td>
 											</tr>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
+
 												<th>2</th>
 												<td>Paternity</td>
 												<td>Tuesday, November 23rd, 2004</td>
 											</tr>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
 												<th>3</th>
 												<td>Occam's Razor</td>
 												<td>Tuesday, November 30th, 2004</td>
 											</tr>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
 												<th>4</th>
 												<td>Maternity</td>
 												<td>Tuesday, December 7th, 2004</td>
 											</tr>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
 												<th>5</th>
 												<td>Damned If You Do</td>
 												<td>Tuesday, December 14th, 2004</td>
 											</tr>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
 												<th>6</th>
 												<td>The Socratic Method</td>
 												<td>Tuesday, December 21st, 2004</td>
@@ -290,7 +291,7 @@
 								<div class="card-body">
 									<table class="accordion__list">
 										<thead>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
 												<th>#</th>
 												<th>Title</th>
 												<th>Air Date</th>
@@ -298,12 +299,12 @@
 										</thead>
 
 										<tbody>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'> 
 												<th>1</th>
 												<td>Pilot</td>
 												<td>Tuesday, November 16th, 2004</td>
 											</tr>
-											<tr>
+											<tr class='clickable-row' data-href='details1.html'>
 												<th>2</th>
 												<td>Paternity</td>
 												<td>Tuesday, November 23rd, 2004</td>
@@ -1044,6 +1045,13 @@
 	<script src="js/photoswipe.min.js"></script>
 	<script src="js/photoswipe-ui-default.min.js"></script>
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+		    $(".clickable-row").click(function() {
+		        window.location = $(this).data("href");
+		    });
+		});
+	</script>
 </body>
 
 </html>
