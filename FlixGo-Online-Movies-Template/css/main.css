@@ -3711,6 +3711,7 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   background-image: -ms-linear-gradient(180deg, #ff55a5 0%, #ff5860 100%);
   background-image: linear-gradient(180deg, #ff55a5 0%, #ff5860 100%);
 }
+.Submit,
 .trailer,.play-vid{
   margin-top: 30px;
   padding: 5px 20px;
@@ -3718,5 +3719,29 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 .trailer-vid,
 #player{
+  display: none;
+}
+.form-check-input:checked{
+  background-color: hotpink!important;
+}
+.input-phone,.input-email{
+  margin: 5px 0px;
+  width: 300px;
+  padding: 10px 15px;
+  border: 1px hotpink solid;
+  outline-color: hotpink;
+  background-color: transparent;
+  border-radius: 8px;
+  color: hotpink;
+  display: none;
+}
+#qrcode{
+  display: none;
+}
+.Submit{
+  background-image:linear-gradient(90deg, #ff55a5 0%, #ff5860 100%); 
+  width: 100px;
+  height: 60px;
+  color: white;
   display: none;
 }
