@@ -95,6 +95,37 @@ LOCK TABLES `categories` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comments` (
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `comment_content` varchar(200) NOT NULL,
+  `comment_level` int NOT NULL,
+  `film_id` int NOT NULL,
+  `account_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `fk_comments_film_id_idx` (`film_id`),
+  KEY `fk_comments_account_name_idx` (`account_name`),
+  CONSTRAINT `fk_comments_account_name` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_comments_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE,
+  CONSTRAINT `comments_chk_1` CHECK (((`comment_level` >= 1) and (`comment_level` <= 5)))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `directors`
 --
 
@@ -170,6 +201,64 @@ LOCK TABLES `discounts` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `episodes`
+--
+
+DROP TABLE IF EXISTS `episodes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `episodes` (
+  `episodes_id` int NOT NULL AUTO_INCREMENT,
+  `numerical_order` int NOT NULL,
+  `film_id` int NOT NULL,
+  PRIMARY KEY (`episodes_id`),
+  KEY `fk_episodes_film_id_idx` (`film_id`),
+  CONSTRAINT `fk_episodes_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE,
+  CONSTRAINT `episodes_chk_1` CHECK ((`numerical_order` >= 1))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `episodes`
+--
+
+LOCK TABLES `episodes` WRITE;
+/*!40000 ALTER TABLE `episodes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `episodes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `evaluations`
+--
+
+DROP TABLE IF EXISTS `evaluations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `evaluations` (
+  `evaluation_id` int NOT NULL AUTO_INCREMENT,
+  `star_number` int NOT NULL,
+  `comment` varchar(200) NOT NULL DEFAULT '',
+  `film_id` int NOT NULL,
+  `account_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`evaluation_id`),
+  KEY `FK_evaluations_filmid_idx` (`film_id`),
+  KEY `FK_evaluations_account_name_idx` (`account_name`),
+  CONSTRAINT `FK_evaluations_account_name` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_evaluations_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE,
+  CONSTRAINT `evaluations_chk_1` CHECK (((`star_number` >= 1) and (`star_number` <= 5)))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `evaluations`
+--
+
+LOCK TABLES `evaluations` WRITE;
+/*!40000 ALTER TABLE `evaluations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `evaluations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `film_packages`
 --
 
@@ -180,7 +269,9 @@ CREATE TABLE `film_packages` (
   `film_package_id` int NOT NULL AUTO_INCREMENT,
   `used_time` int NOT NULL,
   `applicable_date` date NOT NULL,
-  PRIMARY KEY (`film_package_id`)
+  `price` int NOT NULL,
+  PRIMARY KEY (`film_package_id`),
+  CONSTRAINT `film_packages_chk_price` CHECK ((`price` > 0))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -258,6 +349,9 @@ CREATE TABLE `films` (
   `film_producer_id` int NOT NULL,
   `nation_id` int NOT NULL,
   `director_id` int NOT NULL,
+  `film_poster_path` varchar(150) NOT NULL,
+  `trailer_path` varchar(150) NOT NULL,
+  `film_path` varchar(45) NOT NULL,
   PRIMARY KEY (`film_id`),
   UNIQUE KEY `film_name_UNIQUE` (`film_name`),
   KEY `film_producer_id_idx` (`film_producer_id`),
@@ -418,4 +512,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-08 19:08:23
+-- Dump completed on 2023-03-10 16:43:44
