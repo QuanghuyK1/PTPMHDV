@@ -3745,3 +3745,127 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   color: white;
   display: none;
 }
+.nofication-box{
+  background-color: white;
+  width: 500px;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1000;
+  left: 65%;
+  display: none;
+  height: 580px;
+  border: 2px hotpink solid;
+}
+.nofication-box a{
+  color: black;
+  padding: 0px 5px;
+}
+.nofication-box img{
+  width: 80px;
+  height: 120px;
+  border-radius: 5px;
+}
+.name-hover:hover{
+  color: hotpink;
+}
+.setting-box{
+  background-color: white;
+  width: 180px;
+  position: absolute;
+  z-index: 1000;
+  left: 88%;
+  border-radius: 10px;
+  display: none;
+  border: 2px hotpink solid;
+}
+.setting-box a{
+  color: black;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0 15px;
+}
+.setting-box li{
+  padding: 10px 0px;
+}
+.setting-box a:hover{
+  color: hotpink;
+}
+.menu ul li{
+  padding: 15px 40px;
+  font-size: 20px;
+}
+.menu ul{
+  border-radius: 0px 0px 10px 10px;
+  padding: 0;
+}
+.menu-content{
+  border-radius: 10px;
+  color: black;
+}
+.account-info{
+  margin-top: 80px;
+  padding: 0px 60px;
+  display: none;
+}
+.account-info label{
+  color: hotpink;
+  font-size: 18px;
+  font-weight: 600;
+}
+.info input{
+  outline-color: hotpink;
+  padding: 5px 15px;
+  border: 3px hotpink solid;
+  background-color: dimgray;
+  color: white;
+  border-radius: 10px;
+}
+.info{
+  margin-bottom: 30px;
+}
+.btn-apply{
+  pointer-events: none;
+}
+.account-info input{
+  pointer-events: none;
+}
+.nofication-box-1 img{
+  width: 80px;
+  height: 120px;
+}
+.nofication-box-1{
+  margin-top: 30px;
+  display: none;
+}
+.page-item a{
+  color: black !important;
+}
+.active>.page-link{
+  background-color: hotpink !important;
+}
+.change-pw-box{
+  margin-top: 80px;
+  padding: 0px 40px;
+  display: none;
+}
+.change-pw-box input{
+  outline-color: hotpink;
+  padding: 5px 15px;
+  border: 3px hotpink solid;
+  background-color: dimgray;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.change-pw-box label{
+  color: hotpink;
+  font-size: 18px;
+  font-weight: 600;
+}
+.status-price{
+  display: none;
+}
+.history-order{
+  display: none;
+  margin-top: 40px;
+}
