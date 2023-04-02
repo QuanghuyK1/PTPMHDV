@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `web_phim` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `web_phim`;
 -- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: web_phim
@@ -27,13 +25,13 @@ DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE `accounts` (
   `account_name` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `client_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `role_id` int NOT NULL,
   PRIMARY KEY (`account_name`),
-  UNIQUE KEY `client_id_UNIQUE` (`client_id`),
+  UNIQUE KEY `client_id_UNIQUE` (`user_id`),
   KEY `role_id_idx` (`role_id`),
-  CONSTRAINT `client_id` FOREIGN KEY (`client_id`) REFERENCES `users` (`client_id`) ON UPDATE CASCADE,
-  CONSTRAINT `role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON UPDATE CASCADE
+  CONSTRAINT `role_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON UPDATE CASCADE,
+  CONSTRAINT `user_id_accounts` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -105,6 +103,7 @@ CREATE TABLE `comments` (
   `comment_id` int NOT NULL AUTO_INCREMENT,
   `comment_content` varchar(200) NOT NULL,
   `comment_level` int NOT NULL,
+  `comment_date` date NOT NULL,
   `film_id` int NOT NULL,
   `account_name` varchar(50) NOT NULL,
   PRIMARY KEY (`comment_id`),
@@ -186,7 +185,7 @@ CREATE TABLE `discounts` (
   `discount_id` int NOT NULL AUTO_INCREMENT,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `discount_rate` int NOT NULL,
+  `discount_rate` float NOT NULL,
   PRIMARY KEY (`discount_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -208,10 +207,10 @@ DROP TABLE IF EXISTS `episodes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `episodes` (
-  `episodes_id` int NOT NULL AUTO_INCREMENT,
+  `episode_id` int NOT NULL AUTO_INCREMENT,
   `numerical_order` int NOT NULL,
   `film_id` int NOT NULL,
-  PRIMARY KEY (`episodes_id`),
+  PRIMARY KEY (`episode_id`),
   KEY `fk_episodes_film_id_idx` (`film_id`),
   CONSTRAINT `fk_episodes_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE,
   CONSTRAINT `episodes_chk_1` CHECK ((`numerical_order` >= 1))
@@ -285,34 +284,6 @@ LOCK TABLES `film_packages` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `film_packages_of_clients`
---
-
-DROP TABLE IF EXISTS `film_packages_of_clients`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `film_packages_of_clients` (
-  `client_id` int NOT NULL,
-  `film_packages_id` int NOT NULL,
-  `purchase_date` date NOT NULL,
-  `expiration_date` date NOT NULL,
-  PRIMARY KEY (`client_id`,`film_packages_id`),
-  KEY `film_package_id_idx` (`film_packages_id`),
-  CONSTRAINT `film_package_id` FOREIGN KEY (`film_packages_id`) REFERENCES `film_packages` (`film_package_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fpoc_clien_id` FOREIGN KEY (`client_id`) REFERENCES `users` (`client_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `film_packages_of_clients`
---
-
-LOCK TABLES `film_packages_of_clients` WRITE;
-/*!40000 ALTER TABLE `film_packages_of_clients` DISABLE KEYS */;
-/*!40000 ALTER TABLE `film_packages_of_clients` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `film_producers`
 --
 
@@ -346,12 +317,12 @@ DROP TABLE IF EXISTS `films`;
 CREATE TABLE `films` (
   `film_id` int NOT NULL AUTO_INCREMENT,
   `film_name` varchar(80) NOT NULL,
-  `film_producer_id` int NOT NULL,
-  `nation_id` int NOT NULL,
-  `director_id` int NOT NULL,
   `film_poster_path` varchar(150) NOT NULL,
   `trailer_path` varchar(150) NOT NULL,
   `film_path` varchar(45) NOT NULL,
+  `film_producer_id` int NOT NULL,
+  `nation_id` int NOT NULL,
+  `director_id` int NOT NULL,
   PRIMARY KEY (`film_id`),
   UNIQUE KEY `film_name_UNIQUE` (`film_name`),
   KEY `film_producer_id_idx` (`film_producer_id`),
@@ -449,6 +420,34 @@ LOCK TABLES `nations` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `purchased_film_packages`
+--
+
+DROP TABLE IF EXISTS `purchased_film_packages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchased_film_packages` (
+  `account_name` varchar(50) NOT NULL,
+  `film_package_id` int NOT NULL,
+  `purchase_date` date NOT NULL,
+  `expiration_date` date NOT NULL,
+  PRIMARY KEY (`account_name`,`film_package_id`),
+  KEY `film_package_id_idx` (`film_package_id`),
+  CONSTRAINT `account_name_film_packages_of_clients` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
+  CONSTRAINT `film_package_id` FOREIGN KEY (`film_package_id`) REFERENCES `film_packages` (`film_package_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchased_film_packages`
+--
+
+LOCK TABLES `purchased_film_packages` WRITE;
+/*!40000 ALTER TABLE `purchased_film_packages` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchased_film_packages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `roles`
 --
 
@@ -458,10 +457,8 @@ DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `role_id` int NOT NULL AUTO_INCREMENT,
   `role_name` varchar(50) NOT NULL,
-  `client_id` int NOT NULL,
   PRIMARY KEY (`role_id`),
-  UNIQUE KEY `role_name_UNIQUE` (`role_name`),
-  UNIQUE KEY `client_id_UNIQUE` (`client_id`)
+  UNIQUE KEY `role_name_UNIQUE` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -482,13 +479,13 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `client_id` int NOT NULL AUTO_INCREMENT,
-  `client_name` varchar(50) NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) NOT NULL,
   `phone_number` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
   `sex` tinyint(1) NOT NULL DEFAULT '0',
   `birthday` date NOT NULL,
-  PRIMARY KEY (`client_id`),
+  PRIMARY KEY (`user_id`),
   UNIQUE KEY `phone_UNIQUE` (`phone_number`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -512,4 +509,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-12 10:52:44
+-- Dump completed on 2023-04-02 23:15:17
