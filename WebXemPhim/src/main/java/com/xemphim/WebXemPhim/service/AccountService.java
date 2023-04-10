@@ -2,8 +2,9 @@ package com.xemphim.WebXemPhim.service;
 
 import java.util.List;
 
-import com.xemphim.WebXemPhim.models.Account;
+import com.xemphim.WebXemPhim.dto.AccountDTO;
 
 public interface AccountService {
-	List<Account> findAll();
+	List<AccountDTO> findAll();
+	boolean findById(AccountDTO accountDTO);
 }

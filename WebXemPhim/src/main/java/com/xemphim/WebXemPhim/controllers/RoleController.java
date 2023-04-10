@@ -14,6 +14,7 @@ public class RoleController {
 	
 	@Autowired
 	private RoleService roleService;
+	
 	@GetMapping(value = "/role")
 	public RoleOutput showRole() {
 		RoleOutput result = new RoleOutput();

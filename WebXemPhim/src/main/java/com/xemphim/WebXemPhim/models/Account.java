@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "accounts")
@@ -19,6 +20,7 @@ public class Account {
 	
 	@Id
 	@Column(name = "account_name")
+	@NotBlank(message = "Account name cannot be blank!")
 	private String accountName;
 	
 	private String password;
@@ -30,12 +32,6 @@ public class Account {
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
-	
-	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-	private Collection<Comment> comments;
-	
-	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
-	private Collection<Evaluation> evaluations;
 	
 	public String getAccountName() {
 		return accountName;
@@ -67,21 +63,5 @@ public class Account {
 
 	public void setRole(Role role) {
 		this.role = role;
-	}
-
-	public Collection<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(Collection<Comment> comments) {
-		this.comments = comments;
-	}
-
-	public Collection<Evaluation> getEvaluations() {
-		return evaluations;
-	}
-
-	public void setEvaluations(Collection<Evaluation> evaluations) {
-		this.evaluations = evaluations;
 	}
 }

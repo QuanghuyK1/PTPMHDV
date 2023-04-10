@@ -1,42 +1,28 @@
 package com.xemphim.WebXemPhim.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "evaluations")
 public class Evaluation {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "evaluation_id")
-	private Integer evaluationId;
+	@EmbeddedId
+	private EvaluationId id;
 	
 	@Column(name = "star_number")
 	private Integer starNumber;
 	
 	private Integer comment;
-	
-	@ManyToOne
-	@JoinColumn(name = "film_id")
-	private Film film;
-	
-	@ManyToOne
-	@JoinColumn(name = "account_name")
-	private Account account;
 
-	public Integer getEvaluationId() {
-		return evaluationId;
+	public EvaluationId getId() {
+		return id;
 	}
 
-	public void setEvaluationId(Integer evaluationId) {
-		this.evaluationId = evaluationId;
+	public void setId(EvaluationId id) {
+		this.id = id;
 	}
 
 	public Integer getStarNumber() {
@@ -53,21 +39,5 @@ public class Evaluation {
 
 	public void setComment(Integer comment) {
 		this.comment = comment;
-	}
-
-	public Film getFilm() {
-		return film;
-	}
-
-	public void setFilm(Film film) {
-		this.film = film;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}
 }

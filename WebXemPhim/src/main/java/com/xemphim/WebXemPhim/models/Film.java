@@ -46,13 +46,7 @@ public class Film {
 	@JoinColumn(name = "director_id")
 	private Director director;
 	
-	@OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
-	private Collection<Comment> comments;
-	
-	@OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
-	private Collection<Evaluation> evaluations;
-	
-	@OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
 	private Collection<Episode> episodes;
 
 	public Integer getFilmId() {
@@ -117,22 +111,6 @@ public class Film {
 
 	public void setDirector(Director director) {
 		this.director = director;
-	}
-
-	public Collection<Comment> getComments() {
-		return comments;
-	}
-
-	public void setComments(Collection<Comment> comments) {
-		this.comments = comments;
-	}
-
-	public Collection<Evaluation> getEvaluations() {
-		return evaluations;
-	}
-
-	public void setEvaluations(Collection<Evaluation> evaluations) {
-		this.evaluations = evaluations;
 	}
 
 	public Collection<Episode> getEpisodes() {
