@@ -101,13 +101,12 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
-  `comment_id` int NOT NULL AUTO_INCREMENT,
-  `comment_content` varchar(200) NOT NULL,
-  `comment_level` int NOT NULL,
-  `comment_date` date NOT NULL,
   `film_id` int NOT NULL,
   `account_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`comment_id`),
+  `comment_level` int NOT NULL,
+  `comment_content` varchar(200) NOT NULL,
+  `comment_date` datetime NOT NULL,
+  PRIMARY KEY (`film_id`,`account_name`,`comment_level`),
   KEY `fk_comments_film_id_idx` (`film_id`),
   KEY `fk_comments_account_name_idx` (`account_name`),
   CONSTRAINT `fk_comments_account_name` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
@@ -235,12 +234,11 @@ DROP TABLE IF EXISTS `evaluations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `evaluations` (
-  `evaluation_id` int NOT NULL AUTO_INCREMENT,
-  `star_number` int NOT NULL,
-  `comment` varchar(200) NOT NULL DEFAULT '',
   `film_id` int NOT NULL,
   `account_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`evaluation_id`),
+  `star_number` int NOT NULL,
+  `comment` varchar(200) NOT NULL DEFAULT '',
+  PRIMARY KEY (`film_id`,`account_name`),
   KEY `FK_evaluations_filmid_idx` (`film_id`),
   KEY `FK_evaluations_account_name_idx` (`account_name`),
   CONSTRAINT `FK_evaluations_account_name` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
@@ -512,4 +510,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-06  8:26:25
+-- Dump completed on 2023-04-09 19:54:02
