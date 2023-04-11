@@ -13,7 +13,7 @@ public class FilmConverter {
 		if(film.getFilmName() != null) {
 			dto.setFilmName(film.getFilmName());
 			dto.setFilmPosterPath(film.getFilmPosterPath());
-			dto.setTrailerPath(dto.getTrailerPath());
+			dto.setTrailerPath(film.getTrailerPath());
 			dto.setFilmPath(film.getFilmPath());
 		}
 		return dto;
