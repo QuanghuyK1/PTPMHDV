@@ -209,6 +209,7 @@ DROP TABLE IF EXISTS `episodes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `episodes` (
   `episode_id` int NOT NULL AUTO_INCREMENT,
+  `episode_path` varchar(200) NOT NULL,
   `numerical_order` int NOT NULL,
   `film_id` int NOT NULL,
   PRIMARY KEY (`episode_id`),
@@ -224,7 +225,7 @@ CREATE TABLE `episodes` (
 
 LOCK TABLES `episodes` WRITE;
 /*!40000 ALTER TABLE `episodes` DISABLE KEYS */;
-INSERT INTO `episodes` VALUES (1,1,1);
+INSERT INTO `episodes` VALUES (1,'abc',1,1);
 /*!40000 ALTER TABLE `episodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,9 +322,10 @@ CREATE TABLE `films` (
   `film_name` varchar(80) NOT NULL,
   `film_poster_path` varchar(150) NOT NULL,
   `trailer_path` varchar(150) NOT NULL,
-  `film_path` varchar(45) NOT NULL,
   `film_description` varchar(200) NOT NULL,
   `film_duration` int NOT NULL,
+  `release_time` date NOT NULL,
+  `odd_film` tinyint NOT NULL,
   `film_producer_id` int NOT NULL,
   `nation_id` int NOT NULL,
   `director_id` int NOT NULL,
@@ -344,7 +346,7 @@ CREATE TABLE `films` (
 
 LOCK TABLES `films` WRITE;
 /*!40000 ALTER TABLE `films` DISABLE KEYS */;
-INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc','abc',120,1,1,1);
+INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,1,1,1);
 /*!40000 ALTER TABLE `films` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -479,6 +481,34 @@ INSERT INTO `roles` VALUES (1,'Client');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tokens`
+--
+
+DROP TABLE IF EXISTS `tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tokens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `token` varchar(500) NOT NULL,
+  `revoked` tinyint DEFAULT NULL,
+  `expired` tinyint DEFAULT NULL,
+  `account_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `account_name_tokens_idx` (`account_name`),
+  CONSTRAINT `account_name_tokens` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tokens`
+--
+
+LOCK TABLES `tokens` WRITE;
+/*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -517,4 +547,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-12 19:40:07
+-- Dump completed on 2023-04-12 21:09:40
