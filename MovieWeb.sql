@@ -135,7 +135,7 @@ CREATE TABLE `directors` (
   `director_id` int NOT NULL AUTO_INCREMENT,
   `director_name` varchar(45) NOT NULL,
   PRIMARY KEY (`director_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,6 +144,7 @@ CREATE TABLE `directors` (
 
 LOCK TABLES `directors` WRITE;
 /*!40000 ALTER TABLE `directors` DISABLE KEYS */;
+INSERT INTO `directors` VALUES (1,'Brian De Palma');
 /*!40000 ALTER TABLE `directors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +215,7 @@ CREATE TABLE `episodes` (
   KEY `fk_episodes_film_id_idx` (`film_id`),
   CONSTRAINT `fk_episodes_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE,
   CONSTRAINT `episodes_chk_1` CHECK ((`numerical_order` >= 1))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,6 +224,7 @@ CREATE TABLE `episodes` (
 
 LOCK TABLES `episodes` WRITE;
 /*!40000 ALTER TABLE `episodes` DISABLE KEYS */;
+INSERT INTO `episodes` VALUES (1,1,1);
 /*!40000 ALTER TABLE `episodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +296,7 @@ CREATE TABLE `film_producers` (
   `film_producer_name` varchar(80) NOT NULL,
   PRIMARY KEY (`film_producer_id`),
   UNIQUE KEY `film_producer_name_UNIQUE` (`film_producer_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,6 +305,7 @@ CREATE TABLE `film_producers` (
 
 LOCK TABLES `film_producers` WRITE;
 /*!40000 ALTER TABLE `film_producers` DISABLE KEYS */;
+INSERT INTO `film_producers` VALUES (1,'Tom Cruise');
 /*!40000 ALTER TABLE `film_producers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,6 +322,8 @@ CREATE TABLE `films` (
   `film_poster_path` varchar(150) NOT NULL,
   `trailer_path` varchar(150) NOT NULL,
   `film_path` varchar(45) NOT NULL,
+  `film_description` varchar(200) NOT NULL,
+  `film_duration` int NOT NULL,
   `film_producer_id` int NOT NULL,
   `nation_id` int NOT NULL,
   `director_id` int NOT NULL,
@@ -330,7 +335,7 @@ CREATE TABLE `films` (
   CONSTRAINT `director_id` FOREIGN KEY (`director_id`) REFERENCES `directors` (`director_id`) ON UPDATE CASCADE,
   CONSTRAINT `film_producer_id` FOREIGN KEY (`film_producer_id`) REFERENCES `film_producers` (`film_producer_id`) ON UPDATE CASCADE,
   CONSTRAINT `nation_id` FOREIGN KEY (`nation_id`) REFERENCES `nations` (`nation_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,6 +344,7 @@ CREATE TABLE `films` (
 
 LOCK TABLES `films` WRITE;
 /*!40000 ALTER TABLE `films` DISABLE KEYS */;
+INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc','abc',120,1,1,1);
 /*!40000 ALTER TABLE `films` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,7 +412,7 @@ CREATE TABLE `nations` (
   `nation_name` varchar(60) NOT NULL,
   PRIMARY KEY (`nation_id`),
   UNIQUE KEY `nation_name_UNIQUE` (`nation_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -415,6 +421,7 @@ CREATE TABLE `nations` (
 
 LOCK TABLES `nations` WRITE;
 /*!40000 ALTER TABLE `nations` DISABLE KEYS */;
+INSERT INTO `nations` VALUES (1,'America');
 /*!40000 ALTER TABLE `nations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -510,4 +517,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-09 19:54:02
+-- Dump completed on 2023-04-12 19:40:07
