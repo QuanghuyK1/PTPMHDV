@@ -1,6 +1,7 @@
 package com.xemphim.WebXemPhim.models;
 
 import java.util.Collection;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,14 +32,17 @@ public class Film {
 	@Column(name = "trailer_path")
 	private String trailerPath;
 	
-	@Column(name = "film_path")
-	private String filmPath;
-	
 	@Column(name = "film_description")
 	private String filmDescription;
 	
 	@Column(name = "film_duration")
 	private Integer filmDuration;
+	
+	@Column(name = "release_time")
+	private Date releaseTime;
+	
+	@Column(name = "odd_film")
+	private Integer oddFilm;
 	
 	@ManyToOne
 	@JoinColumn(name = "film_producer_id")
@@ -87,12 +91,36 @@ public class Film {
 		this.trailerPath = trailerPath;
 	}
 
-	public String getFilmPath() {
-		return filmPath;
+	public String getFilmDescription() {
+		return filmDescription;
 	}
 
-	public void setFilmPath(String filmPath) {
-		this.filmPath = filmPath;
+	public void setFilmDescription(String filmDescription) {
+		this.filmDescription = filmDescription;
+	}
+
+	public Integer getFilmDuration() {
+		return filmDuration;
+	}
+
+	public void setFilmDuration(Integer filmDuration) {
+		this.filmDuration = filmDuration;
+	}
+
+	public Date getReleaseTime() {
+		return releaseTime;
+	}
+
+	public void setReleaseTime(Date releaseTime) {
+		this.releaseTime = releaseTime;
+	}
+
+	public Integer getOddFilm() {
+		return oddFilm;
+	}
+
+	public void setOddFilm(Integer oddFilm) {
+		this.oddFilm = oddFilm;
 	}
 
 	public FilmProducer getFilmProducer() {

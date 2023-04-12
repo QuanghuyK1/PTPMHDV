@@ -18,6 +18,9 @@ public class Episode {
 	@Column(name = "episode_id")
 	private Integer episodeId;
 	
+	@Column(name = "episode_path")
+	private Integer episodePath;
+	
 	@Column(name = "numerical_order")
 	private Integer numericalOrder;
 	
@@ -31,6 +34,14 @@ public class Episode {
 
 	public void setEpisodeId(Integer episodeId) {
 		this.episodeId = episodeId;
+	}
+
+	public Integer getEpisodePath() {
+		return episodePath;
+	}
+
+	public void setEpisodePath(Integer episodePath) {
+		this.episodePath = episodePath;
 	}
 
 	public Integer getNumericalOrder() {
