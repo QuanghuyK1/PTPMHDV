@@ -15,7 +15,7 @@ public class Evaluation {
 	@Column(name = "star_number")
 	private Integer starNumber;
 	
-	private Integer comment;
+	private String comment;
 
 	public EvaluationId getId() {
 		return id;
@@ -33,11 +33,11 @@ public class Evaluation {
 		this.starNumber = starNumber;
 	}
 
-	public Integer getComment() {
+	public String getComment() {
 		return comment;
 	}
 
-	public void setComment(Integer comment) {
+	public void setComment(String comment) {
 		this.comment = comment;
 	}
 }
