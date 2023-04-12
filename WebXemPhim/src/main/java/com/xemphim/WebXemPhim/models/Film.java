@@ -34,6 +34,12 @@ public class Film {
 	@Column(name = "film_path")
 	private String filmPath;
 	
+	@Column(name = "film_description")
+	private String filmDescription;
+	
+	@Column(name = "film_duration")
+	private Integer filmDuration;
+	
 	@ManyToOne
 	@JoinColumn(name = "film_producer_id")
 	private FilmProducer filmProducer;
