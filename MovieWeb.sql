@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `accounts`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `accounts` (
   `account_name` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(500) NOT NULL,
   `user_id` int NOT NULL,
   `role_id` int NOT NULL,
   PRIMARY KEY (`account_name`),
@@ -81,7 +81,7 @@ CREATE TABLE `categories` (
   `category_name` varchar(45) NOT NULL,
   PRIMARY KEY (`category_id`),
   UNIQUE KEY `category_name_UNIQUE` (`category_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,6 +90,7 @@ CREATE TABLE `categories` (
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'Action'),(2,'Cartoon'),(4,'Family'),(3,'Horror'),(6,'Tragedy'),(5,'War');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,6 +122,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,'nguyenvana',1,'abc','2022-03-03 23:59:24');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,8 +274,9 @@ CREATE TABLE `film_packages` (
   `applicable_date` date NOT NULL,
   `price` int NOT NULL,
   PRIMARY KEY (`film_package_id`),
+  KEY `applicable_dateDESC_used_timeASC` (`applicable_date` DESC,`used_time`),
   CONSTRAINT `film_packages_chk_price` CHECK ((`price` > 0))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,6 +285,7 @@ CREATE TABLE `film_packages` (
 
 LOCK TABLES `film_packages` WRITE;
 /*!40000 ALTER TABLE `film_packages` DISABLE KEYS */;
+INSERT INTO `film_packages` VALUES (1,1,'2019-01-01',10),(2,1,'2020-02-02',15),(3,3,'2019-01-01',30),(4,6,'2019-01-01',55),(5,3,'2020-01-01',45),(6,6,'2020-01-01',85);
 /*!40000 ALTER TABLE `film_packages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -326,6 +330,7 @@ CREATE TABLE `films` (
   `film_duration` int NOT NULL,
   `release_time` date NOT NULL,
   `odd_film` tinyint NOT NULL,
+  `average_rating` float DEFAULT NULL,
   `film_producer_id` int NOT NULL,
   `nation_id` int NOT NULL,
   `director_id` int NOT NULL,
@@ -337,7 +342,7 @@ CREATE TABLE `films` (
   CONSTRAINT `director_id` FOREIGN KEY (`director_id`) REFERENCES `directors` (`director_id`) ON UPDATE CASCADE,
   CONSTRAINT `film_producer_id` FOREIGN KEY (`film_producer_id`) REFERENCES `film_producers` (`film_producer_id`) ON UPDATE CASCADE,
   CONSTRAINT `nation_id` FOREIGN KEY (`nation_id`) REFERENCES `nations` (`nation_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -346,7 +351,7 @@ CREATE TABLE `films` (
 
 LOCK TABLES `films` WRITE;
 /*!40000 ALTER TABLE `films` DISABLE KEYS */;
-INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,1,1,1);
+INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,NULL,1,1,1),(2,'Mission: Impossible 2','abc','abc','abc',120,'1998-02-02',1,NULL,1,1,1);
 /*!40000 ALTER TABLE `films` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,6 +404,7 @@ CREATE TABLE `films_categories` (
 
 LOCK TABLES `films_categories` WRITE;
 /*!40000 ALTER TABLE `films_categories` DISABLE KEYS */;
+INSERT INTO `films_categories` VALUES (1,1),(2,1);
 /*!40000 ALTER TABLE `films_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -494,6 +500,7 @@ CREATE TABLE `tokens` (
   `expired` tinyint DEFAULT NULL,
   `account_name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `token_UNIQUE` (`token`),
   KEY `account_name_tokens_idx` (`account_name`),
   CONSTRAINT `account_name_tokens` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -547,4 +554,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-12 22:06:07
+-- Dump completed on 2023-04-19 15:25:39
