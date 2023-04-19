@@ -33,6 +33,9 @@ public class Account {
 	@JoinColumn(name = "role_id")
 	private Role role;
 	
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	private Collection<Token> tokens;
+	
 	public String getAccountName() {
 		return accountName;
 	}
