@@ -3,6 +3,8 @@ package com.xemphim.WebXemPhim.models;
 import java.util.Collection;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "films")
@@ -39,10 +43,15 @@ public class Film {
 	private Integer filmDuration;
 	
 	@Column(name = "release_time")
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date releaseTime;
 	
 	@Column(name = "odd_film")
 	private Integer oddFilm;
+	
+	@Column(name = "average_rating")
+	private Float averageRating;
 	
 	@ManyToOne
 	@JoinColumn(name = "film_producer_id")
@@ -56,7 +65,7 @@ public class Film {
 	@JoinColumn(name = "director_id")
 	private Director director;
 	
-	@OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "film", fetch = FetchType.EAGER)
 	private Collection<Episode> episodes;
 
 	public Integer getFilmId() {
