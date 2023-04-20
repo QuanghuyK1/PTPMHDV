@@ -184,8 +184,8 @@
 				<!-- price -->
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="price">
-						<div class="price__item price__item--first"><span>Basic</span> <span>Free</span></div>
-						<div class="price__item"><span>7 days</span></div>
+						<div class="price__item price__item--first"><span>Basic</span> <span class="basic-price"></span></div>
+						<div class="price__item"><span class="basic-time"></span></div>
 						<div class="price__item"><span>720p Resolution</span></div>
 						<div class="price__item"><span>Limited Availability</span></div>
 						<div class="price__item"><span>Desktop Only</span></div>
@@ -198,8 +198,8 @@
 				<!-- price -->
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="price price--premium">
-						<div class="price__item price__item--first"><span>Premium</span> <span>$19.99</span></div>
-						<div class="price__item"><span>1 Month</span></div>
+						<div class="price__item price__item--first"><span>Premium</span> <span class="premium-price">$19.99</span></div>
+						<div class="price__item premium-time"><span>1 Month</span></div>
 						<div class="price__item"><span>Full HD</span></div>
 						<div class="price__item"><span>Lifetime Availability</span></div>
 						<div class="price__item"><span>TV & Desktop</span></div>
@@ -212,8 +212,8 @@
 				<!-- price -->
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="price">
-						<div class="price__item price__item--first"><span>Cinematic</span> <span>$39.99</span></div>
-						<div class="price__item"><span>2 Months</span></div>
+						<div class="price__item price__item--first"><span>Cinematic</span> <span class="cinematic-price">$39.99</span></div>
+						<div class="price__item cinematic-time"><span>2 Months</span></div>
 						<div class="price__item"><span>Ultra HD</span></div>
 						<div class="price__item"><span>Lifetime Availability</span></div>
 						<div class="price__item"><span>Any Device</span></div>
@@ -451,6 +451,20 @@
 	<script src="js/photoswipe.min.js"></script>
 	<script src="js/photoswipe-ui-default.min.js"></script>
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		fetch('http://localhost:8080/home/filmpackage').then(res => {
+			console.log(res)
+			return res.json();
+		}).then(data =>{
+			console.log(data[0].price);
+			$('.basic-price').html("$ " +data[0].price);
+			$('.basic-time').html(data[0].used_time + " months");
+			$('.premium-price').html("$ " +data[1].price);
+			$('.premium-time').html(data[1].used_time + " months");
+			$('.cinematic-price').html("$ " +data[2].price);
+			$('.cinematic-time').html(data[2].used_time + " months");
+		}).catch(error => console.log(error))
+	</script>
 </body>
 
 </html>

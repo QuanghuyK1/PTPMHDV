@@ -177,7 +177,7 @@
 									</a>
 								</div>
 								<div class="card__content">
-									<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
+									<h3 class="card__title"><a href="">Mission: Impossible</a></h3>
 									<span class="card__category">
 										<a href="#">Action</a>
 										<a href="#">Triler</a>
@@ -1625,6 +1625,14 @@
 	<script src="js/photoswipe.min.js"></script>
 	<script src="js/photoswipe-ui-default.min.js"></script>
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		var t;
+		$( ".card" ).click(function() {
+		   t = $('.card__title a',this).text();
+		   window.location.href = "http://localhost/home/film.html?film="+t;
+		  console.log(t)
+		});
+	</script>
 </body>
 
 </html>

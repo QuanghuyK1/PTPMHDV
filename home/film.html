@@ -163,7 +163,7 @@
 							<!-- card cover -->
 							<div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-5">
 								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
+									<img src="img/covers/cover.jpg" alt="" class="poster">
 									<button class="trailer" style="background-image:linear-gradient(90deg, #ff55a5 0%, #ff5860 100%); color: white;">Trailer</button>
 									<button class="play-vid" style="background-image:linear-gradient(90deg, #ff55a5 0%, #ff5860 100%); color: white;">Play Video</button>
 								</div>
@@ -183,14 +183,13 @@
 									</div>
 
 									<ul class="card__meta">
-										<li><span>Genre:</span> <a href="#">Action</a>
-										<a href="#">Triler</a></li>
-										<li><span>Release year:</span> 2017</li>
-										<li><span>Running time:</span> 120 min</li>
-										<li><span>Country:</span> <a href="#">USA</a> </li>
+										<li><span>Genre:</span> <a href="#" class="cate">Action</a></li>
+										<li><span>Release year:</span class="release"> 2017</li>
+										<li><span>Running time:</span class="dura"> 120 min</li>
+										<li><span>Country:</span> <a href="#" class="nation">USA</a> </li>
 									</ul>
 
-									<div class="card__description card__description--details">
+									<div class="card__description card__description--details mota">
 										It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.
 									</div>
 								</div>
@@ -203,22 +202,8 @@
 
 				<!-- player -->
 				<div class="col-12 col-xl-6">
-					<video controls crossorigin playsinline poster="../../../cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
-						<!-- Video files -->
-						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" type="video/mp4" size="576">
-						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4" type="video/mp4" size="720">
-						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4" type="video/mp4" size="1080">
-						<source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1440p.mp4" type="video/mp4" size="1440">
-
-						<!-- Caption files -->
-						<track kind="captions" label="English" srclang="en" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-						    default>
-						<track kind="captions" label="Français" srclang="fr" src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-
-						<!-- Fallback for browsers that don't support the <video> element -->
-						<a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4" download>Download</a>
-					</video>
-					<iframe class="trailer-vid" width="642" height="330" src="https://www.youtube.com/embed/2rLhMIdYCms" title="I DREAM IN ANOTHER LANGUAGE | Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					<iframe class="player-vid" width="642" height="330" src="" title="I DREAM IN ANOTHER LANGUAGE | Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+					<iframe class="trailer-vid" width="642" height="330" src="" title="I DREAM IN ANOTHER LANGUAGE | Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 				</div>
 				<!-- end player -->
 				<!-- accordion (cái này là khi nào phim có tập thì hiển thị, phim k có tập thì k hiển thị)-->
@@ -544,26 +529,9 @@
 								<div class="col-12">
 									<div class="comments">
 										<ul class="comments__list">
-											<li class="comments__item">
-												<div class="comments__autor">
-													<img class="comments__avatar" src="img/user.png" alt="">
-													<span class="comments__name">John Doe</span>
-													<span class="comments__time">30.08.2018, 17:53</span>
-												</div>
-												<p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-												<div class="comments__actions">
-													<div class="comments__rate">
-														<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
+											
 
-														<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
-													</div>
-
-													<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-													<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
-												</div>
-											</li>
-
-											<li class="comments__item comments__item--answer">
+											<!-- <li class="comments__item comments__item--answer">
 												<div class="comments__autor">
 													<img class="comments__avatar" src="img/user.png" alt="">
 													<span class="comments__name">John Doe</span>
@@ -599,45 +567,7 @@
 													<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
 													<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
 												</div>
-											</li>
-
-											<li class="comments__item">
-												<div class="comments__autor">
-													<img class="comments__avatar" src="img/user.png" alt="">
-													<span class="comments__name">John Doe</span>
-													<span class="comments__time">07.08.2018, 14:33</span>
-												</div>
-												<p class="comments__text">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-												<div class="comments__actions">
-													<div class="comments__rate">
-														<button type="button"><i class="icon ion-md-thumbs-up"></i>99</button>
-
-														<button type="button">35<i class="icon ion-md-thumbs-down"></i></button>
-													</div>
-
-													<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-													<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
-												</div>
-											</li>
-
-											<li class="comments__item">
-												<div class="comments__autor">
-													<img class="comments__avatar" src="img/user.png" alt="">
-													<span class="comments__name">John Doe</span>
-													<span class="comments__time">02.08.2018, 15:24</span>
-												</div>
-												<p class="comments__text">Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-												<div class="comments__actions">
-													<div class="comments__rate">
-														<button type="button"><i class="icon ion-md-thumbs-up"></i>74</button>
-
-														<button type="button">13<i class="icon ion-md-thumbs-down"></i></button>
-													</div>
-													
-													<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
-													<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
-												</div>
-											</li>
+											</li> -->
 										</ul>
 
 										<form action="#" class="form">
@@ -772,137 +702,14 @@
 
 				<!-- sidebar -->
 				<div class="col-12 col-lg-4 col-xl-4">
-					<div class="row">
+					<div class="row also-like">
 						<!-- section title -->
 						<div class="col-12">
 							<h2 class="section__title section__title--sidebar">You may also like...</h2>
 						</div>
 						<!-- end section title -->
 
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-6">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-									<span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-6">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover2.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">Benched</a></h3>
-									<span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-6">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover3.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">Whitney</a></h3>
-									<span class="card__category">
-										<a href="#">Romance</a>
-										<a href="#">Drama</a>
-										<a href="#">Music</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>6.3</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-6">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover4.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">Blindspotting</a></h3>
-									<span class="card__category">
-										<a href="#">Comedy</a>
-										<a href="#">Drama</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>7.9</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-6">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover5.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">I Dream in Another Language</a></h3>
-									<span class="card__category">
-										<a href="#">Action</a>
-										<a href="#">Triler</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
-
-						<!-- card -->
-						<div class="col-6 col-sm-4 col-lg-6">
-							<div class="card">
-								<div class="card__cover">
-									<img src="img/covers/cover6.jpg" alt="">
-									<a href="#" class="card__play">
-										<i class="icon ion-ios-play"></i>
-									</a>
-								</div>
-								<div class="card__content">
-									<h3 class="card__title"><a href="#">Benched</a></h3>
-									<span class="card__category">
-										<a href="#">Comedy</a>
-									</span>
-									<span class="card__rate"><i class="icon ion-ios-star"></i>7.1</span>
-								</div>
-							</div>
-						</div>
-						<!-- end card -->
+						
 					</div>
 				</div>
 				<!-- end sidebar -->
@@ -1048,12 +855,84 @@
 	<script type="text/javascript">
 		$( ".trailer" ).click(function() {
 		  $( ".trailer-vid" ).css("display","block");
-		  $( "#player" ).css("display","none");
+		  $( ".player-vid" ).css("display","none");
 		});
 		$( ".play-vid" ).click(function() {
-		  $( "#player" ).css("display","block");
+		  $( ".player-vid" ).css("display","block");
 		   $( ".trailer-vid" ).css("display","none");
 		});
+		let searchParams = new URLSearchParams(window.location.search);
+		console.log(searchParams.get('film'));
+		fetch('http://localhost:8080/home/film/'+searchParams.get('film')).then(res => {
+			console.log(res)
+			return res.json();
+		}).then(data =>{
+			console.log(data.filmDTOs);
+			$('.details__title').html(data.filmDTO.filmName);
+			$('.poster').attr("src","img/covers/"+data.filmDTO.filmPosterPath);
+			$('.trailer-vid').attr("src",data.filmDTO.trailerPath);
+			$('.player-vid').attr("src",data.filmDTO.trailerPath);
+			$('.mota').html(data.filmDTO.filmDescription);
+			$('.release').html(data.filmDTO.releaseTime);
+			$('.dura').html(data.filmDTO.filmDuration);
+			$('.nation').html(data.filmDTO.nation);
+			$('.comments__name').html(data.comments.accountName);
+			$('.comments__time').html(data.comments.commentDate);
+			$('.comments__text').html(data.comments.commentContent);
+			var t;
+			for (var i = 0; i < data.filmDTO.categories.length; i++) {
+			 	t = data.filmDTO.categories[i] + ", ";
+			}
+			for (var i = 0; i < data.comments.length; i++) {
+			 	var date = new Date(data.comments[i].commentDate);
+			 	console.log(date.toLocaleString("en-US"))
+				var s = date.toLocaleString("en-US");
+				var markup = `<li class="comments__item">
+												<div class="comments__autor">
+													<img class="comments__avatar" src="img/user.png" alt="">
+													<span class="comments__name">${data.comments[i].accountName}</span>
+													<span class="comments__time">${s}</span>
+												</div>
+												<p class="comments__text">${data.comments[i].commentContent}</p>
+												<div class="comments__actions">
+													<div class="comments__rate">
+														<button type="button"><i class="icon ion-md-thumbs-up"></i>12</button>
+
+														<button type="button">7<i class="icon ion-md-thumbs-down"></i></button>
+													</div>
+
+													<button type="button"><i class="icon ion-ios-share-alt"></i>Reply</button>
+													<button type="button"><i class="icon ion-ios-quote"></i>Quote</button>
+												</div>
+											</li>`;
+				$(".comments__list").append(markup);
+			}
+			for (var i = 0; i < data.filmDTOs.length; i++) {
+				var t1;
+				for (var j = 0; j < data.filmDTOs[i].categories.length; j++) {
+				 	t1 = data.filmDTOs[i].categories[j] + ", ";
+				}
+				var markup = `<div class="col-6 col-sm-4 col-lg-6">
+								<div class="card">
+									<div class="card__cover">
+										<img src="img/covers/${data.filmDTOs[i].filmPosterPath}" alt="">
+										<a href="#" class="card__play">
+											<i class="icon ion-ios-play"></i>
+										</a>
+									</div>
+									<div class="card__content">
+										<h3 class="card__title"><a href="#">${data.filmDTOs[i].filmName}</a></h3>
+										<span class="card__category">
+											<a href="#">${t1}</a>
+										</span>
+										<span class="card__rate"><i class="icon ion-ios-star"></i>8.4</span>
+									</div>
+								</div>
+							</div>`;
+				$(".also-like").append(markup);
+			}
+			$('.cate').html(t);
+		}).catch(error => console.log(error))
 	</script>
 </body>
 
