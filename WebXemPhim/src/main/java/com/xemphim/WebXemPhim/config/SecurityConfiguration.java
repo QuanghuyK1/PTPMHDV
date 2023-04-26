@@ -36,7 +36,7 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/home/**",
-            "/movies/**"
+            "/films/**"
     };
 
     @Bean
@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                .requestMatchers("/movies/content/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers("/films/content/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(AUTH_WHITELIST).permitAll()
                 .and()
                 .sessionManagement()
