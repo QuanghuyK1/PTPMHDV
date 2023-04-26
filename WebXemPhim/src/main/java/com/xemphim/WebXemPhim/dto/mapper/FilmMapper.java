@@ -1,8 +1,12 @@
 package com.xemphim.WebXemPhim.dto.mapper;
 
 import com.xemphim.WebXemPhim.dto.FilmDTO;
-import com.xemphim.WebXemPhim.models.*;
+import com.xemphim.WebXemPhim.entity.*;
+import com.xemphim.WebXemPhim.repository.FilmCategoryRepository;
+import com.xemphim.WebXemPhim.repository.FilmRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.xemphim.WebXemPhim.dto.mapper;
 
 import com.xemphim.WebXemPhim.dto.AccountDTO;
-import com.xemphim.WebXemPhim.models.Account;
+import com.xemphim.WebXemPhim.entity.Account;
 
 public class AccountMapper {
     private static AccountMapper INSTANCE;

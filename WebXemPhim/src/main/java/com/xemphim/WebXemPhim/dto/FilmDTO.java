@@ -1,5 +1,7 @@
 package com.xemphim.WebXemPhim.dto;
 
+import com.xemphim.WebXemPhim.entity.Episode;
+
 import java.util.Date;
 import java.util.ArrayList;
 

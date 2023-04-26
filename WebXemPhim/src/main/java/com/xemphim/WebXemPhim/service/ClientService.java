@@ -1,10 +1,10 @@
 package com.xemphim.WebXemPhim.service;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.CommentRequestDTO;
-import com.xemphim.WebXemPhim.dto.EvaluationRequestDTO;
-import com.xemphim.WebXemPhim.models.Account;
-import com.xemphim.WebXemPhim.models.FilmPackage;
+import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.EvaluationRequestDTO;
+import com.xemphim.WebXemPhim.entity.Account;
+import com.xemphim.WebXemPhim.entity.FilmPackage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +22,9 @@ public interface ClientService {
     void getInfo(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void getPackages(HttpServletRequest request, HttpServletResponse response) throws IOException;
-    void evaluate(@RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response)throws IOException;
+    void evaluate(String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response)throws IOException;
 
-    void comment(CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void comment(String filmName, CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    APIResponse getHome();
 }

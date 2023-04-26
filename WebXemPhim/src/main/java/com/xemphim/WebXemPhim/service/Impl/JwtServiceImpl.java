@@ -1,22 +1,22 @@
 package com.xemphim.WebXemPhim.service.Impl;
 
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
 import com.xemphim.WebXemPhim.service.JwtService;
-
+import com.xemphim.WebXemPhim.service.LogoutService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class JwtServiceImpl implements JwtService{
@@ -85,6 +85,17 @@ public class JwtServiceImpl implements JwtService{
 
     public String extractAccountName(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    @Override
+    public String validateToken(String token) {
+        if(token == null){
+            return "Invalid verification token";
+        }
+        if((isTokenExpired(token)))
+            return "Token already expired";
+        else
+            return "valid";
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

@@ -1,5 +1,7 @@
 package com.xemphim.WebXemPhim.config;
 
+import com.xemphim.WebXemPhim.fillter.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +13,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.xemphim.WebXemPhim.fillter.JwtAuthenticationFilter;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -27,21 +34,35 @@ public class SecurityConfiguration {
     private static final String[] AUTH_WHITELIST = {
             "/signIn",
             "/signUp",
+            "/signUp/**",
+            "/password-reset-request",
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
             "/swagger-ui/**",
-            "/swagger-ui.html"
+            "/swagger-ui.html",
+            "/home/**",
+            "/movies/**"
     };
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.disable())
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                .requestMatchers("/watch/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .requestMatchers("/home/**").hasAnyAuthority("ROLE_CLIENT", "ROLE_ADMIN", "ROLE_USER")
+                .requestMatchers("/movies/content/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(AUTH_WHITELIST).permitAll()
                 .and()
                 .sessionManagement()

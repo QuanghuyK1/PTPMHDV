@@ -1,9 +1,10 @@
 package com.xemphim.WebXemPhim.service;
 
-import com.xemphim.WebXemPhim.repositories.AccountRepository;
-import com.xemphim.WebXemPhim.repositories.TokenRepository;
+import com.xemphim.WebXemPhim.repository.AccountRepository;
+import com.xemphim.WebXemPhim.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
