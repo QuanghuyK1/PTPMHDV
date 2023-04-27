@@ -27,6 +27,7 @@ CREATE TABLE `accounts` (
   `password` varchar(500) NOT NULL,
   `user_id` int NOT NULL,
   `role_id` int NOT NULL,
+  `is_enabled` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`account_name`),
   UNIQUE KEY `client_id_UNIQUE` (`user_id`),
   KEY `role_id_idx` (`role_id`),
@@ -41,7 +42,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('nguyenvana','12345678',1,1);
+INSERT INTO `accounts` VALUES ('Hieu','$2a$10$WdszReY6R6Oy.iZYVx3qhuBxYx3yJGzWEXUtqbwdsFYqXeiEi9buS',10,2,1),('HieuNguyen','$2a$10$WdszReY6R6Oy.iZYVx3qhuBxYx3yJGzWEXUtqbwdsFYqXeiEi9buS',16,3,1);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
