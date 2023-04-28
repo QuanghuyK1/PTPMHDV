@@ -30,6 +30,7 @@ public class User {
 	private Integer sex;
 	
 	@Column(name = "birthdate")
+	@JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Ho_Chi_Minh")
 	private Date birthdate;
 	
 	@OneToOne(mappedBy = "user")
