@@ -149,15 +149,16 @@ public class ClientServiceImpl implements ClientService {
             var account = this.accountRepository.findOneByAccountName(accountName)
                     .orElseThrow();
             User user = account.getUser();
-            ChangeInfoRequestDTO info = new ChangeInfoRequestDTO();
-            info.setUserName(user.getUserName());
-            info.setSex(user.getSex());
-            info.setEmail(user.getEmail());
-            info.setBirthDate(user.getBirthdate());
-            info.setPhoneNumber(user.getPhoneNumber());
+            user.setAccount(null);
+//            ChangeInfoRequestDTO info = new ChangeInfoRequestDTO();
+//            info.setUserName(user.getUserName());
+//            info.setSex(user.getSex());
+//            info.setEmail(user.getEmail());
+//            info.setBirthdate(user.getBirthdate());
+//            info.setPhoneNumber(user.getPhoneNumber());
             APIResponse apiResponse = new APIResponse();
             HashMap<String,Object> hm = new HashMap<>();
-            hm.put("info",info);
+            hm.put("info",user);
             apiResponse.setData(hm);
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         }
