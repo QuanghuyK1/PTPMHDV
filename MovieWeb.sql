@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `accounts`;
 CREATE TABLE `accounts` (
   `account_name` varchar(50) NOT NULL,
   `password` varchar(500) NOT NULL,
+  `is_enabled` tinyint DEFAULT '0',
   `user_id` int NOT NULL,
   `role_id` int NOT NULL,
-  `is_enabled` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`account_name`),
   UNIQUE KEY `client_id_UNIQUE` (`user_id`),
   KEY `role_id_idx` (`role_id`),
@@ -42,7 +42,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('Hieu','$2a$10$WdszReY6R6Oy.iZYVx3qhuBxYx3yJGzWEXUtqbwdsFYqXeiEi9buS',10,2,1),('HieuNguyen','$2a$10$WdszReY6R6Oy.iZYVx3qhuBxYx3yJGzWEXUtqbwdsFYqXeiEi9buS',16,3,1);
+INSERT INTO `accounts` VALUES ('nguyenvana','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,1,1),('nguyenvanb','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,2,3),('nguyenvanc','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,3,3),('nguyenvand','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,4,3),('nguyenvane','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,6,3),('nguyenvanf','$2a$10$lAD46Tz4ChQrBTEkdnu1l.5iNBDmIPzLaAikE3cEY1C0QVaHSzK3C',0,7,3);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,6 +175,7 @@ CREATE TABLE `discount_details` (
 
 LOCK TABLES `discount_details` WRITE;
 /*!40000 ALTER TABLE `discount_details` DISABLE KEYS */;
+INSERT INTO `discount_details` VALUES (2,5),(3,5),(5,5),(4,6);
 /*!40000 ALTER TABLE `discount_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,8 +191,9 @@ CREATE TABLE `discounts` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `discount_rate` float NOT NULL,
-  PRIMARY KEY (`discount_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`discount_id`),
+  KEY `start_dateDESC_discounts` (`start_date` DESC)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -200,6 +202,7 @@ CREATE TABLE `discounts` (
 
 LOCK TABLES `discounts` WRITE;
 /*!40000 ALTER TABLE `discounts` DISABLE KEYS */;
+INSERT INTO `discounts` VALUES (1,'2022-03-03','2022-03-13',0.3),(2,'2022-04-03','2022-04-13',0.25),(3,'2023-04-26','2023-05-05',0.25),(4,'2023-04-20','2023-04-26',0.25),(5,'2023-04-20','2023-04-25',0.2);
 /*!40000 ALTER TABLE `discounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +355,7 @@ CREATE TABLE `films` (
 
 LOCK TABLES `films` WRITE;
 /*!40000 ALTER TABLE `films` DISABLE KEYS */;
-INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,NULL,1,1,1),(2,'Mission: Impossible 2','abc','abc','abc',120,'1998-02-02',1,NULL,1,1,1);
+INSERT INTO `films` VALUES (1,'Mission: Impossible','abc','abc','abc',120,'1996-03-03',1,0,1,1,1),(2,'Mission: Impossible 2','abc','abc','abc',120,'1998-02-02',1,0,1,1,1);
 /*!40000 ALTER TABLE `films` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -504,7 +507,7 @@ CREATE TABLE `tokens` (
   UNIQUE KEY `token_UNIQUE` (`token`),
   KEY `account_name_tokens_idx` (`account_name`),
   CONSTRAINT `account_name_tokens` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -513,6 +516,7 @@ CREATE TABLE `tokens` (
 
 LOCK TABLES `tokens` WRITE;
 /*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
+INSERT INTO `tokens` VALUES (1,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgxOTc5ODcyLCJleHAiOjE2ODI1ODQ2NzJ9.Y09TZs72rRZnTWcq15YNzvYKo4G1DoiDCMZLrdzE8DNPtu9hNf4EawPz8i9TrSNLqI4bEralQ2voN04Tqiw76Q',1,1,'nguyenvanb'),(2,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NTE4LCJleHAiOjE2ODI2NTAzMTh9.8ZyFvX6eidKRzddm-9sWsjX69Qbepl-3CayxidzZFkynFqfZAZzABX7PV_YWVK1f3zJwyc0Z6Q_Daubt-wCyNQ',1,1,'nguyenvanc'),(3,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDQ1NTY2LCJleHAiOjE2ODI2NTAzNjZ9.0NWhcN15Szj_kpzdqfaXSnfpsVy_t7DGz4pIYytlywmLHtwN5Z9nI1JGcjTkyE3a7x4vCyDJqFyDHeKshMj4TA',1,1,'nguyenvanb'),(4,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDQ1NjQyLCJleHAiOjE2ODI2NTA0NDJ9.sy3OfX21D9edwejQeJV3BVe_9VzL_53sviA8mmlKtSrOqpI3IvGAFqWmcI_fUMhoOaAjHoERVdDC_D8xh8hLYQ',1,1,'nguyenvanb'),(5,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NjY4LCJleHAiOjE2ODI2NTA0Njh9.XChTNEBvd9JQNFCpUMY7KucfRYW-uc-nOznfTpiLyhHOTB_R_hp75kRkwVcU0fN-z-c6uaplkjOfM5sN-xRP2w',1,1,'nguyenvanc'),(6,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NzYxLCJleHAiOjE2ODI2NTA1NjF9.4q-VhvceadAGuBgIXyqT0Uj7QQxeSGa4ypuZyOzVbgbC-dGbUoAt0g0y0-QOsWs_059MbYZiZbsRzwOA3Vcqiw',1,1,'nguyenvanc'),(7,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDgzNzIyLCJleHAiOjE2ODI2ODg1MjJ9.sS9VrJ1IhEwuQkgrf3-kmM-CKt4i96ZbiLdY-BSBQt-Vlpu_xcSr6gQfqMNoxuECHEXR8rEJF2zvh2oCTk6WDw',1,1,'nguyenvanc'),(8,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDgzODk2LCJleHAiOjE2ODI2ODg2OTZ9.CLWKyJzl3fSXSC9oH5tWXRTC-mK4NU4m1F62DSCu9iDDWEuT1Ow1OZ8LOdaalmvYdisC1KsgKPzsOka0tIbzQg',1,1,'nguyenvanc'),(9,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDg0MzY5LCJleHAiOjE2ODI2ODkxNjl9.4QmBOafnFO9ijS2w3cMHFQLbYU2pUMU9NBNvsJBz268DrLUZ2V2iYeOef4mchqJPnfUQ-vtb18u4zWIl9pojGA',0,0,'nguyenvanc'),(10,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDg1Mzc5LCJleHAiOjE2ODI2OTAxNzl9.ljqC3N_NZ7eEncx4Ge4R2Z1BwxixCcwlATQbFTxAofWhh6Tf0t5OUD8ZfoYIM3bpNpLw1rPHhFtH-GLYXIpXLA',0,0,'nguyenvanb');
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -533,7 +537,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `phone_UNIQUE` (`phone_number`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -542,9 +546,77 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Nguyen Van A','0969665842','Anguyenvan@gmail.com',0,'2001-01-01');
+INSERT INTO `users` VALUES (1,'Nguyen Van A','0969665842','Anguyenvan@gmail.com',0,'2001-01-01'),(2,'nguyenvanb','0969665482','nguyenvanb@gmail.com',0,'2001-05-16'),(3,'nguyenvanc','0969665472','nguyenvanc@gmail.com',0,'2001-05-16'),(4,'nguyenvand','0969615472','nguyenvand@gmail.com',0,'2001-05-16'),(6,'nguyenvane','0949615472','nguyenvane@gmail.com',0,'2001-05-16'),(7,'nguyenvanf','0949615672','nguyenvanf@gmail.com',0,'2001-05-16');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'web_phim'
+--
+
+--
+-- Dumping routines for database 'web_phim'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `get_film_packages` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_film_packages`()
+BEGIN
+CREATE TEMPORARY TABLE B1 (
+    FILM_PACKAGE_ID INT,
+    USED_TIME INT,
+    PRICE INT);
+
+	INSERT INTO B1 (FILM_PACKAGE_ID, USED_TIME, PRICE)
+	SELECT FILM_PACKAGE_ID, USED_TIME, PRICE
+	FROM FILM_PACKAGES
+	USE INDEX (applicable_dateDESC_used_timeASC)
+	WHERE APPLICABLE_DATE <= CURDATE()
+	LIMIT 3;
+	
+    CREATE TEMPORARY TABLE B2 (
+    DISCOUNT_ID INT,
+    FILM_PACKAGE_ID INT);
+    
+    INSERT INTO B2 (DISCOUNT_ID, FILM_PACKAGE_ID)
+	(SELECT *
+	FROM DISCOUNT_DETAILS
+	WHERE FILM_PACKAGE_ID IN 
+	(SELECT FILM_PACKAGE_ID
+	FROM B1));
+    
+    CREATE TEMPORARY TABLE B3 (
+    FILM_PACKAGE_ID INT,
+    DISCOUNT_RATE float);
+    
+    INSERT INTO B3 (FILM_PACKAGE_ID, DISCOUNT_RATE)
+    (SELECT B2.FILM_PACKAGE_ID, DISCOUNTS.DISCOUNT_RATE
+    FROM B2
+    INNER JOIN (SELECT * FROM DISCOUNTS WHERE START_DATE <= CURDATE() AND END_DATE >= CURDATE()) AS DISCOUNTS
+    ON B2.DISCOUNT_ID = DISCOUNTS.DISCOUNT_ID);
+    
+    SELECT B3.DISCOUNT_RATE, B1.USED_TIME, B1.PRICE
+    FROM B3
+    RIGHT JOIN B1
+    ON B3.FILM_PACKAGE_ID = B1.FILM_PACKAGE_ID;
+    
+    DROP TEMPORARY TABLE IF EXISTS B1;
+    DROP TEMPORARY TABLE IF EXISTS B2;
+    DROP TEMPORARY TABLE IF EXISTS B3;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -555,4 +627,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-19 15:25:39
+-- Dump completed on 2023-04-27 10:51:50
