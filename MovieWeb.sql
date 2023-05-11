@@ -42,7 +42,7 @@ CREATE TABLE `accounts` (
 
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES ('nguyenvana','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,1,1),('nguyenvanb','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,2,3),('nguyenvanc','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,3,3),('nguyenvand','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,4,3),('nguyenvane','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,6,3),('nguyenvanf','$2a$10$lAD46Tz4ChQrBTEkdnu1l.5iNBDmIPzLaAikE3cEY1C0QVaHSzK3C',0,7,3);
+INSERT INTO `accounts` VALUES ('nguyenvana','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,1,1),('nguyenvanb','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,2,3),('nguyenvanc','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,3,3),('nguyenvand','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,4,3),('nguyenvane','$2a$10$kYqE9rSpYBry8kB.h6rPDuP4xY3x/I0kzL8x69HsAAI0naAbY7u3a',0,6,3),('nguyenvanf','$2a$10$lAD46Tz4ChQrBTEkdnu1l.5iNBDmIPzLaAikE3cEY1C0QVaHSzK3C',0,7,3),('nguyenvang','$2a$10$NIfUCidNvskAVBC4.2UHkekkRbtYGeq7xkF/T3.m7ug7iJEt3P7Eq',0,8,3),('nguyenvanh','$2a$10$uSMRyjDY28VN9.tFgY7K0u/Eh7PLVf.Jq/A1ku7QTOjq8976RB71.',0,9,3),('nguyenvani','$2a$10$EclK.XGmAoK/1ZKnF3gKReMJFmgi6plTVCioDlU.Hq/mt7ezoiyLi',1,12,3);
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +123,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,'nguyenvana',1,'abc','2022-03-03 23:59:24');
+INSERT INTO `comments` VALUES (1,'nguyenvana',1,'abc','2022-03-03 23:59:24'),(1,'nguyenvani',1,'hay','2023-05-02 14:37:17');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,6 +262,7 @@ CREATE TABLE `evaluations` (
 
 LOCK TABLES `evaluations` WRITE;
 /*!40000 ALTER TABLE `evaluations` DISABLE KEYS */;
+INSERT INTO `evaluations` VALUES (1,'nguyenvani',1,'khong hay');
 /*!40000 ALTER TABLE `evaluations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -330,7 +331,7 @@ CREATE TABLE `films` (
   `film_name` varchar(80) NOT NULL,
   `film_poster_path` varchar(150) NOT NULL,
   `trailer_path` varchar(150) NOT NULL,
-  `film_description` varchar(200) NOT NULL,
+  `film_description` varchar(2000) NOT NULL,
   `film_duration` int NOT NULL,
   `release_time` date NOT NULL,
   `odd_film` tinyint NOT NULL,
@@ -445,15 +446,19 @@ DROP TABLE IF EXISTS `purchased_film_packages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purchased_film_packages` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `account_name` varchar(50) NOT NULL,
   `film_package_id` int NOT NULL,
   `purchase_date` date NOT NULL,
+  `start_date` date NOT NULL,
   `expiration_date` date NOT NULL,
-  PRIMARY KEY (`account_name`,`film_package_id`),
-  KEY `film_package_id_idx` (`film_package_id`),
-  CONSTRAINT `account_name_film_packages_of_clients` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
-  CONSTRAINT `film_package_id` FOREIGN KEY (`film_package_id`) REFERENCES `film_packages` (`film_package_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `status` tinyint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`,`account_name`,`film_package_id`),
+  KEY `account_name_purchased_film_packages_idx` (`account_name`),
+  KEY `film_package_id_purchased_film_packages_idx` (`film_package_id`),
+  CONSTRAINT `account_name_purchased_film_packages` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE,
+  CONSTRAINT `film_package_id_purchased_film_packages` FOREIGN KEY (`film_package_id`) REFERENCES `film_packages` (`film_package_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -462,6 +467,7 @@ CREATE TABLE `purchased_film_packages` (
 
 LOCK TABLES `purchased_film_packages` WRITE;
 /*!40000 ALTER TABLE `purchased_film_packages` DISABLE KEYS */;
+INSERT INTO `purchased_film_packages` VALUES (1,'nguyenvanc',2,'2023-01-01','2023-01-01','2023-01-31',1),(3,'nguyenvanc',2,'2023-05-01','2023-05-01','2023-05-31',1),(4,'nguyenvanc',2,'2023-05-01','2023-05-31','2023-06-30',0);
 /*!40000 ALTER TABLE `purchased_film_packages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -507,7 +513,7 @@ CREATE TABLE `tokens` (
   UNIQUE KEY `token_UNIQUE` (`token`),
   KEY `account_name_tokens_idx` (`account_name`),
   CONSTRAINT `account_name_tokens` FOREIGN KEY (`account_name`) REFERENCES `accounts` (`account_name`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -516,7 +522,7 @@ CREATE TABLE `tokens` (
 
 LOCK TABLES `tokens` WRITE;
 /*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
-INSERT INTO `tokens` VALUES (1,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgxOTc5ODcyLCJleHAiOjE2ODI1ODQ2NzJ9.Y09TZs72rRZnTWcq15YNzvYKo4G1DoiDCMZLrdzE8DNPtu9hNf4EawPz8i9TrSNLqI4bEralQ2voN04Tqiw76Q',1,1,'nguyenvanb'),(2,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NTE4LCJleHAiOjE2ODI2NTAzMTh9.8ZyFvX6eidKRzddm-9sWsjX69Qbepl-3CayxidzZFkynFqfZAZzABX7PV_YWVK1f3zJwyc0Z6Q_Daubt-wCyNQ',1,1,'nguyenvanc'),(3,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDQ1NTY2LCJleHAiOjE2ODI2NTAzNjZ9.0NWhcN15Szj_kpzdqfaXSnfpsVy_t7DGz4pIYytlywmLHtwN5Z9nI1JGcjTkyE3a7x4vCyDJqFyDHeKshMj4TA',1,1,'nguyenvanb'),(4,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDQ1NjQyLCJleHAiOjE2ODI2NTA0NDJ9.sy3OfX21D9edwejQeJV3BVe_9VzL_53sviA8mmlKtSrOqpI3IvGAFqWmcI_fUMhoOaAjHoERVdDC_D8xh8hLYQ',1,1,'nguyenvanb'),(5,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NjY4LCJleHAiOjE2ODI2NTA0Njh9.XChTNEBvd9JQNFCpUMY7KucfRYW-uc-nOznfTpiLyhHOTB_R_hp75kRkwVcU0fN-z-c6uaplkjOfM5sN-xRP2w',1,1,'nguyenvanc'),(6,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NzYxLCJleHAiOjE2ODI2NTA1NjF9.4q-VhvceadAGuBgIXyqT0Uj7QQxeSGa4ypuZyOzVbgbC-dGbUoAt0g0y0-QOsWs_059MbYZiZbsRzwOA3Vcqiw',1,1,'nguyenvanc'),(7,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDgzNzIyLCJleHAiOjE2ODI2ODg1MjJ9.sS9VrJ1IhEwuQkgrf3-kmM-CKt4i96ZbiLdY-BSBQt-Vlpu_xcSr6gQfqMNoxuECHEXR8rEJF2zvh2oCTk6WDw',1,1,'nguyenvanc'),(8,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDgzODk2LCJleHAiOjE2ODI2ODg2OTZ9.CLWKyJzl3fSXSC9oH5tWXRTC-mK4NU4m1F62DSCu9iDDWEuT1Ow1OZ8LOdaalmvYdisC1KsgKPzsOka0tIbzQg',1,1,'nguyenvanc'),(9,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDg0MzY5LCJleHAiOjE2ODI2ODkxNjl9.4QmBOafnFO9ijS2w3cMHFQLbYU2pUMU9NBNvsJBz268DrLUZ2V2iYeOef4mchqJPnfUQ-vtb18u4zWIl9pojGA',0,0,'nguyenvanc'),(10,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDg1Mzc5LCJleHAiOjE2ODI2OTAxNzl9.ljqC3N_NZ7eEncx4Ge4R2Z1BwxixCcwlATQbFTxAofWhh6Tf0t5OUD8ZfoYIM3bpNpLw1rPHhFtH-GLYXIpXLA',0,0,'nguyenvanb');
+INSERT INTO `tokens` VALUES (1,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgxOTc5ODcyLCJleHAiOjE2ODI1ODQ2NzJ9.Y09TZs72rRZnTWcq15YNzvYKo4G1DoiDCMZLrdzE8DNPtu9hNf4EawPz8i9TrSNLqI4bEralQ2voN04Tqiw76Q',1,1,'nguyenvanb'),(2,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NTE4LCJleHAiOjE2ODI2NTAzMTh9.8ZyFvX6eidKRzddm-9sWsjX69Qbepl-3CayxidzZFkynFqfZAZzABX7PV_YWVK1f3zJwyc0Z6Q_Daubt-wCyNQ',1,1,'nguyenvanc'),(3,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDQ1NTY2LCJleHAiOjE2ODI2NTAzNjZ9.0NWhcN15Szj_kpzdqfaXSnfpsVy_t7DGz4pIYytlywmLHtwN5Z9nI1JGcjTkyE3a7x4vCyDJqFyDHeKshMj4TA',1,1,'nguyenvanb'),(4,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDQ1NjQyLCJleHAiOjE2ODI2NTA0NDJ9.sy3OfX21D9edwejQeJV3BVe_9VzL_53sviA8mmlKtSrOqpI3IvGAFqWmcI_fUMhoOaAjHoERVdDC_D8xh8hLYQ',1,1,'nguyenvanb'),(5,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NjY4LCJleHAiOjE2ODI2NTA0Njh9.XChTNEBvd9JQNFCpUMY7KucfRYW-uc-nOznfTpiLyhHOTB_R_hp75kRkwVcU0fN-z-c6uaplkjOfM5sN-xRP2w',1,1,'nguyenvanc'),(6,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDQ1NzYxLCJleHAiOjE2ODI2NTA1NjF9.4q-VhvceadAGuBgIXyqT0Uj7QQxeSGa4ypuZyOzVbgbC-dGbUoAt0g0y0-QOsWs_059MbYZiZbsRzwOA3Vcqiw',1,1,'nguyenvanc'),(7,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDgzNzIyLCJleHAiOjE2ODI2ODg1MjJ9.sS9VrJ1IhEwuQkgrf3-kmM-CKt4i96ZbiLdY-BSBQt-Vlpu_xcSr6gQfqMNoxuECHEXR8rEJF2zvh2oCTk6WDw',1,1,'nguyenvanc'),(8,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDgzODk2LCJleHAiOjE2ODI2ODg2OTZ9.CLWKyJzl3fSXSC9oH5tWXRTC-mK4NU4m1F62DSCu9iDDWEuT1Ow1OZ8LOdaalmvYdisC1KsgKPzsOka0tIbzQg',1,1,'nguyenvanc'),(9,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5jIiwiaWF0IjoxNjgyMDg0MzY5LCJleHAiOjE2ODI2ODkxNjl9.4QmBOafnFO9ijS2w3cMHFQLbYU2pUMU9NBNvsJBz268DrLUZ2V2iYeOef4mchqJPnfUQ-vtb18u4zWIl9pojGA',0,0,'nguyenvanc'),(10,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5iIiwiaWF0IjoxNjgyMDg1Mzc5LCJleHAiOjE2ODI2OTAxNzl9.ljqC3N_NZ7eEncx4Ge4R2Z1BwxixCcwlATQbFTxAofWhh6Tf0t5OUD8ZfoYIM3bpNpLw1rPHhFtH-GLYXIpXLA',0,0,'nguyenvanb'),(11,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5nIiwiaWF0IjoxNjgyNTc0NDg2LCJleHAiOjE2ODI2NjA4ODZ9.0E0BDI5NIDPHYQ15s4ZlgyaMczbJAm2t1n1onYiSZh_VX4BwOmZxXGivsP1ChQ2oIN1ku1eeLruOvp4xC5SnDQ',0,0,'nguyenvang'),(12,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5oIiwiaWF0IjoxNjgyNTc0NTE4LCJleHAiOjE2ODI2NjA5MTh9.IJdEFtJbkBhQOtsO8Lm7qA5yM_wARhmHLZ-OLNXFph0hrCynnlACLgldxDZkgj0Jx9VxHv1KfkvHxpqrKFhqPQ',0,0,'nguyenvanh'),(15,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5pIiwiaWF0IjoxNjgzMDEyOTQyLCJleHAiOjE2ODMwOTkzNDJ9.8XmmhUMeeVFctEzaqHDkA3I4clZZrmNpdpzRDYIVkAVUQNt7FOA4pmpQuh4Egmd0nxS9wpomzASOcVBkAP5qAQ',1,1,'nguyenvani'),(16,'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuZ3V5ZW52YW5pIiwiaWF0IjoxNjgzMDEyOTgwLCJleHAiOjE2ODM2MTc3ODB9.dGi0b7EhcrxpTQDfD2SaFPqLLR4XVJ-8lvyFCk2c97DLlhwuCSyYUsiHoxcjhna8beArZLMR_lMIVuaouoPYeg',0,0,'nguyenvani');
 /*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -530,14 +536,14 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) NOT NULL,
-  `phone_number` varchar(45) NOT NULL,
+  `phone_number` varchar(45) DEFAULT NULL,
   `email` varchar(45) NOT NULL,
   `sex` tinyint(1) NOT NULL DEFAULT '0',
   `birthdate` date NOT NULL,
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `phone_UNIQUE` (`phone_number`),
-  UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  UNIQUE KEY `phone_UNIQUE` (`phone_number`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -546,13 +552,9 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Nguyen Van A','0969665842','Anguyenvan@gmail.com',0,'2001-01-01'),(2,'nguyenvanb','0969665482','nguyenvanb@gmail.com',0,'2001-05-16'),(3,'nguyenvanc','0969665472','nguyenvanc@gmail.com',0,'2001-05-16'),(4,'nguyenvand','0969615472','nguyenvand@gmail.com',0,'2001-05-16'),(6,'nguyenvane','0949615472','nguyenvane@gmail.com',0,'2001-05-16'),(7,'nguyenvanf','0949615672','nguyenvanf@gmail.com',0,'2001-05-16');
+INSERT INTO `users` VALUES (1,'nguyenvana','0969665842','nguyenvana@gmail.com',0,'2001-01-01'),(2,'nguyenvanb','0969665482','nguyenvanb@gmail.com',0,'2001-05-16'),(3,'nguyenvanc','0969665472','nguyenvanc@gmail.com',0,'2001-05-16'),(4,'nguyenvand','0969615472','nguyenvand@gmail.com',0,'2001-05-16'),(6,'nguyenvane','0949615472','nguyenvane@gmail.com',0,'2001-05-16'),(7,'nguyenvanf','0949615672','nguyenvanf@gmail.com',0,'2001-05-16'),(8,'nguyenvang',NULL,'nguyenvang@gmail.com',0,'2001-05-16'),(9,'nguyenvanh',NULL,'nguyenvanh@gmail.com',0,'2001-05-16'),(12,'nguyenvani','0965665842','ninhdng37@gmail.com',0,'2001-01-01');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'web_phim'
---
 
 --
 -- Dumping routines for database 'web_phim'
@@ -617,6 +619,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_film_package_for_client` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_film_package_for_client`()
+BEGIN
+	SELECT * 
+	FROM web_phim.purchased_film_packages
+	WHERE start_date <= CURDATE() AND expiration_date >= CURDATE();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -627,4 +650,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-27 10:51:50
+-- Dump completed on 2023-05-11 22:21:37
