@@ -42,7 +42,7 @@ public class Film {
 	private Date releaseTime;
 	
 	@Column(name = "odd_film")
-	private Integer oddFilm;
+	private boolean oddFilm;
 	@Column(name = "average_rating")
 	private Float rating;
 
@@ -125,11 +125,11 @@ public class Film {
 		this.releaseTime = releaseTime;
 	}
 
-	public Integer getOddFilm() {
+	public boolean isOddFilm() {
 		return oddFilm;
 	}
 
-	public void setOddFilm(Integer oddFilm) {
+	public void setOddFilm(boolean oddFilm) {
 		this.oddFilm = oddFilm;
 	}
 
