@@ -1,9 +1,12 @@
 package com.xemphim.WebXemPhim.dto;
 
+import com.xemphim.WebXemPhim.entity.Comment;
 import com.xemphim.WebXemPhim.entity.Episode;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class FilmDTO {
     private String filmName;
@@ -13,10 +16,28 @@ public class FilmDTO {
 //Detail
     private String filmDescription;
     private String trailerPath;
-    private Integer odd;
-    private Date release_time;
-    private ArrayList<String> episodes;
 
+    public Boolean getOdd() {
+        return odd;
+    }
+
+    public void setOdd(Boolean odd) {
+        this.odd = odd;
+    }
+
+    private Boolean odd;
+    private Date release_time;
+    private Map<String,String> episodes;
+
+    private List<Object> comments;
+
+    public List<Object> getComment() {
+        return comments;
+    }
+
+    public void setComment(List<Object> comments) {
+        this.comments = comments;
+    }
 
     public String getFilmName() {
         return filmName;
@@ -66,13 +87,7 @@ public class FilmDTO {
         this.trailerPath = trailerPath;
     }
 
-    public Integer getOdd() {
-        return odd;
-    }
 
-    public void setOdd(Integer odd) {
-        this.odd = odd;
-    }
 
     public Date getRelease_time() {
         return release_time;
@@ -82,11 +97,11 @@ public class FilmDTO {
         this.release_time = release_time;
     }
 
-    public ArrayList<String> getEpisodes() {
+    public Map<String,String> getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(ArrayList<String> episodes) {
+    public void setEpisodes(Map<String,String> episodes) {
         this.episodes = episodes;
     }
 }
