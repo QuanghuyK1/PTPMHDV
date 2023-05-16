@@ -3,15 +3,15 @@ package com.xemphim.WebXemPhim.dto.request;
 import org.springframework.web.multipart.MultipartFile;
 
 public class CreEpisodeRequestDTO {
-    private Integer numb;
+    private String title;
     private MultipartFile content;
 
-    public Integer getNumb() {
-        return numb;
+    public String getTitle() {
+        return title;
     }
 
-    public void setNumb(Integer numb) {
-        this.numb = numb;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public MultipartFile getContent() {
