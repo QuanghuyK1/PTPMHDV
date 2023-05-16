@@ -556,6 +556,117 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'nguyenvana','0969665842','nguyenvana@gmail.com',0,'2001-01-01'),(2,'nguyenvanb','0969665482','nguyenvanb@gmail.com',0,'2001-05-16'),(3,'nguyenvanc','0969665472','nguyenvanc@gmail.com',0,'2001-05-16'),(4,'nguyenvand','0969615472','nguyenvand@gmail.com',0,'2001-05-16'),(6,'nguyenvane','0949615472','nguyenvane@gmail.com',0,'2001-05-16'),(7,'nguyenvanf','0949615672','nguyenvanf@gmail.com',0,'2001-05-16'),(8,'nguyenvang',NULL,'nguyenvang@gmail.com',0,'2001-05-16'),(9,'nguyenvanh',NULL,'nguyenvanh@gmail.com',0,'2001-05-16'),(12,'nguyenvani','0965665842','ninhdng37@gmail.com',0,'2001-01-01'),(13,'Hieu1',NULL,'hieuhdhk@gmail.com',0,'2001-05-16');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'web_phim'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `get_comments_for_film` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_comments_for_film`(IN id INT)
+BEGIN
+	WITH RECURSIVE comments_cte(comment_id, account_name, comment_content, parent_comment_id, level, path) AS (
+		SELECT comment_id, account_name, comment_content, parent_comment_id, 0, CAST(comment_id AS CHAR(200))
+		FROM comments WHERE parent_comment_id IS NULL and film_id = id
+		UNION ALL
+		SELECT c.comment_id,c.account_name, c.comment_content, c.parent_comment_id, p.level + 1, CONCAT(p.path, '-', c.comment_id)
+		FROM comments c JOIN comments_cte p ON c.parent_comment_id = p.comment_id
+	  )
+	  SELECT * FROM comments_cte ORDER BY path;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_film_packages` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_film_packages`()
+BEGIN
+CREATE TEMPORARY TABLE B1 (
+    FILM_PACKAGE_ID INT,
+    USED_TIME INT,
+    PRICE INT);
+
+	INSERT INTO B1 (FILM_PACKAGE_ID, USED_TIME, PRICE)
+	SELECT FILM_PACKAGE_ID, USED_TIME, PRICE
+	FROM FILM_PACKAGES
+	USE INDEX (applicable_dateDESC_used_timeASC)
+	WHERE APPLICABLE_DATE <= CURDATE()
+	LIMIT 3;
+	
+    CREATE TEMPORARY TABLE B2 (
+    DISCOUNT_ID INT,
+    FILM_PACKAGE_ID INT);
+    
+    INSERT INTO B2 (DISCOUNT_ID, FILM_PACKAGE_ID)
+	(SELECT *
+	FROM DISCOUNT_DETAILS
+	WHERE FILM_PACKAGE_ID IN 
+	(SELECT FILM_PACKAGE_ID
+	FROM B1));
+    
+    CREATE TEMPORARY TABLE B3 (
+    FILM_PACKAGE_ID INT,
+    DISCOUNT_RATE float);
+    
+    INSERT INTO B3 (FILM_PACKAGE_ID, DISCOUNT_RATE)
+    (SELECT B2.FILM_PACKAGE_ID, DISCOUNTS.DISCOUNT_RATE
+    FROM B2
+    INNER JOIN (SELECT * FROM DISCOUNTS WHERE START_DATE <= CURDATE() AND END_DATE >= CURDATE()) AS DISCOUNTS
+    ON B2.DISCOUNT_ID = DISCOUNTS.DISCOUNT_ID);
+    
+    SELECT B3.DISCOUNT_RATE, B1.USED_TIME, B1.PRICE
+    FROM B3
+    RIGHT JOIN B1
+    ON B3.FILM_PACKAGE_ID = B1.FILM_PACKAGE_ID;
+    
+    DROP TEMPORARY TABLE IF EXISTS B1;
+    DROP TEMPORARY TABLE IF EXISTS B2;
+    DROP TEMPORARY TABLE IF EXISTS B3;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_film_package_for_client` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_film_package_for_client`()
+BEGIN
+	SELECT * 
+	FROM web_phim.purchased_film_packages
+	WHERE start_date <= CURDATE() AND expiration_date >= CURDATE();
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -566,4 +677,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-16 14:54:14
+-- Dump completed on 2023-05-16 17:19:32
