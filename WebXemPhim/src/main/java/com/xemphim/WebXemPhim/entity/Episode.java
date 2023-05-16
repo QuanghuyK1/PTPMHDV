@@ -12,18 +12,18 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "episodes")
 public class Episode {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "episode_id")
 	private Integer episodeId;
-	
+
 	@Column(name = "episode_path")
 	private String episodePath;
-	
-	@Column(name = "numerical_order")
-	private Integer numericalOrder;
-	
+
+	@Column(name = "title")
+	private String title;
+
 	@ManyToOne
 	@JoinColumn(name = "film_id")
 	private Film film;
@@ -44,12 +44,12 @@ public class Episode {
 		this.episodePath = episodePath;
 	}
 
-	public Integer getNumericalOrder() {
-		return numericalOrder;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setNumericalOrder(Integer numericalOrder) {
-		this.numericalOrder = numericalOrder;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Film getFilm() {
