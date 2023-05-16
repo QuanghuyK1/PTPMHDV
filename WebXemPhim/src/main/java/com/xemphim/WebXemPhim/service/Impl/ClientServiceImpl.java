@@ -1,53 +1,29 @@
 package com.xemphim.WebXemPhim.service.Impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xemphim.WebXemPhim.common.APIResponse;
+import com.xemphim.WebXemPhim.dto.*;
+import com.xemphim.WebXemPhim.dto.mapper.FilmMapper;
+import com.xemphim.WebXemPhim.dto.request.ChangeInfoRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
+import com.xemphim.WebXemPhim.dto.request.EvaluationRequestDTO;
+import com.xemphim.WebXemPhim.entity.*;
+import com.xemphim.WebXemPhim.repository.*;
+import com.xemphim.WebXemPhim.service.ClientService;
+import com.xemphim.WebXemPhim.service.JwtService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.StoredProcedureQuery;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.FilmDTO;
-import com.xemphim.WebXemPhim.dto.mapper.FilmMapper;
-import com.xemphim.WebXemPhim.dto.request.ChangeInfoRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.EvaluationRequestDTO;
-import com.xemphim.WebXemPhim.entity.Account;
-import com.xemphim.WebXemPhim.entity.Category;
-import com.xemphim.WebXemPhim.entity.Comment;
-import com.xemphim.WebXemPhim.entity.CommentId;
-import com.xemphim.WebXemPhim.entity.Episode;
-import com.xemphim.WebXemPhim.entity.Evaluation;
-import com.xemphim.WebXemPhim.entity.EvaluationId;
-import com.xemphim.WebXemPhim.entity.Film;
-import com.xemphim.WebXemPhim.entity.FilmCategory;
-import com.xemphim.WebXemPhim.entity.FilmPackage;
-import com.xemphim.WebXemPhim.entity.PurchasedFilmPackage;
-import com.xemphim.WebXemPhim.entity.PurchasedFilmPackageId;
-import com.xemphim.WebXemPhim.entity.User;
-import com.xemphim.WebXemPhim.output.FilmPackageOutput;
-import com.xemphim.WebXemPhim.repository.AccountRepository;
-import com.xemphim.WebXemPhim.repository.CategoryRepository;
-import com.xemphim.WebXemPhim.repository.CommentRepository;
-import com.xemphim.WebXemPhim.repository.EpisodeRepository;
-import com.xemphim.WebXemPhim.repository.EvaluationRepository;
-import com.xemphim.WebXemPhim.repository.FilmCategoryRepository;
-import com.xemphim.WebXemPhim.repository.FilmPackageRepository;
-import com.xemphim.WebXemPhim.repository.FilmRepository;
-import com.xemphim.WebXemPhim.repository.PurchasedFilmPackageRepository;
-import com.xemphim.WebXemPhim.repository.RoleRepository;
-import com.xemphim.WebXemPhim.service.ClientService;
-import com.xemphim.WebXemPhim.service.JwtService;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -57,9 +33,9 @@ public class ClientServiceImpl implements ClientService {
     private RoleRepository roleRepository;
     @Autowired
     private PurchasedFilmPackageRepository purchasedFilmPackageRepository;
-    @Autowired
-    private FilmPackageRepository filmPackageRepository;
 
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private FilmRepository filmRepository;
     @Autowired
@@ -207,7 +183,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void comment(String filmName, CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void comment(CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
         final String accountName;
@@ -217,22 +193,33 @@ public class ClientServiceImpl implements ClientService {
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
-            Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
+            Film film = filmRepository.findOneByFilmNameIgnoreCase(requestDTO.getFilmName());
             if(film == null){
                 APIResponse apiResponse = new APIResponse();
-                apiResponse.setData("Film not found");
+                apiResponse.setStatus(400);
+                apiResponse.setError("Film not found");
                 new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
             }
             var account = this.accountRepository.findOneByAccountName(accountName)
                     .orElseThrow();
             Comment comment = new Comment();
-            CommentId id = new CommentId();
-            id.setAccount(account);
-            id.setFilm(film);
-            id.setCommentLevel(requestDTO.getLever());
-            comment.setId(id);
+            comment.setFilm(film);
+            comment.setAccount(account);
             comment.setCommentDate(new Date());
             comment.setCommentContent(requestDTO.getContent());
+            if(requestDTO.getParentCommentID() != 0){
+                Comment parent = commentRepository.findById(requestDTO.getParentCommentID()).get();
+                if(parent.getFilm().getFilmId() == film.getFilmId())
+                {
+                    comment.setParentComment(parent);
+                }
+                else {
+                    APIResponse apiResponse = new APIResponse();
+                    apiResponse.setStatus(400);
+                    apiResponse.setError("ParentID wrong");
+                    new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+                }
+            }
             commentRepository.save(comment);
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("Success");
@@ -267,7 +254,6 @@ public class ClientServiceImpl implements ClientService {
         apiResponse.setData(map);
         return apiResponse;
     }
-
     @Override
     public APIResponse GetDetailFilm(String filmName) {
         APIResponse apiResponse = new APIResponse();
@@ -280,9 +266,11 @@ public class ClientServiceImpl implements ClientService {
         List<Episode> episodes = episodeRepository.findByFilm(film);
 
         if (film == null) {
-            apiResponse.setData("Movie not found!");
+            apiResponse.setStatus(400);
+            apiResponse.setError("Movie not found!");
         } else {
-            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes);
+            List<Object> comments = commentRepository.findCommentsTree(String.valueOf(film.getFilmId()));
+            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes,comments);
             apiResponse.setData(filmDTO);
         }
         return apiResponse;
@@ -292,20 +280,5 @@ public class ClientServiceImpl implements ClientService {
     public APIResponse GetAllUser() {
         return null;
     }
-
-	@Override
-	public List<FilmPackageOutput> getFilmPackages() {
-		List<Object[]> objects = new ArrayList<>();
-		List<FilmPackageOutput> filmPackageOutputs = new ArrayList<>();
-		objects = filmPackageRepository.getFilmPackages();
-		for (Object[] object: objects) {
-			FilmPackageOutput filmPackageOutput = new FilmPackageOutput();
-			filmPackageOutput.setDiscountRate((Float) object[0]);
-			filmPackageOutput.setUsedTime((Integer) object[1]);
-			filmPackageOutput.setPrice((Integer) object[2]);
-			filmPackageOutputs.add(filmPackageOutput);
-		}
-		return filmPackageOutputs;
-	}
 
 }
