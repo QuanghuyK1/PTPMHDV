@@ -5,18 +5,19 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 public class CommentRequestDTO {
-    private int lever;
+    private String filmName;
     private String content;
+    private int parentCommentID;
 
     @JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Ho_Chi_Minh")
     private Date date;
 
-    public int getLever() {
-        return lever;
+    public String getFilmName() {
+        return filmName;
     }
 
-    public void setLever(int lever) {
-        this.lever = lever;
+    public void setFilmName(String filmName) {
+        this.filmName = filmName;
     }
 
     public String getContent() {
@@ -33,5 +34,13 @@ public class CommentRequestDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getParentCommentID() {
+        return parentCommentID;
+    }
+
+    public void setParentCommentID(int parentCommentID) {
+        this.parentCommentID = parentCommentID;
     }
 }
