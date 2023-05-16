@@ -111,10 +111,5 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Override
-    public void creEpisodes(CreEpisodeRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) {
-
-    }
-
 
 }
