@@ -630,7 +630,7 @@ BEGIN
 	SELECT e.*
 		FROM episodes e
 		JOIN favorites f ON e.film_id = f.film_id
-		WHERE f.account_name = "Hieu1" AND e.cre_at > f.cre_at
+		WHERE f.account_name = account_name AND e.cre_at > f.cre_at
 		ORDER BY e.cre_at;
 END ;;
 DELIMITER ;
