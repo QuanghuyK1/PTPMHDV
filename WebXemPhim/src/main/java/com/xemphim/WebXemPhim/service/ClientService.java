@@ -32,4 +32,6 @@ public interface ClientService {
 
     APIResponse getHome();
     List<FilmPackageOutput> getFilmPackages();
+    List<Object[]> getFilmPackageForClient(String acc_name);
+    List<Object[]> getPurchaseHistory(String acc_name);
 }
