@@ -307,5 +307,13 @@ public class ClientServiceImpl implements ClientService {
 		}
 		return filmPackageOutputs;
 	}
+@Override
+	public List<Object[]> getFilmPackageForClient(String acc_name) {
+		return purchasedFilmPackageRepository.getFilmPackageForClient(acc_name);
+	}
 
+	@Override
+	public List<Object[]> getPurchaseHistory(String acc_name) {
+		return purchasedFilmPackageRepository.getPurchaseHistory(acc_name);
+	}
 }
