@@ -111,4 +111,31 @@ public class HomeController {
     public List<FilmPackageOutput> getFilmPackages(){    	
     	return clientService.getFilmPackages();
     }
+    @PostMapping("info/film-package-for-client/{accountName}")
+    public Integer getFilmPackageForClient(@PathVariable(value="accountName") String accountName){
+    	List<Object[]> objects = new ArrayList<>();
+    	objects = clientService.getFilmPackageForClient(accountName);
+    	if (objects.size() > 0)
+    		return (Integer) objects.get(0)[2];
+    	return 0;
+    }
+    
+    @PostMapping("info/purchase-history/{accountName}")
+    public List<PurchaseHistoryOutput> getPurchaseHistory(@PathVariable(value="accountName") String accountName) {
+    	List<Object[]> objects = new ArrayList<>();
+    	objects = clientService.getPurchaseHistory(accountName);
+    	if (objects.size() > 0){
+    		List<PurchaseHistoryOutput> outputs = new ArrayList<>();
+    		for (Object[] object: objects) {
+    			PurchaseHistoryOutput output = new PurchaseHistoryOutput();
+    			output.setFilmPackageID((Integer) object[0]);
+    			output.setPurchaseDate((Date) object[1]);
+    			output.setStartDate((Date) object[2]);
+    			output.setExpirationDate((Date) object[3]);
+    			outputs.add(output);
+    		}
+    		return outputs;
+    	}
+    	return null;
+    }
 }
