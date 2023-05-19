@@ -22,7 +22,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
-@Builder
 @Entity
 @Table(name = "accounts")
 public class Account implements UserDetails {
@@ -46,6 +45,9 @@ public class Account implements UserDetails {
 
 	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
 	private Collection<Token> token;
+
+	public Account() {
+	}
 
 	public String getAccountName() {
 		return accountName;

@@ -17,32 +17,32 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "films")
 public class Film {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "film_id")
 	private Integer filmId;
-	
+
 	@Column(name = "film_name")
 	private String filmName;
-	
+
 	@Column(name = "film_poster_path")
 	private String filmPosterPath;
-	
+
 	@Column(name = "trailer_path")
 	private String trailerPath;
-	
+
 	@Column(name = "film_description")
 	private String filmDescription;
-	
+
 	@Column(name = "film_duration")
 	private Integer filmDuration;
-	
+
 	@Column(name = "release_time")
 	private Date releaseTime;
-	
+
 	@Column(name = "odd_film")
-	private Integer oddFilm;
+	private boolean oddFilm;
 	@Column(name = "average_rating")
 	private Float rating;
 
@@ -65,7 +65,7 @@ public class Film {
 	@ManyToOne
 	@JoinColumn(name = "director_id")
 	private Director director;
-	
+
 	@OneToMany(mappedBy = "film", fetch = FetchType.LAZY)
 	private Collection<Episode> episodes;
 
@@ -125,11 +125,11 @@ public class Film {
 		this.releaseTime = releaseTime;
 	}
 
-	public Integer getOddFilm() {
+	public boolean isOddFilm() {
 		return oddFilm;
 	}
 
-	public void setOddFilm(Integer oddFilm) {
+	public void setOddFilm(boolean oddFilm) {
 		this.oddFilm = oddFilm;
 	}
 

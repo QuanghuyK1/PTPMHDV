@@ -1,8 +1,11 @@
 package com.xemphim.WebXemPhim.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.xemphim.WebXemPhim.output.PurchaseHistoryOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -62,9 +65,9 @@ public class HomeController {
                 .status(apiResponse.getStatus())
                 .body(apiResponse);
     }
-    @GetMapping("film/category/{category}")
-    public ResponseEntity<APIResponse> getFilmByCategory(@PathVariable(value="category") String category) {
-        APIResponse apiResponse = clientService.GetFilmByCategory(category);
+    @GetMapping("film/category/{category}/{pageNumber}")
+    public ResponseEntity<APIResponse> getFilmByCategory(@PathVariable(value="category") String category,@PathVariable(value="pageNumber") int page) {
+        APIResponse apiResponse = clientService.GetFilmByCategory(page,category);
         return ResponseEntity
                 .status(apiResponse.getStatus())
                 .body(apiResponse);
@@ -76,9 +79,9 @@ public class HomeController {
                 .status(apiResponse.getStatus())
                 .body(apiResponse);
     }
-    @GetMapping("film/search/{filmName}")
-    public ResponseEntity<APIResponse> getFilmsByName(@PathVariable(value="filmName") String filmName) {
-        APIResponse apiResponse = clientService.GetFilmsByName(filmName);
+    @GetMapping("film/search/{filmName}/{pageNumber}")
+    public ResponseEntity<APIResponse> getFilmsByName(@PathVariable(value="filmName") String filmName,@PathVariable(value="pageNumber") int page) {
+        APIResponse apiResponse = clientService.GetFilmsByName(page,filmName);
         return ResponseEntity
                 .status(apiResponse.getStatus())
                 .body(apiResponse);
@@ -103,9 +106,17 @@ public class HomeController {
     public void evaluate(@PathVariable(value="filmName") String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
         clientService.evaluate(filmName, requestDTO,request, response);
     }
-    @PostMapping("film/comment/{filmName}")
-    public void comment(@PathVariable(value="filmName") String filmName, @RequestBody CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
-        clientService.comment(filmName, requestDTO,request, response);
+    @PostMapping("film/favorite/{filmName}")
+    public void favorite(@PathVariable(value="filmName") String filmName, HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.favorite(filmName,request, response);
+    }
+    @PostMapping("film/comment")
+    public void comment( @RequestBody CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.comment(requestDTO,request, response);
+    }
+    @GetMapping("info/notify/{pageNumber}")
+    public void getNotifyPagination(@PathVariable Integer pageNumber, HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.getNotifyPagination(pageNumber,request, response);
     }
     @GetMapping("info/film-packages")
     public List<FilmPackageOutput> getFilmPackages(){    	

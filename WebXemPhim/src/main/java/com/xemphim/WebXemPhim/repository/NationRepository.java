@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NationRepository extends JpaRepository<Nation, Integer>{
 
+    Nation findOneByNationId(int nationId);
 }

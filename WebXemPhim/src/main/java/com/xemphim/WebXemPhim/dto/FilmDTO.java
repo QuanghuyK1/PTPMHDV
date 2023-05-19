@@ -13,7 +13,7 @@ public class FilmDTO {
     private String filmPosterPath;
     private ArrayList<String> filmCategory;
     private float filmRating;
-//Detail
+    //Detail
     private String filmDescription;
     private String trailerPath;
 

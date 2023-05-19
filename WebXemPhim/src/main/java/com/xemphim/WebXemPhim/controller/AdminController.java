@@ -2,13 +2,11 @@ package com.xemphim.WebXemPhim.controller;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
 import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
@@ -28,6 +26,18 @@ public class AdminController {
             @ModelAttribute CreFilmRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response
             ) throws IOException {
         adminService.creFilm(requestDTO, request, response);
+    }
+    @PostMapping("{filmName}/episode/new")
+    public void episodesUpload(
+            @PathVariable(value="filmName") String filmName, @ModelAttribute CreEpisodeRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        if(requestDTO.getTitle().isBlank() || requestDTO.getContent().isEmpty()){
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setStatus(400);
+            apiResponse.setError("Cannot be null");
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        }
+        adminService.creEpisodes(filmName,requestDTO, request, response);
     }
     @GetMapping("users")
     public ResponseEntity<APIResponse> getAccounts() {

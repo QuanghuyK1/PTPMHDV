@@ -58,6 +58,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers("/films/content/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers("/home/film/favorite/**").hasAnyAuthority("ROLE_CLIENT","ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(AUTH_WHITELIST).permitAll()
                 .and()
                 .sessionManagement()

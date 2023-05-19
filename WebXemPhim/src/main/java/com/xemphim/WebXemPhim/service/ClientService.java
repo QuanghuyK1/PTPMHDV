@@ -20,18 +20,19 @@ public interface ClientService {
     APIResponse GetDetailFilm(String nameFilm);
     APIResponse GetAllUser();
     APIResponse purchase(FilmPackage filmPackage, Optional<Account> account);
-    APIResponse GetFilmByCategory(String category);
-    APIResponse GetFilmsByName(String category);
+    APIResponse GetFilmByCategory(int page,String category);
+    APIResponse GetFilmsByName(int page, String category);
 
     void getInfo(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void getPackages(HttpServletRequest request, HttpServletResponse response) throws IOException;
     void evaluate(String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response)throws IOException;
 
-    void comment(String filmName, CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
-
+    void comment(CommentRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void favorite(String filmName, HttpServletRequest request, HttpServletResponse response) throws IOException;
     APIResponse getHome();
     List<FilmPackageOutput> getFilmPackages();
     List<Object[]> getFilmPackageForClient(String acc_name);
     List<Object[]> getPurchaseHistory(String acc_name);
+    void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }
