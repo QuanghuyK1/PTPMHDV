@@ -7,15 +7,17 @@ public class PurchaseHistoryOutput {
 	private Date purchaseDate;
 	private Date startDate;
 	private Date expirationDate;
+	private Integer status;
 	public PurchaseHistoryOutput() {
 		super();
 	}
-	public PurchaseHistoryOutput(Integer filmPackageID, Date purchaseDate, Date startDate, Date expirationDate) {
+	public PurchaseHistoryOutput(Integer filmPackageID, Date purchaseDate, Date startDate, Date expirationDate, Integer status) {
 		super();
 		this.filmPackageID = filmPackageID;
 		this.purchaseDate = purchaseDate;
 		this.startDate = startDate;
 		this.expirationDate = expirationDate;
+		this.status = status;
 	}
 	public Integer getFilmPackageID() {
 		return filmPackageID;
@@ -40,5 +42,11 @@ public class PurchaseHistoryOutput {
 	}
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }
