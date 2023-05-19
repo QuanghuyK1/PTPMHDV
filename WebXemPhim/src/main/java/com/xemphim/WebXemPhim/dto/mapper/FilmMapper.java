@@ -52,6 +52,8 @@ public class FilmMapper {
             epi.add(e.getEpisodePath());
         }
         filmDTO.setEpisodes(epi);
+        filmDTO.setFilmDuration(film.getFilmDuration());
+        filmDTO.setNation(film.getNation().getNationName());
         return filmDTO;
     }
 }
