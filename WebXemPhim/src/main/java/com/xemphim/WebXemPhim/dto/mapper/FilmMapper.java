@@ -1,6 +1,7 @@
 package com.xemphim.WebXemPhim.dto.mapper;
 
 import com.xemphim.WebXemPhim.dto.CommentDTO;
+import com.xemphim.WebXemPhim.dto.EpisodeDTO;
 import com.xemphim.WebXemPhim.dto.FilmDTO;
 import com.xemphim.WebXemPhim.entity.*;
 import com.xemphim.WebXemPhim.repository.FilmCategoryRepository;
@@ -50,9 +51,9 @@ public class FilmMapper {
         filmDTO.setOdd(film.isOddFilm());
         filmDTO.setTrailerPath(film.getTrailerPath());
         filmDTO.setRelease_time(film.getReleaseTime());
-        Map<String,String> epi = new HashMap<>();
+        List<EpisodeDTO> epi = new ArrayList<>();
         for (Episode e : episodes) {
-            epi.put(e.getTitle(),e.getEpisodePath());
+            epi.add(new EpisodeDTO(e.getTitle(),e.getEpisodePath()));
         }
         filmDTO.setComment(comments);
         filmDTO.setEpisodes(epi);

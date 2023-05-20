@@ -23,7 +23,7 @@ public class FilmDTO {
 
     private Boolean odd;
     private Date release_time;
-    private Map<String,String> episodes;
+    private List<EpisodeDTO> episodes;
 
     private List<CommentDTO> comments;
 
@@ -115,11 +115,11 @@ public class FilmDTO {
         this.release_time = release_time;
     }
 
-    public Map<String,String> getEpisodes() {
+    public List<EpisodeDTO> getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(Map<String,String> episodes) {
+    public void setEpisodes(List<EpisodeDTO> episodes) {
         this.episodes = episodes;
     }
 }
