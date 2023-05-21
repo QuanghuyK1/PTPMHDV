@@ -90,6 +90,10 @@ public class HomeController {
     public void getInfo(HttpServletRequest request, HttpServletResponse response) throws IOException  {
         clientService.getInfo(request, response);
     }
+    @GetMapping("category")
+    public void getCategory(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        clientService.getCategory(request, response);
+    }
     @PostMapping("info/change-password")
     public void changePassword(@RequestBody ChangePasswordRequestDTO requestDTO,HttpServletRequest request,HttpServletResponse response) throws IOException  {
         authenticationService.changePassword(requestDTO, request, response);

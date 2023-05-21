@@ -88,7 +88,7 @@ public class ClientServiceImpl implements ClientService {
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
             Film film = filmRepository.findOneByFilmNameIgnoreCase(requestDTO.getFilmName());
-            if(film == null){
+            if (film == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus(400);
                 apiResponse.setError("Film not found");
@@ -101,13 +101,11 @@ public class ClientServiceImpl implements ClientService {
             comment.setAccount(account);
             comment.setCommentDate(new Date());
             comment.setCommentContent(requestDTO.getContent());
-            if(requestDTO.getParentCommentID() != 0){
+            if (requestDTO.getParentCommentID() != 0) {
                 Comment parent = commentRepository.findById(requestDTO.getParentCommentID()).get();
-                if(parent.getFilm().getFilmId() == film.getFilmId())
-                {
+                if (parent.getFilm().getFilmId() == film.getFilmId()) {
                     comment.setParentComment(parent);
-                }
-                else {
+                } else {
                     APIResponse apiResponse = new APIResponse();
                     apiResponse.setStatus(400);
                     apiResponse.setError("ParentID wrong");
@@ -118,8 +116,7 @@ public class ClientServiceImpl implements ClientService {
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("Success");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
-        }
-        else {
+        } else {
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("403 Forbidden Access is denied");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
@@ -148,15 +145,27 @@ public class ClientServiceImpl implements ClientService {
 //            info.setBirthdate(user.getBirthdate());
 //            info.setPhoneNumber(user.getPhoneNumber());
             APIResponse apiResponse = new APIResponse();
-            HashMap<String,Object> hm = new HashMap<>();
-            hm.put("info",user);
+            HashMap<String, Object> hm = new HashMap<>();
+            hm.put("info", user);
             apiResponse.setData(hm);
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         }
     }
+
+    @Override
+    public void getCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Category> categories = categoryRepository.findAll();
+        APIResponse apiResponse = new APIResponse();
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("Category", categories);
+        apiResponse.setData(hm);
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+
+    }
+
     @Override
     public void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Pageable pageable = (Pageable) PageRequest.of(page,3);
+        Pageable pageable = (Pageable) PageRequest.of(page, 3);
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String jwt;
         final String accountName;
@@ -165,11 +174,11 @@ public class ClientServiceImpl implements ClientService {
         }
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
-        Page<Episode> episodesPage = episodeRepository.findEpisodesFavoritePagination(accountName,pageable);
+        Page<Episode> episodesPage = episodeRepository.findEpisodesFavoritePagination(accountName, pageable);
         List<Episode> episodes = episodesPage.getContent();
         List<NotifyDTO> notifyDTOS = new ArrayList<>();
         NotifyDTO dto;
-        for (Episode e:episodes) {
+        for (Episode e : episodes) {
             dto = new NotifyDTO();
             dto.setImage(e.getFilm().getFilmPosterPath());
             dto.setContent(e.getFilm().getFilmName() + " - New Episode");
@@ -177,17 +186,19 @@ public class ClientServiceImpl implements ClientService {
             dto.setRelease_Days(e.getCreAt());
             notifyDTOS.add(dto);
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("maxPage",episodesPage.getTotalPages());
-        map.put("Notify",notifyDTOS);
+        Map<String, Object> map = new HashMap<>();
+        map.put("maxPage", episodesPage.getTotalPages());
+        map.put("Notify", notifyDTOS);
         APIResponse apiResponse = new APIResponse();
         apiResponse.setData(map);
         new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
     }
+
     @Override
     public void getPackages(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     }
+
     @Override
     public void evaluate(String filmName, @RequestBody EvaluationRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -200,7 +211,7 @@ public class ClientServiceImpl implements ClientService {
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
             Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
-            if(film == null){
+            if (film == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setData("Film not found");
                 new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
@@ -218,60 +229,61 @@ public class ClientServiceImpl implements ClientService {
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("Success");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
-        }
-        else {
+        } else {
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("403 Forbidden Access is denied");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         }
     }
+
     @Override
-    public APIResponse GetFilmByCategory(int page,String category) {
-        Pageable pageable = PageRequest.of(page,10);
+    public APIResponse GetFilmByCategory(int page, String category) {
+        Pageable pageable = PageRequest.of(page, 10);
         APIResponse apiResponse = new APIResponse();
-        Page<FilmCategory> listFilmCategoriesPage = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category),pageable);
+        Page<FilmCategory> listFilmCategoriesPage = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category), pageable);
         List<FilmCategory> listFilmCategories = listFilmCategoriesPage.getContent();
         List<Film> films = new ArrayList<>();
-        for (FilmCategory f:listFilmCategories) {
+        for (FilmCategory f : listFilmCategories) {
             films.add(f.getId().getFilm());
         }
         List<FilmDTO> filmDTOs = new ArrayList<>();
-        for (Film f:films) {
+        for (Film f : films) {
             List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(f);
             List<Category> categories = new ArrayList<>();
-            for (FilmCategory fc: filmCategories) {
+            for (FilmCategory fc : filmCategories) {
                 categories.add(fc.getId().getCategory());
             }
-            filmDTOs.add(FilmMapper.getInstance().toFilmDTO(f,categories));
+            filmDTOs.add(FilmMapper.getInstance().toFilmDTO(f, categories));
         }
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("films",filmDTOs);
-        map.put("maxPage",listFilmCategoriesPage.getTotalPages());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("films", filmDTOs);
+        map.put("maxPage", listFilmCategoriesPage.getTotalPages());
         apiResponse.setData(map);
         return apiResponse;
     }
 
     @Override
     public APIResponse GetFilmsByName(int page, String filmName) {
-        Pageable pageable = PageRequest.of(page,10);
+        Pageable pageable = PageRequest.of(page, 10);
         APIResponse apiResponse = new APIResponse();
-        Page<Film> filmsPage = filmRepository.findAllByFilmNameIgnoreCaseContains(filmName,pageable);
+        Page<Film> filmsPage = filmRepository.findAllByFilmNameIgnoreCaseContains(filmName, pageable);
         List<Film> films = filmsPage.getContent();
-        HashMap<String,Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         List<FilmDTO> filmDTOs = new ArrayList<>();
-        for (Film f:films) {
+        for (Film f : films) {
             List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(f);
             List<Category> categories = new ArrayList<>();
-            for (FilmCategory fc: filmCategories) {
+            for (FilmCategory fc : filmCategories) {
                 categories.add(fc.getId().getCategory());
             }
-            filmDTOs.add(FilmMapper.getInstance().toFilmDTO(f,categories));
+            filmDTOs.add(FilmMapper.getInstance().toFilmDTO(f, categories));
         }
-        map.put("films",filmDTOs);
-        map.put("maxPage",filmsPage.getTotalPages());
+        map.put("films", filmDTOs);
+        map.put("maxPage", filmsPage.getTotalPages());
         apiResponse.setData(map);
         return apiResponse;
     }
+
     @Override
     public void favorite(String filmName, HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -297,10 +309,9 @@ public class ClientServiceImpl implements ClientService {
             id.setFilm(film);
             id.setAccount(account);
             f.setId(id);
-            if(favoriteRepository.findByIdFilmAndIdAccount(film,account) != null ){
+            if (favoriteRepository.findByIdFilmAndIdAccount(film, account) != null) {
                 favoriteRepository.delete(f);
-            }
-            else
+            } else
                 favoriteRepository.save(f);
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("Success");
@@ -337,7 +348,7 @@ public class ClientServiceImpl implements ClientService {
         Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
         List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(film);
         List<Category> categories = new ArrayList<>();
-        for (FilmCategory fc: filmCategories) {
+        for (FilmCategory fc : filmCategories) {
             categories.add(fc.getId().getCategory());
         }
         List<Episode> episodes = episodeRepository.findByFilm(film);
@@ -348,7 +359,7 @@ public class ClientServiceImpl implements ClientService {
         } else {
             List<Object> comments = commentRepository.findCommentsTree(String.valueOf(film.getFilmId()));
             List<CommentDTO> l = new ArrayList<>();
-            for (Object obj: comments) {
+            for (Object obj : comments) {
                 Object[] row = (Object[]) obj;
                 int comment_id = (int) row[0];
                 String account_name = (String) row[1];
@@ -356,17 +367,16 @@ public class ClientServiceImpl implements ClientService {
                 int parent_comment_id;
                 try {
                     parent_comment_id = (int) row[3];
-                }
-                catch (NullPointerException e) {
+                } catch (NullPointerException e) {
                     parent_comment_id = 0;
 //                    e.fillInStackTrace();
                 }
                 long level = (long) row[4];
                 String path = (String) row[5];
-                l.add(new CommentDTO(comment_id,account_name,comment_content,parent_comment_id,level,path));
+                l.add(new CommentDTO(comment_id, account_name, comment_content, parent_comment_id, level, path));
             }
 
-            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes,l);
+            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes, l);
 
             apiResponse.setData(filmDTO);
         }
@@ -378,27 +388,28 @@ public class ClientServiceImpl implements ClientService {
         return null;
     }
 
-	@Override
-	public List<FilmPackageOutput> getFilmPackages() {
-		List<Object[]> objects = new ArrayList<>();
-		List<FilmPackageOutput> filmPackageOutputs = new ArrayList<>();
-		objects = filmPackageRepository.getFilmPackages();
-		for (Object[] object: objects) {
-			FilmPackageOutput filmPackageOutput = new FilmPackageOutput();
-			filmPackageOutput.setDiscountRate((Float) object[0]);
-			filmPackageOutput.setUsedTime((Integer) object[1]);
-			filmPackageOutput.setPrice((Integer) object[2]);
-			filmPackageOutputs.add(filmPackageOutput);
-		}
-		return filmPackageOutputs;
-	}
-@Override
-	public List<Object[]> getFilmPackageForClient(String acc_name) {
-		return purchasedFilmPackageRepository.getFilmPackageForClient(acc_name);
-	}
+    @Override
+    public List<FilmPackageOutput> getFilmPackages() {
+        List<Object[]> objects = new ArrayList<>();
+        List<FilmPackageOutput> filmPackageOutputs = new ArrayList<>();
+        objects = filmPackageRepository.getFilmPackages();
+        for (Object[] object : objects) {
+            FilmPackageOutput filmPackageOutput = new FilmPackageOutput();
+            filmPackageOutput.setDiscountRate((Float) object[0]);
+            filmPackageOutput.setUsedTime((Integer) object[1]);
+            filmPackageOutput.setPrice((Integer) object[2]);
+            filmPackageOutputs.add(filmPackageOutput);
+        }
+        return filmPackageOutputs;
+    }
 
-	@Override
-	public List<Object[]> getPurchaseHistory(String acc_name) {
-		return purchasedFilmPackageRepository.getPurchaseHistory(acc_name);
-	}
+    @Override
+    public List<Object[]> getFilmPackageForClient(String acc_name) {
+        return purchasedFilmPackageRepository.getFilmPackageForClient(acc_name);
+    }
+
+    @Override
+    public List<Object[]> getPurchaseHistory(String acc_name) {
+        return purchasedFilmPackageRepository.getPurchaseHistory(acc_name);
+    }
 }

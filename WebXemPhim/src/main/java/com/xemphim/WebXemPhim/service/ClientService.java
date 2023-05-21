@@ -35,4 +35,6 @@ public interface ClientService {
     List<Object[]> getFilmPackageForClient(String acc_name);
     List<Object[]> getPurchaseHistory(String acc_name);
     void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void getCategory(HttpServletRequest request, HttpServletResponse response) throws IOException;
 }
