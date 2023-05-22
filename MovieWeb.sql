@@ -245,7 +245,7 @@ DROP TABLE IF EXISTS `evaluations`;
 CREATE TABLE `evaluations` (
   `film_id` int NOT NULL,
   `account_name` varchar(50) NOT NULL,
-  `star_number` int NOT NULL,
+  `star_number` float NOT NULL,
   `comment` varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY (`film_id`,`account_name`),
   KEY `FK_evaluations_filmid_idx` (`film_id`),
