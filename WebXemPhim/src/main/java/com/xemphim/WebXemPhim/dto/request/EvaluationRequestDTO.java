@@ -1,14 +1,14 @@
 package com.xemphim.WebXemPhim.dto.request;
 
 public class EvaluationRequestDTO {
-    private int rating;
+    private float rating;
     private String comment;
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

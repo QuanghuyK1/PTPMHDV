@@ -13,7 +13,7 @@ public class Evaluation {
 	private EvaluationId id;
 	
 	@Column(name = "star_number")
-	private Integer starNumber;
+	private Float starNumber;
 	
 	private String comment;
 
@@ -25,11 +25,11 @@ public class Evaluation {
 		this.id = id;
 	}
 
-	public Integer getStarNumber() {
+	public Float getStarNumber() {
 		return starNumber;
 	}
 
-	public void setStarNumber(Integer starNumber) {
+	public void setStarNumber(Float starNumber) {
 		this.starNumber = starNumber;
 	}
 
