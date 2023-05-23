@@ -181,8 +181,9 @@ public class ClientServiceImpl implements ClientService {
         for (Episode e : episodes) {
             dto = new NotifyDTO();
             dto.setImage(e.getFilm().getFilmPosterPath());
-            dto.setContent(e.getFilm().getFilmName() + " - New Episode");
-            dto.setNotifications(e.getTitle());
+            dto.setNotifications(e.getFilm().getFilmName() + " - New Episode");
+            dto.setContent(e.getTitle());
+            
             dto.setRelease_Days(e.getCreAt());
             notifyDTOS.add(dto);
         }
