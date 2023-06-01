@@ -185,6 +185,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             apiResponse.setStatus(400);
             apiResponse.setError("The password can be wrong");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+            return;
         }
 
         if (accountName != null) {
