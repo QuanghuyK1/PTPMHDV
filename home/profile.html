@@ -50,7 +50,7 @@
 			</div>
 			<div class="col-4 d-flex align-items-center justify-content-center">
 				<i class="bi bi-bell-fill nofi" style="font-size:20px; color: white;font-style: normal;margin-right: 70px; cursor: pointer;"> Nofications<i class="bi bi-caret-down-fill" style="margin-left: 10px;"></i></i>
-				<i class="bi bi-person-circle user" style="font-size:20px; color: white;font-style: normal; margin-right: 25px; cursor: pointer;"> Đặng Quang Huy<i class="bi bi-caret-down-fill" style="margin-left: 10px;"></i></i>
+				<i class="bi bi-person-circle" style="font-size:20px; color: white;font-style: normal; margin-right: 30px; cursor: pointer;"><span class="user" style="margin-left: 10px;"></span><i class="bi bi-caret-down-fill" style="margin-left: 10px;"></i></i>
 			</div>
 		</div>
 		<div class="nofication-box">
@@ -95,9 +95,9 @@
 			</div>
 			<div class="setting-box">
 				<ul style="list-style-type: none;">
-					<li><a href="">Account Panel</a></li>
-					<li><a href="">Setting</a></li>
-					<li><a href="">Log Out</a></li>
+					<li class="panel">Account Panel</li>
+					<li class="change-pw">Setting</li>
+					<li class="logout">Log Out</li>
 				</ul>
 			</div>	
 		<div class="row" style="height: 540px;margin-top: 50px;margin-left: 100px;margin-right: 100px;">
@@ -121,26 +121,26 @@
 					<div class="d-flex info">
 						<div class="d-flex flex-column">
 							<label>User ID</label>
-							<input type="text" name="" value="US000001" style="width: 300px;">
+							<input class="input-id" type="text" name="" value="" style="width: 300px;">
 						</div>
 						<div class="d-flex flex-column" style="margin-left:200px">
 							<label>Client Name</label>
-							<input class="input-info" type="text" name="" value="Đặng Quang Huy" style="width: 300px;">
+							<input class="input-info input-client-name" type="text" name="" value="Đặng Quang Huy" style="width: 300px;">
 						</div>
 					</div>
 					<div class="d-flex info">
 						<div class="d-flex flex-column">
 							<label>Phone Number</label>
-							<input class="input-info" type="text" class="number-input" name="" value="0123456789" style="width: 300px;">
+							<input class="input-info input-phone-number" type="text" class="number-input" name="" value="0123456789" style="width: 300px;">
 						</div>
 						<div class="d-flex flex-column" style="margin-left:200px">
 							<label>Birthday</label>
-							<input class="input-info" type="date" name="" value="3/10/2023" style="width: 300px;">
+							<input class="input-info input-birthday" type="date" name="" value="3/10/2023" style="width: 300px;">
 						</div>
 					</div>
 					<div class="d-flex flex-column info">
 						<label>Email Address</label>
-						<input class="input-info" type="email" name="" value="huy12345@gmail.com">
+						<input class="input-info input-email" type="email" name="" value="huy12345@gmail.com">
 					</div>
 					<div class="d-flex flex-column">
 						<label>Gender</label>
@@ -152,7 +152,7 @@
 							  </label>
 							</div>
 							<div class="form-check" style="margin-left:20px">
-							  <input class="form-check-input input-info" type="radio" name="flexRadioDefault" id="gender-female" checked>
+							  <input class="form-check-input input-info" type="radio" name="flexRadioDefault" id="gender-female">
 							  <label class="form-check-label" for="gender-female">
 							    Female
 							  </label>
@@ -402,7 +402,43 @@
 		$( ".btn-apply" ).click(function() {
 		  $(".btn-apply").css("pointer-events","none");
 		  $(".btn-apply").css("background-color","gray");
-		  $(".input-info").css("pointer-events","none")
+		  $(".input-info").css("pointer-events","none");
+		  // get the user input values
+		  const username = document.querySelector('.input-client-name').value;
+		  const email = document.querySelector('.input-email').value;
+		  const phoneNumber = document.querySelector('.input-phone-number').value;
+		  const birthdate = document.querySelector('.input-birthday').value;
+		  var sex = 0;
+		  if($('#gender-female').checked){
+		  	sex = 0;
+		  }else if($('#gender-male').checked){
+		  	sex = 1;
+		  }
+		  const obj = {userName: username, phoneNumber: phoneNumber, email: email, birthDate: birthdate, sex: sex};
+		  // make a POST request to sign up the user
+		  fetch('http://localhost:8080/home/info/change-info', {
+		    method: 'POST',
+		    headers: {
+		      'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(obj)
+		  })
+		  .then(response => {
+		    if (response.ok) {
+		      confirm("update info success")
+		    }else{
+		    	confirm("update info not success")
+		    }
+		  })
+		  .then(data => {
+		    // handle the successful response here
+		    console.log(data);
+		  })
+		  .catch(error => {
+		    // handle errors here
+		    console.error('Error:', error);
+		  });
 		});
 		$(".menu-click").on('click', 'li', function () {
 		    $(".menu-click li.active").removeClass("active");
@@ -417,6 +453,33 @@
 		  $(".change-pw-box").css("display","none");
 		  $(".status-price").css("display","none");
 		  $( ".history-order" ).css("display","none");
+			$(document).ready(function(){
+				fetch('http://localhost:8080/home/info', {
+				  headers: new Headers({
+				    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+				    'Content-Type': 'application/json'
+				  })
+				})
+				.then(response => response.json())
+				.then(data => {
+				  console.log(data);
+				  	$(".input-client-name").val(data.data.info.userName);
+					$(".input-phone-number").val(data.data.info.phoneNumber);
+					$(".input-id").val(data.data.info.userId);
+					$(".input-email").val(data.data.info.email);
+					$(".input-birthday").val(data.data.info.birthdate);
+					if(data.data.info.sex==0){
+						$('#gender-female').prop('checked', true);
+						$('#gender-male').prop('checked', false);
+					}else{
+						$('#gender-female').prop('checked', false);
+						$('#gender-male').prop('checked', true);
+					}
+				})
+				.catch(error => {
+				  console.error('Error:', error);
+				});
+			});
 		});
 		$( ".nofi-1" ).click(function() {
 		  $( ".nofication-box" ).css("display","none");
@@ -462,6 +525,55 @@
 		  $(".status-price").css("display","none");
 		  $( ".setting-box" ).css("display","none");
 		  $( ".history-order" ).css("display","block");
+		});
+		$(document).ready(function() {
+		  var us = sessionStorage.getItem('username');
+		  if(us!=null){
+		  	$('.text-us').html(us);
+		  	$('.text-none').hide();
+			$('.header__sign-in').attr('href', '/home/profile.html');
+		  }else{
+		  	$('.text-us').hide();
+		  	$('.text-none').show();
+			$('.header__sign-in').attr('href', '/login.html');
+		  }
+		});
+		$(document).ready(function(){
+				fetch('http://localhost:8081/home/info', {
+				  headers: new Headers({
+				    'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+				    'Content-Type': 'application/json'
+				  })
+				})
+				.then(response => response.json())
+				.then(data => {
+				  console.log(data);
+				  	$(".user").text(data.data.info.userName);
+					
+				})
+				.catch(error => {
+				  console.error('Error:', error);
+				});
+			});
+		$(document).ready(function() {
+		  $(".logout").click(function() {
+		  	console.log('1');
+		    fetch('http://localhost:8081/signOut', {
+		        headers: new Headers({
+		          'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+		          'Content-Type': 'application/json'
+		        })
+		      })
+		      .then(response => response.json())
+		      .then(data => {
+		        console.log(data);
+		        sessionStorage.clear();
+		        window.location.href = 'http://localhost/home/';
+		      })
+		      .catch(error => {
+		        console.error('Error:', error);
+		      });
+		  });
 		});
 	</script>
 </body>

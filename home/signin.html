@@ -41,7 +41,7 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- authorization form -->
-						<form action="http://localhost:8080/signIn"  method="POST" class="sign__form">
+						<form action=""  method="POST" class="sign__form">
 							<a href="index.html" class="sign__logo">
 								<img src="img/logo.svg" alt="">
 							</a>
@@ -53,17 +53,16 @@
 							<div class="sign__group">
 								<input type="password" class="sign__input" id="password" placeholder="Password">
 							</div>
-
+							<div id="error" style="color: red;"></div>
 							<div class="sign__group sign__group--checkbox">
-								<input id="remember" name="remember" type="checkbox" checked="checked">
+								<input id="remember" name="remember" type="checkbox">
 								<label for="remember">Remember Me</label>
 							</div>
-							
 							<button class="sign__btn" type="submit">Sign in</button>
 
 							<span class="sign__text">Don't have an account? <a href="signup.html">Sign up!</a></span>
 
-							<span class="sign__text"><a href="forgot-password.html">Forgot password?</a></span>
+							<span class="sign__text" style="padding: 0 2%;"><a href="forgot-password.html">Forgot password?</a></span>
 						</form>
 						<!-- end authorization form -->
 					</div>
@@ -87,6 +86,12 @@
 	<script src="js/main.js"></script>
 	<script type="text/javascript">
 		const form = document.querySelector('form');
+		const myArray = document.cookie.split(",");
+		console.log(myArray[0])
+		if(document.getElementById('remember').checked){
+			$("#username").val(myArray[0]);
+			$("#password").val(myArray[1]);
+		}
 		form.addEventListener('submit', async (event) => {
 		  event.preventDefault();
 		  const username = document.querySelector('#username').value;
@@ -95,18 +100,36 @@
 		  let headers = new Headers();
 		  headers.append('Content-Type', 'application/json');
 		  headers.append('Accept', 'application/json');
-		  headers.append('Origin','http://localhost:8080');
-		  const response = await fetch('http://localhost:8080/signIn', {
-		  	mode: 'cors',
+		  const response = await fetch('http://localhost:8081/signIn', {
 		    method: 'POST',
 		    headers: headers,
 		    body: JSON.stringify(obj)
 		  });
-		  const data = await response.json();
-		  console.log(data);
-		  window.location.href = "https://www.example.com";
-		});
+		  if(response.status != 200){
+		  	document.getElementById("error").innerHTML="Your username or password incorrect";
+		  }else{
 
+		  	const data = await response.json();
+			  console.log(data);
+			  console.log(data.data.accToken);
+			  sessionStorage.setItem('token', data.data.accToken);
+			  sessionStorage.setItem('username', username);
+			  var token = sessionStorage.getItem('token');
+			  console.log(data.data.accToken);
+			  if(data.data.error==null){
+			  	if (document.getElementById('remember').checked) {
+			        document.cookie = username +","+password;
+			        console.log(document.cookie);
+			        $('#remember').prop('checked', true);
+			      }
+			     else{
+			     	$('#remember').prop('checked', false);
+			     }
+			     window.location.href = 'http://localhost/home/index.html';
+			  }
+
+		  }
+		});
 	</script>
 </body>
 

@@ -3869,3 +3869,12 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
   display: none;
   margin-top: 40px;
 }
+.setting-box ul li:hover{
+  color: hotpink;
+}
+.box-rule{
+  padding: 0 20%;
+}
+.label-title{
+  font-size: 32px;
+}

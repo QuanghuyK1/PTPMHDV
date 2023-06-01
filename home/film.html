@@ -863,19 +863,19 @@
 		});
 		let searchParams = new URLSearchParams(window.location.search);
 		console.log(searchParams.get('film'));
-		fetch('http://localhost:8080/home/film/'+searchParams.get('film')).then(res => {
+		fetch('http://localhost:8080/home/film/detail/'+searchParams.get('film')).then(res => {
 			console.log(res)
 			return res.json();
 		}).then(data =>{
-			console.log(data.filmDTOs);
-			$('.details__title').html(data.filmDTO.filmName);
-			$('.poster').attr("src","img/covers/"+data.filmDTO.filmPosterPath);
-			$('.trailer-vid').attr("src",data.filmDTO.trailerPath);
-			$('.player-vid').attr("src",data.filmDTO.trailerPath);
-			$('.mota').html(data.filmDTO.filmDescription);
-			$('.release').html(data.filmDTO.releaseTime);
-			$('.dura').html(data.filmDTO.filmDuration);
-			$('.nation').html(data.filmDTO.nation);
+			console.log(data);
+			$('.details__title').html(data.data.filmName);
+			$('.poster').attr("src","img/covers/"+data.data.filmPosterPath);
+			$('.trailer-vid').attr("src",data.data.trailerPath);
+			$('.player-vid').attr("src",data.data.trailerPath);
+			$('.mota').html(data.data.filmDescription);
+			$('.release').html(data.data.releaseTime);
+			$('.dura').html(data.data.filmDuration);
+			$('.nation').html(data.data.nation);
 			$('.comments__name').html(data.comments.accountName);
 			$('.comments__time').html(data.comments.commentDate);
 			$('.comments__text').html(data.comments.commentContent);

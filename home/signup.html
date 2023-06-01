@@ -41,29 +41,23 @@
 				<div class="col-12">
 					<div class="sign__content">
 						<!-- registration form -->
-						<form action="#" class="sign__form">
+						<form action="#" class="sign__form" id="signup-form">
 							<a href="index.html" class="sign__logo">
 								<img src="img/logo.svg" alt="">
 							</a>
 
 							<div class="sign__group">
-								<input type="text" class="sign__input" placeholder="Name">
+								<input type="text" class="sign__input" placeholder="Name" id="username">
 							</div>
 
 							<div class="sign__group">
-								<input type="text" class="sign__input" placeholder="Email">
+								<input type="email" class="sign__input" placeholder="Email" id="email">
 							</div>
-
 							<div class="sign__group">
-								<input type="password" class="sign__input" placeholder="Password">
+								<input type="password" class="sign__input" placeholder="Password" id="password">
 							</div>
 
-							<div class="sign__group sign__group--checkbox">
-								<input id="remember" name="remember" type="checkbox" checked="checked">
-								<label for="remember">I agree to the <a href="#">Privacy Policy</a></label>
-							</div>
-							
-							<button class="sign__btn" type="button">Sign up</button>
+							<button class="sign__btn" type="submit">Sign up</button>
 
 							<span class="sign__text">Already have an account? <a href="signin.html">Sign in!</a></span>
 						</form>
@@ -87,6 +81,49 @@
 	<script src="js/photoswipe.min.js"></script>
 	<script src="js/photoswipe-ui-default.min.js"></script>
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		const form = document.getElementById('signup-form');
+		form.addEventListener('submit', signUp);
+
+		function signUp(event) {
+		  event.preventDefault(); // prevent the form from submitting normally
+		  
+		  // get the user input values
+		  const username = document.querySelector('#username').value;
+		  const password = document.querySelector('#password').value;
+		  const email = document.querySelector('#email').value;
+		  const obj = {accountName: username, password: password, email: email};
+		  // make a POST request to sign up the user
+		  fetch('http://localhost:8081/signUp', {
+		    method: 'POST',
+		    headers: {
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(obj)
+		  })
+		  .then(response => {
+		    if (response.ok) {
+		      if (confirm("sign up is success! Now we go to back login")) {
+			  window.location.href = 'http://localhost/home/signin.html';
+				}else{
+					window.location.href = 'http://localhost/home/signin.html';
+				}
+		    } else if(response.error == "User already exists!"){
+		      confirm("User or email already exists")
+		    }else{
+		    	confirm("sign up not success")
+		    }
+		  })
+		  .then(data => {
+		    // handle the successful response here
+		    console.log(data);
+		  })
+		  .catch(error => {
+		    // handle errors here
+		    console.error('Error:', error);
+		  });
+		}
+	</script>
 </body>
 
 </html>
