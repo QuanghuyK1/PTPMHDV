@@ -1,5 +1,9 @@
 package com.xemphim.WebXemPhim.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
+
 public class CommentDTO {
     private int comment_id;
     private String account_name;
@@ -8,6 +12,19 @@ public class CommentDTO {
     private long level;
     private String path;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH-mm-ss",timezone="Asia/Ho_Chi_Minh")
+    private Date time;
+
+    public CommentDTO(int comment_id, String account_name, String comment_content, int parent_comment_id, long level, String path, Date time) {
+        this.comment_id = comment_id;
+        this.account_name = account_name;
+        this.comment_content = comment_content;
+        this.parent_comment_id = parent_comment_id;
+        this.level = level;
+        this.path = path;
+        this.time = time;
+    }
+
     public CommentDTO(int comment_id, String account_name, String comment_content, int parent_comment_id, long level, String path) {
         this.comment_id = comment_id;
         this.account_name = account_name;
@@ -15,6 +32,14 @@ public class CommentDTO {
         this.parent_comment_id = parent_comment_id;
         this.level = level;
         this.path = path;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public int getComment_id() {

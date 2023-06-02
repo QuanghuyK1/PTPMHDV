@@ -374,7 +374,8 @@ public class ClientServiceImpl implements ClientService {
                 }
                 long level = (long) row[4];
                 String path = (String) row[5];
-                l.add(new CommentDTO(comment_id, account_name, comment_content, parent_comment_id, level, path));
+                Date time = (Date) row[6];
+                l.add(new CommentDTO(comment_id, account_name, comment_content, parent_comment_id, level, path, time));
             }
 
             FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes, l);
