@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import com.xemphim.WebXemPhim.dto.CommentDTO;
+import com.xemphim.WebXemPhim.dto.EvaluationDTO;
 import com.xemphim.WebXemPhim.dto.NotifyDTO;
 import com.xemphim.WebXemPhim.entity.*;
 import com.xemphim.WebXemPhim.repository.*;
@@ -226,6 +227,7 @@ public class ClientServiceImpl implements ClientService {
             evaluation.setId(id);
             evaluation.setStarNumber(requestDTO.getRating());
             evaluation.setComment(requestDTO.getComment());
+            evaluation.setEval_time(new Date());
             evaluationRepository.save(evaluation);
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("Success");
@@ -377,8 +379,12 @@ public class ClientServiceImpl implements ClientService {
                 Date time = (Date) row[6];
                 l.add(new CommentDTO(comment_id, account_name, comment_content, parent_comment_id, level, path, time));
             }
-
-            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes, l);
+            List<Evaluation> evaluations = evaluationRepository.findByIdFilm(film);
+            List<EvaluationDTO> evaluationDTOS = new ArrayList<>();
+            for (Evaluation e:evaluations) {
+                evaluationDTOS.add(new EvaluationDTO(e.getId().getAccount().getAccountName(),e.getStarNumber(),e.getComment(),e.getEval_time()));
+            }
+            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes, l,evaluationDTOS);
 
             apiResponse.setData(filmDTO);
         }

@@ -26,6 +26,15 @@ public class FilmDTO {
     private List<EpisodeDTO> episodes;
 
     private List<CommentDTO> comments;
+    private List<EvaluationDTO> evaluations;
+
+    public List<EvaluationDTO> getEvaluations() {
+        return evaluations;
+    }
+
+    public void setEvaluations(List<EvaluationDTO> evaluations) {
+        this.evaluations = evaluations;
+    }
 
     public void setFilmDuration(int filmDuration) {
         this.filmDuration = filmDuration;

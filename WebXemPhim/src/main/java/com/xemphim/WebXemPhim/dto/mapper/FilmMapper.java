@@ -2,6 +2,7 @@ package com.xemphim.WebXemPhim.dto.mapper;
 
 import com.xemphim.WebXemPhim.dto.CommentDTO;
 import com.xemphim.WebXemPhim.dto.EpisodeDTO;
+import com.xemphim.WebXemPhim.dto.EvaluationDTO;
 import com.xemphim.WebXemPhim.dto.FilmDTO;
 import com.xemphim.WebXemPhim.entity.*;
 import com.xemphim.WebXemPhim.repository.FilmCategoryRepository;
@@ -36,7 +37,7 @@ public class FilmMapper {
         filmDTO.setFilmDescription(film.getFilmDescription());
         return filmDTO;
     }
-    public FilmDTO toDetailFilmDTO(Film film, List<Category> categories,List<Episode> episodes, List<CommentDTO> comments){
+    public FilmDTO toDetailFilmDTO(Film film, List<Category> categories,List<Episode> episodes, List<CommentDTO> comments, List<EvaluationDTO> evaluations){
         FilmDTO filmDTO = new FilmDTO();
         filmDTO.setFilmName(film.getFilmName());
         filmDTO.setFilmPosterPath(film.getFilmPosterPath());
@@ -57,6 +58,7 @@ public class FilmMapper {
         }
         filmDTO.setComment(comments);
         filmDTO.setEpisodes(epi);
+        filmDTO.setEvaluations(evaluations);
         filmDTO.setFilmDuration(film.getFilmDuration());
         filmDTO.setNation(film.getNation().getNationName());
         return filmDTO;
