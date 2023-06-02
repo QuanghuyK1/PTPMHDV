@@ -21,4 +21,6 @@ public interface EpisodeRepository extends JpaRepository<Episode, Integer>{
             countQuery = "SELECT * FROM episodes JOIN evaluations ON episodes.film_id = evaluations.film_id WHERE evaluations.account_name = :accountName AND episodes.cre_at > evaluations.eval_time AND evaluations.star_number > 6;",
             nativeQuery = true)
     Page<Episode> findEpisodesFavoritePagination(@Param("accountName") String accountName, Pageable pageable);
+
+    Episode findOneByFilmAndTitleAndStatusTrue(Film film, String title);
 }

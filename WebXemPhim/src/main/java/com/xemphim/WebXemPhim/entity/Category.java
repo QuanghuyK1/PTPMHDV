@@ -19,6 +19,16 @@ public class Category {
 	@Column(name = "category_name")
 	private String categoryName;
 
+	private Boolean status;
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
 	public Integer getCategoryId() {
 		return categoryId;
 	}

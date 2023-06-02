@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface FilmCategoryRepository extends JpaRepository<FilmCategory, FilmCategoryId> {
 
-    Page<FilmCategory> findAllByIdCategory(Category category, Pageable pageable);
+    Page<FilmCategory> findAllByIdCategoryAndIdFilmStatusTrue(Category category, Pageable pageable);
 
     List<FilmCategory> findAllByIdFilm(Film film);
 

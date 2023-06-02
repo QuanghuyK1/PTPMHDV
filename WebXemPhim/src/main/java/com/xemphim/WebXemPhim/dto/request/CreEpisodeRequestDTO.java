@@ -6,6 +6,7 @@ public class CreEpisodeRequestDTO {
     private String title;
     private MultipartFile content;
 
+
     public String getTitle() {
         return title;
     }

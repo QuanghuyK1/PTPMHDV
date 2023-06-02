@@ -45,6 +45,15 @@ public class Film {
 	private boolean oddFilm;
 	@Column(name = "average_rating")
 	private Float rating;
+	private Boolean status;
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
 
 	public Float getRating() {
 		return rating;

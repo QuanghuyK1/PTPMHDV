@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xemphim.WebXemPhim.common.APIResponse;
 import com.xemphim.WebXemPhim.dto.FilmDTO;
 import com.xemphim.WebXemPhim.dto.mapper.FilmMapper;
-import com.xemphim.WebXemPhim.dto.request.ChangeInfoRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CommentRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.EvaluationRequestDTO;
 import com.xemphim.WebXemPhim.output.FilmPackageOutput;
@@ -88,7 +87,7 @@ public class ClientServiceImpl implements ClientService {
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
-            Film film = filmRepository.findOneByFilmNameIgnoreCase(requestDTO.getFilmName());
+            Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(requestDTO.getFilmName());
             if (film == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus(400);
@@ -212,7 +211,7 @@ public class ClientServiceImpl implements ClientService {
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
-            Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
+            Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
             if (film == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setData("Film not found");
@@ -243,7 +242,7 @@ public class ClientServiceImpl implements ClientService {
     public APIResponse GetFilmByCategory(int page, String category) {
         Pageable pageable = PageRequest.of(page, 10);
         APIResponse apiResponse = new APIResponse();
-        Page<FilmCategory> listFilmCategoriesPage = filmCategoryRepository.findAllByIdCategory(categoryRepository.findByCategoryName(category), pageable);
+        Page<FilmCategory> listFilmCategoriesPage = filmCategoryRepository.findAllByIdCategoryAndIdFilmStatusTrue(categoryRepository.findByCategoryNameAndStatusTrue(category), pageable);
         List<FilmCategory> listFilmCategories = listFilmCategoriesPage.getContent();
         List<Film> films = new ArrayList<>();
         for (FilmCategory f : listFilmCategories) {
@@ -269,7 +268,7 @@ public class ClientServiceImpl implements ClientService {
     public APIResponse GetFilmsByName(int page, String filmName) {
         Pageable pageable = PageRequest.of(page, 10);
         APIResponse apiResponse = new APIResponse();
-        Page<Film> filmsPage = filmRepository.findAllByFilmNameIgnoreCaseContains(filmName, pageable);
+        Page<Film> filmsPage = filmRepository.findAllByFilmNameIgnoreCaseContainsAndStatusTrue(filmName, pageable);
         List<Film> films = filmsPage.getContent();
         HashMap<String, Object> map = new HashMap<>();
         List<FilmDTO> filmDTOs = new ArrayList<>();
@@ -298,7 +297,7 @@ public class ClientServiceImpl implements ClientService {
         jwt = authHeader.substring(7);
         accountName = jwtService.extractAccountName(jwt);
         if (accountName != null) {
-            Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
+            Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
             if (film == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus(400);
@@ -326,7 +325,7 @@ public class ClientServiceImpl implements ClientService {
     public APIResponse getHome() {
         APIResponse apiResponse = new APIResponse();
         HashMap<String, Object> map = new HashMap<>();
-        List<Film> allFilm = filmRepository.findByOrderByReleaseTime();
+        List<Film> allFilm = filmRepository.findByStatusOrderByReleaseTimeDesc(true);
         List<FilmDTO> allFilmDTO = new ArrayList<>();
         for (Film f : allFilm) {
             List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(f);
@@ -348,7 +347,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public APIResponse GetDetailFilm(String filmName) {
         APIResponse apiResponse = new APIResponse();
-        Film film = filmRepository.findOneByFilmNameIgnoreCase(filmName);
+        Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
         List<FilmCategory> filmCategories = filmCategoryRepository.findAllByIdFilm(film);
         List<Category> categories = new ArrayList<>();
         for (FilmCategory fc : filmCategories) {

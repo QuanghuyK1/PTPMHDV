@@ -6,12 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface FilmRepository extends JpaRepository<Film, Integer>{
 
-    Film findOneByFilmNameIgnoreCase(String filmName);
-    ArrayList<Film> findByOrderByReleaseTime();
+    Film findOneByFilmNameIgnoreCaseAndStatusTrue(String filmName);
+    ArrayList<Film> findByStatusOrderByReleaseTimeDesc(boolean status);
 
-    Page<Film> findAllByFilmNameIgnoreCaseContains(String filmName, Pageable pageable);
+    Page<Film> findAllByFilmNameIgnoreCaseContainsAndStatusTrue(String filmName, Pageable pageable);
 }
