@@ -28,7 +28,7 @@ public class User {
 	@JsonFormat(pattern="yyyy-MM-dd",timezone="Asia/Ho_Chi_Minh")
 	private Date birthdate;
 	
-	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
 	private Account account;
 
 	public Integer getUserId() {

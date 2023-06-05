@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xemphim.WebXemPhim.dto.NewDTO;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreFilmRequestLinkDTO;
@@ -121,5 +122,36 @@ public class AdminController {
             @PathVariable(value="old_name") String old_name, @PathVariable(value="new_name") String new_name, HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
         adminService.updateCategory(old_name, new_name, request, response);
+    }
+
+    @GetMapping("producer")
+    public void getProducer(HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.getProducer(request, response);
+    }
+    @GetMapping("nation")
+    public void getNation(HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.getNation(request, response);
+    }
+    @GetMapping("director")
+    public void getDirector (HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.getDirector(request, response);
+    }
+    @PostMapping("director/{new}")
+    public void addDirector (@PathVariable(value = "new") String newDir,HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.addDirector(newDir,request, response);
+    }
+    @PostMapping("nation/{new}")
+    public void addNation (@PathVariable(value = "new") String newNation, HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.addNation(newNation,request, response);
+    }
+    @PostMapping("producer/{new}")
+    public void addProducer (@PathVariable(value = "new") String newPro,HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.addProducer(newPro,request, response);
     }
 }

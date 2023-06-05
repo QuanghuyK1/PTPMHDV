@@ -3,6 +3,7 @@ package com.xemphim.WebXemPhim.service.Impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xemphim.WebXemPhim.common.APIResponse;
 import com.xemphim.WebXemPhim.dto.AccountDTO;
+import com.xemphim.WebXemPhim.dto.NewDTO;
 import com.xemphim.WebXemPhim.dto.mapper.AccountMapper;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
@@ -427,5 +428,71 @@ public class AdminServiceImpl implements AdminService {
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
 
         }
+    }
+
+    @Override
+    public void getProducer(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<FilmProducer> filmProducers = filmProducerRepository.findAll();
+        List<NewDTO> newDTOS = new ArrayList<>();
+        for (FilmProducer f:filmProducers) {
+            newDTOS.add(new NewDTO(f.getFilmProducerId(),f.getFilmProducerName()));
+        }
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData(newDTOS);
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void getNation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Nation> nations = nationRepository.findAll();
+        List<NewDTO> newDTOS = new ArrayList<>();
+        for (Nation f:nations) {
+            newDTOS.add(new NewDTO(f.getNationId(),f.getNationName()));
+        }
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData(newDTOS);
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void getDirector(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Director> directors = directorRepository.findAll();
+        List<NewDTO> newDTOS = new ArrayList<>();
+        for (Director f:directors) {
+            newDTOS.add(new NewDTO(f.getDirectorId(),f.getDirectorName()));
+        }
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData(newDTOS);
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void addDirector(String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Director director = new Director();
+        director.setDirectorName(newDir);
+        directorRepository.save(director);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void addNation(String newNation, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Nation nation = new Nation();
+        nation.setNationName(newNation);
+        nationRepository.save(nation);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void addProducer(String newPro, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        FilmProducer filmProducer = new FilmProducer();
+        filmProducer.setFilmProducerName(newPro);
+        filmProducerRepository.save(filmProducer);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
     }
 }

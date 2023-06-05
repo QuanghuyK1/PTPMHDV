@@ -1,6 +1,7 @@
 package com.xemphim.WebXemPhim.service;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
+import com.xemphim.WebXemPhim.dto.NewDTO;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
@@ -38,4 +39,14 @@ public interface AdminService {
     void updateEpisode(String filmName, String oldTitle, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void updateFilm(String filmName, CreFilmRequestLinkDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException;
+
+    void getProducer(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void getNation(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void getDirector (HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void addDirector(String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void addNation(String newNation, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void addProducer(String newPro, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }
