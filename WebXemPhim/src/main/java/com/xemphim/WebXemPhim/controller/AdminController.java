@@ -139,6 +139,7 @@ public class AdminController {
     ) throws IOException {
         adminService.getDirector(request, response);
     }
+    //Thêm
     @PostMapping("director/{new}")
     public void addDirector (@PathVariable(value = "new") String newDir,HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
@@ -153,5 +154,50 @@ public class AdminController {
     public void addProducer (@PathVariable(value = "new") String newPro,HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
         adminService.addProducer(newPro,request, response);
+    }
+    //Sửa
+    @PostMapping("director/{id}/{new}")
+    public void renameDirector (@PathVariable(value = "id") int id,
+                             @PathVariable(value = "new") String newDir,
+                             HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.renameDirector(id,newDir,request, response);
+    }
+    @PostMapping("nation/{id}/{new}")
+    public void renameNation (@PathVariable(value = "id") int id,
+                           @PathVariable(value = "new") String newNation,
+                           HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.renameNation(id,newNation,request, response);
+    }
+    @PostMapping("producer/{id}/{new}")
+    public void renameProducer (@PathVariable(value = "id") int id,
+                             @PathVariable(value = "new") String newPro,
+                             HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.renameProducer(id,newPro,request, response);
+    }
+
+    //Xóa
+    @PostMapping("director/delete/{id}")
+    public void deleteDirector (@PathVariable(value = "id") int id,
+                                @PathVariable(value = "new") String newDir,
+                                HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.deleteDirector(id,request, response);
+    }
+    @PostMapping("nation/delete/{id}")
+    public void deleteNation (@PathVariable(value = "id") int id,
+                              @PathVariable(value = "new") String newNation,
+                              HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.deleteNation(id,request, response);
+    }
+    @PostMapping("producer/delete/{id}")
+    public void deleteProducer (@PathVariable(value = "id") int id,
+                                @PathVariable(value = "new") String newPro,
+                                HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.deleteProducer(id,request, response);
     }
 }

@@ -21,7 +21,7 @@ public class Episode {
 	private String title;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "film_id")
+	@JoinColumn(name = "movie_id")
 	private Film film;
 
 	@Column(name = "cre_at")

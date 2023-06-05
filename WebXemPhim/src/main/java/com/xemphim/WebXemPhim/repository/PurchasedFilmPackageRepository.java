@@ -12,7 +12,8 @@ import com.xemphim.WebXemPhim.entity.PurchasedFilmPackageId;
 
 @EnableJpaRepositories
 public interface PurchasedFilmPackageRepository extends JpaRepository<PurchasedFilmPackage, PurchasedFilmPackageId>{
-	@Query(value = "CALL get_film_package_for_client(:acc_name);", nativeQuery = true)
+	@Query(value = "SELECT * FROM web_phim.purchased_film_packages pfp WHERE pfp.start_date <= CURDATE() AND pfp.expiration_date >= CURDATE() AND account_name = :acc_name AND pfp.status = 1;",
+            nativeQuery = true)
     List<Object[]> getFilmPackageForClient(@Param("acc_name") String acc_name);
     
     @Query(value = "CALL get_purchase_history(:acc_name);", nativeQuery = true)

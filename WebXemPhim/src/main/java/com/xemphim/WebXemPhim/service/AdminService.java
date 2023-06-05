@@ -49,4 +49,16 @@ public interface AdminService {
     void addNation(String newNation, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void addProducer(String newPro, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void renameDirector(int id, String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void renameNation(int id, String newNation, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void renameProducer(int id, String newPro, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void deleteDirector(int id, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void deleteNation(int id, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void deleteProducer(int id, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

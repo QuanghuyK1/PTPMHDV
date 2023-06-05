@@ -127,12 +127,8 @@ public class HomeController {
     	return clientService.getFilmPackages();
     }
     @PostMapping("info/film-package-for-client/{accountName}")
-    public Integer getFilmPackageForClient(@PathVariable(value="accountName") String accountName){
-    	List<Object[]> objects = new ArrayList<>();
-    	objects = clientService.getFilmPackageForClient(accountName);
-    	if (objects.size() > 0)
-    		return (Integer) objects.get(0)[2];
-    	return 0;
+    public void getFilmPackageForClient(@PathVariable(value="accountName") String accountName, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        clientService.getFilmPackageForClient(accountName,request,response);
     }
     
     @PostMapping("info/purchase-history/{accountName}")

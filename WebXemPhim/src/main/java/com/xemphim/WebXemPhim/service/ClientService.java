@@ -32,7 +32,7 @@ public interface ClientService {
     void favorite(String filmName, HttpServletRequest request, HttpServletResponse response) throws IOException;
     APIResponse getHome();
     List<FilmPackageOutput> getFilmPackages();
-    List<Object[]> getFilmPackageForClient(String acc_name);
+    void getFilmPackageForClient(String acc_name,HttpServletRequest request, HttpServletResponse response) throws IOException;
     List<Object[]> getPurchaseHistory(String acc_name);
     void getNotifyPagination(Integer page, HttpServletRequest request, HttpServletResponse response) throws IOException;
 

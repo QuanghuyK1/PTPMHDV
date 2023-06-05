@@ -495,4 +495,60 @@ public class AdminServiceImpl implements AdminService {
         apiResponse.setData("Success");
         new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
     }
+
+    @Override
+    public void renameDirector(int id, String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Director director = directorRepository.findOneByDirectorId(id);
+        director.setDirectorName(newDir);
+        directorRepository.save(director);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void renameNation(int id, String newNation, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Nation nation = nationRepository.findOneByNationId(id);
+        nation.setNationName(newNation);
+        nationRepository.save(nation);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void renameProducer(int id, String newPro, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        FilmProducer filmProducer = filmProducerRepository.findOneByFilmProducerId(id);
+        filmProducer.setFilmProducerName(newPro);
+        filmProducerRepository.save(filmProducer);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+    @Override
+    public void deleteDirector(int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Director director = directorRepository.findOneByDirectorId(id);
+        directorRepository.save(director);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void deleteNation(int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Nation nation = nationRepository.findOneByNationId(id);
+        nationRepository.delete(nation);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void deleteProducer(int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        FilmProducer filmProducer = filmProducerRepository.findOneByFilmProducerId(id);
+        filmProducerRepository.delete(filmProducer);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
 }

@@ -411,8 +411,20 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Object[]> getFilmPackageForClient(String acc_name) {
-        return purchasedFilmPackageRepository.getFilmPackageForClient(acc_name);
+    public void getFilmPackageForClient(String acc_name,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Object[]> objects = purchasedFilmPackageRepository.getFilmPackageForClient(acc_name);
+        if(objects.size() == 0){
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setData("0");
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        }
+        else {
+            int id = (Integer) objects.get(0)[1];
+            FilmPackage filmPackage = filmPackageRepository.findOneByfilmPackageId(String.valueOf(id));
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setData(filmPackage.getUsedTime());
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        }
     }
 
     @Override
