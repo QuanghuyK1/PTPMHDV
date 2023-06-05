@@ -18,6 +18,8 @@ public class AccountMapper {
         dto.setRole(account.getRole().getRoleName());
         dto.setEmail(account.getUser().getEmail());
         dto.setPhoneNumber(account.getUser().getPhoneNumber());
+        dto.setSex(account.getUser().getSex());
+        dto.setBirtdate(account.getUser().getBirthdate());
         return dto;
     }
 }

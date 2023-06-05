@@ -2,14 +2,13 @@ package com.xemphim.WebXemPhim.service.Impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xemphim.WebXemPhim.common.APIResponse;
+import com.xemphim.WebXemPhim.dto.AccountDTO;
+import com.xemphim.WebXemPhim.dto.mapper.AccountMapper;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
 import com.xemphim.WebXemPhim.dto.request.CreFilmRequestLinkDTO;
-import com.xemphim.WebXemPhim.entity.Category;
-import com.xemphim.WebXemPhim.entity.Episode;
-import com.xemphim.WebXemPhim.entity.Film;
-import com.xemphim.WebXemPhim.entity.User;
+import com.xemphim.WebXemPhim.entity.*;
 import com.xemphim.WebXemPhim.repository.*;
 import com.xemphim.WebXemPhim.service.AdminService;
 import com.xemphim.WebXemPhim.service.FileService;
@@ -44,6 +43,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
     private FileService fileService;
 
 
@@ -53,9 +54,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public APIResponse getUsers() {
+    public APIResponse getAccounts() {
         APIResponse apiResponse = new APIResponse();
-        apiResponse.setData(userRepository.findAll());
+        List<Account> accounts = accountRepository.findAll();
+        List<AccountDTO> accountNames = new ArrayList<>();
+        for (Account acc:accounts) {
+            accountNames.add(AccountMapper.getInstance().toDTO(acc));
+        }
+        apiResponse.setData(accountNames);
         return apiResponse;
     }
 

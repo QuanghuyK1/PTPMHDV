@@ -16,7 +16,7 @@ import java.text.ParseException;
 public interface AdminService {
     User addUser(User user);
 
-    APIResponse getUsers();
+    APIResponse getAccounts();
     void creFilm(@RequestBody CreFilmRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void creEpisodes(String filmName, CreEpisodeRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;

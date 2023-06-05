@@ -90,9 +90,16 @@ public class AdminController {
         }
         adminService.creEpisodeLink(filmName,requestDTO, request, response);
     }
-    @GetMapping("users")
+//    @GetMapping("accounts/{accountName}")
+//    public ResponseEntity<APIResponse> getUser() {
+//        APIResponse apiResponse = adminService.getAccounts();
+//        return ResponseEntity
+//                .status(apiResponse.getStatus())
+//                .body(apiResponse);
+//    }
+    @GetMapping("accounts")
     public ResponseEntity<APIResponse> getAccounts() {
-        APIResponse apiResponse = adminService.getUsers();
+        APIResponse apiResponse = adminService.getAccounts();
         return ResponseEntity
                 .status(apiResponse.getStatus())
                 .body(apiResponse);
