@@ -147,7 +147,7 @@ public class HomeController {
     			output.setPurchaseDate((Date) object[1]);
     			output.setStartDate((Date) object[2]);
     			output.setExpirationDate((Date) object[3]);
-                output.setStatus((Integer) object[4]);
+                output.setStatus(Integer.valueOf(Integer.parseInt(object[4].toString())));
     			outputs.add(output);
     		}
     		return outputs;

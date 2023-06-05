@@ -116,6 +116,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         saveUserToken(account, refreshToken);
         HashMap<String, Object> map = new HashMap<>();
         map.put("accToken", jwtToken);
+        map.put("roleId", account.getRole().getRoleId());
         apiResponse.setData(map);
         return apiResponse;
     }
