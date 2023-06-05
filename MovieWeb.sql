@@ -636,6 +636,9 @@ BEGIN
 	WHERE start_date <= CURDATE() AND expiration_date >= CURDATE();
 END ;;
 DELIMITER ;
+
+ALTER TABLE `web_phim`.`episodes` 
+CHANGE COLUMN `movie_id` `movie_id` INT NOT NULL AUTO_INCREMENT ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
