@@ -183,7 +183,7 @@ public class ClientServiceImpl implements ClientService {
             dto.setImage(e.getFilm().getFilmPosterPath());
             dto.setNotifications(e.getFilm().getFilmName() + " - New Episode");
             dto.setContent(e.getTitle());
-            
+
             dto.setRelease_Days(e.getCreAt());
             notifyDTOS.add(dto);
         }
@@ -380,10 +380,10 @@ public class ClientServiceImpl implements ClientService {
             }
             List<Evaluation> evaluations = evaluationRepository.findByIdFilm(film);
             List<EvaluationDTO> evaluationDTOS = new ArrayList<>();
-            for (Evaluation e:evaluations) {
-                evaluationDTOS.add(new EvaluationDTO(e.getId().getAccount().getAccountName(),e.getStarNumber(),e.getComment(),e.getEval_time()));
+            for (Evaluation e : evaluations) {
+                evaluationDTOS.add(new EvaluationDTO(e.getId().getAccount().getAccountName(), e.getStarNumber(), e.getComment(), e.getEval_time()));
             }
-            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes, l,evaluationDTOS);
+            FilmDTO filmDTO = FilmMapper.getInstance().toDetailFilmDTO(film, categories, episodes, l, evaluationDTOS);
 
             apiResponse.setData(filmDTO);
         }
@@ -411,18 +411,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void getFilmPackageForClient(String acc_name,HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void getFilmPackageForClient(String acc_name, HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Object[]> objects = purchasedFilmPackageRepository.getFilmPackageForClient(acc_name);
-        if(objects.size() == 0){
+        if (objects.size() == 0) {
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("0");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
-        }
-        else {
-            int id = (Integer) objects.get(0)[1];
-            FilmPackage filmPackage = filmPackageRepository.findOneByfilmPackageId(String.valueOf(id));
+        } else {
+            int id = (Integer) objects.get(0)[0];
             APIResponse apiResponse = new APIResponse();
-            apiResponse.setData(filmPackage.getUsedTime());
+            apiResponse.setData(id);
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         }
     }
