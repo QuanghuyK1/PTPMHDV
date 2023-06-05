@@ -139,7 +139,7 @@ public class HomeController {
     		List<PurchaseHistoryOutput> outputs = new ArrayList<>();
     		for (Object[] object: objects) {
     			PurchaseHistoryOutput output = new PurchaseHistoryOutput();
-    			output.setFilmPackageID((Integer) object[0]);
+    			output.setUsed_time((Integer) object[0]);
     			output.setPurchaseDate((Date) object[1]);
     			output.setStartDate((Date) object[2]);
     			output.setExpirationDate((Date) object[3]);
