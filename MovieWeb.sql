@@ -217,7 +217,7 @@ CREATE TABLE `episodes` (
   `episode_id` int NOT NULL AUTO_INCREMENT,
   `episode_path` varchar(200) NOT NULL,
   `numerical_order` int NOT NULL,
-  `film_id` int NOT NULL,
+  `movie_id` int NOT NULL,
   PRIMARY KEY (`episode_id`),
   KEY `fk_episodes_film_id_idx` (`film_id`),
   CONSTRAINT `fk_episodes_film_id` FOREIGN KEY (`film_id`) REFERENCES `films` (`film_id`) ON UPDATE CASCADE,
