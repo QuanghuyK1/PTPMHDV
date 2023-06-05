@@ -61,4 +61,10 @@ public interface AdminService {
     void deleteNation(int id, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void deleteProducer(int id, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void getActor(HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void addActor(String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void renameActor(int id, String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

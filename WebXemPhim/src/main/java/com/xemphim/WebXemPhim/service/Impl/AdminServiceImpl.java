@@ -46,6 +46,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
+    private ActorRepository actorRepository;
+    @Autowired
     private FileService fileService;
 
 
@@ -547,6 +549,38 @@ public class AdminServiceImpl implements AdminService {
     public void deleteProducer(int id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         FilmProducer filmProducer = filmProducerRepository.findOneByFilmProducerId(id);
         filmProducerRepository.delete(filmProducer);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void getActor(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Actor> actors = actorRepository.findAll();
+        List<NewDTO> newDTOS = new ArrayList<>();
+        for (Actor f:actors) {
+            newDTOS.add(new NewDTO(f.getActorId(),f.getActorName()));
+        }
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData(newDTOS);
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void addActor(String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Actor actors = new Actor();
+        actors.setActorName(newDir);
+        actorRepository.save(actors);
+        APIResponse apiResponse = new APIResponse();
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void renameActor(int id, String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Actor actor = actorRepository.findOneByActorId(id);
+        actor.setActorName(newDir);
+        actorRepository.save(actor);
         APIResponse apiResponse = new APIResponse();
         apiResponse.setData("Success");
         new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);

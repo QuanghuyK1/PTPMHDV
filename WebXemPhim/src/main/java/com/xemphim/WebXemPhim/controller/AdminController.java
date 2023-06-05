@@ -124,6 +124,11 @@ public class AdminController {
         adminService.updateCategory(old_name, new_name, request, response);
     }
 
+    @GetMapping("actor")
+    public void getActor(HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.getActor(request, response);
+    }
     @GetMapping("producer")
     public void getProducer(HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
@@ -140,6 +145,11 @@ public class AdminController {
         adminService.getDirector(request, response);
     }
     //Thêm
+    @PostMapping("actor/{new}")
+    public void addActor (@PathVariable(value = "new") String newDir,HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.addActor(newDir,request, response);
+    }
     @PostMapping("director/{new}")
     public void addDirector (@PathVariable(value = "new") String newDir,HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
@@ -156,6 +166,13 @@ public class AdminController {
         adminService.addProducer(newPro,request, response);
     }
     //Sửa
+    @PostMapping("actor/{id}/{new}")
+    public void renameActor (@PathVariable(value = "id") int id,
+                                @PathVariable(value = "new") String newDir,
+                                HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.renameActor(id,newDir,request, response);
+    }
     @PostMapping("director/{id}/{new}")
     public void renameDirector (@PathVariable(value = "id") int id,
                              @PathVariable(value = "new") String newDir,

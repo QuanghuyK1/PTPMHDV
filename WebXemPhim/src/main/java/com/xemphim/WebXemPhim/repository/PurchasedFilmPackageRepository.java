@@ -16,6 +16,7 @@ public interface PurchasedFilmPackageRepository extends JpaRepository<PurchasedF
             nativeQuery = true)
     List<Object[]> getFilmPackageForClient(@Param("acc_name") String acc_name);
     
-    @Query(value = "CALL get_purchase_history(:acc_name);", nativeQuery = true)
+    @Query(value = "SELECT used_time, purchase_date, start_date, expiration_date, pfp.status FROM web_phim.purchased_film_packages pfp JOIN web_phim.film_packages fp ON pfp.film_package_id = fp.film_package_id  WHERE pfp.account_name = :acc_name ;",
+            nativeQuery = true)
     List<Object[]> getPurchaseHistory(@Param("acc_name") String acc_name);
 }
