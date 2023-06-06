@@ -449,9 +449,9 @@ public class AdminServiceImpl implements AdminService {
                 film.setOddFilm(false);
             }
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            film.setNation(nationRepository.findOneByNationId(requestDTO.getNation_id()));
-            film.setDirector(directorRepository.findOneByDirectorId(requestDTO.getDirector_id()));
-            film.setFilmProducer(filmProducerRepository.findOneByFilmProducerId(requestDTO.getProducer_id()));
+//            film.setNation(nationRepository.findOneByNationId(requestDTO.getNation_id()));
+//            film.setDirector(directorRepository.findOneByDirectorId(requestDTO.getDirector_id()));
+//            film.setFilmProducer(filmProducerRepository.findOneByFilmProducerId(requestDTO.getProducer_id()));
             film.setReleaseTime(dateFormat.parse(requestDTO.getRelease_time()));
             String pathPoster = fileService.uploadFile(path.concat("content/"), requestDTO.getPoster());
             film.setFilmPosterPath(pathPoster);
