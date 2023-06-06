@@ -622,22 +622,17 @@ public class AdminServiceImpl implements AdminService {
             film.setRating(Float.parseFloat("0"));
             filmRepository.save(film);
             film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(film.getFilmName());
-            List<String> episodes = new ArrayList<>();
             if (requestDTO.getEpisodeRequests() != null) {
                 for (CreEpisodeLinkRequestDTO e : requestDTO.getEpisodeRequests()) {
-                    String pathEpisode =  e.getLink();
-                    episodes.add(pathEpisode);
                     Episode episode = new Episode();
                     episode.setTitle(e.getTitle());
+                    episode.setEpisodePath(e.getLink());
                     episode.setFilm(film);
-                    episode.setEpisodePath(pathEpisode);
                     episode.setCreAt(new Date());
                     episode.setStatus(true);
                     episodeRepository.save(episode);
                 }
             }
-
-            System.out.print(poster + "\n" + trailer + "\n" + episodes);
 
             APIResponse apiResponse = new APIResponse();
             apiResponse.setData("Success");
