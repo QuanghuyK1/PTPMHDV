@@ -5,10 +5,7 @@ import com.xemphim.WebXemPhim.common.APIResponse;
 import com.xemphim.WebXemPhim.dto.AccountDTO;
 import com.xemphim.WebXemPhim.dto.NewDTO;
 import com.xemphim.WebXemPhim.dto.mapper.AccountMapper;
-import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreFilmRequestLinkDTO;
+import com.xemphim.WebXemPhim.dto.request.*;
 import com.xemphim.WebXemPhim.entity.*;
 import com.xemphim.WebXemPhim.repository.*;
 import com.xemphim.WebXemPhim.service.AdminService;
@@ -584,5 +581,73 @@ public class AdminServiceImpl implements AdminService {
         APIResponse apiResponse = new APIResponse();
         apiResponse.setData("Success");
         new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+    }
+
+    @Override
+    public void creFilmLinkFile(CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            if (filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(requestDTO.getName()) != null) {
+                APIResponse apiResponse = new APIResponse();
+                apiResponse.setStatus(400);
+                apiResponse.setError("Film title is duplicate");
+                new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+                return;
+            }
+            String poster = fileService.uploadFile(path, requestDTO.getPoster());
+            String trailer =  requestDTO.getTrailer();
+            Film film = new Film();
+            film.setFilmName(requestDTO.getName().strip());
+            film.setTrailerPath(trailer);
+            film.setFilmPosterPath(poster);
+            film.setFilmDescription(requestDTO.getDescription());
+            film.setFilmDuration(requestDTO.getDuration());
+            if (requestDTO.getEpisodeRequests() != null) {
+                if (requestDTO.getEpisodeRequests().size() > 1) {
+                    film.setOddFilm(false);
+                } else if (requestDTO.getEpisodeRequests().size() == 0) {
+                    film.setOddFilm(requestDTO.isOdd());
+                } else {
+                    film.setOddFilm(true);
+                }
+            } else {
+                film.setOddFilm(requestDTO.isOdd());
+            }
+
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            film.setNation(nationRepository.findOneByNationId(requestDTO.getNation_id()));
+            film.setDirector(directorRepository.findOneByDirectorId(requestDTO.getDirector_id()));
+            film.setFilmProducer(filmProducerRepository.findOneByFilmProducerId(requestDTO.getProducer_id()));
+            film.setReleaseTime(dateFormat.parse(requestDTO.getRelease_time()));
+            film.setStatus(true);
+            film.setRating(Float.parseFloat("0"));
+            filmRepository.save(film);
+            film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(film.getFilmName());
+            List<String> episodes = new ArrayList<>();
+            if (requestDTO.getEpisodeRequests() != null) {
+                for (CreEpisodeLinkRequestDTO e : requestDTO.getEpisodeRequests()) {
+                    String pathEpisode =  e.getLink();
+                    episodes.add(pathEpisode);
+                    Episode episode = new Episode();
+                    episode.setTitle(e.getTitle());
+                    episode.setFilm(film);
+                    episode.setEpisodePath(pathEpisode);
+                    episode.setCreAt(new Date());
+                    episode.setStatus(true);
+                    episodeRepository.save(episode);
+                }
+            }
+
+            System.out.print(poster + "\n" + trailer + "\n" + episodes);
+
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setData("Success");
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setStatus(400);
+            apiResponse.setError(e.getMessage());
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        }
     }
 }

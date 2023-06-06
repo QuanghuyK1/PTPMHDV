@@ -2,10 +2,7 @@ package com.xemphim.WebXemPhim.service;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
 import com.xemphim.WebXemPhim.dto.NewDTO;
-import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreFilmRequestLinkDTO;
+import com.xemphim.WebXemPhim.dto.request.*;
 import com.xemphim.WebXemPhim.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,4 +64,6 @@ public interface AdminService {
     void addActor(String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void renameActor(int id, String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void creFilmLinkFile(CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
 }

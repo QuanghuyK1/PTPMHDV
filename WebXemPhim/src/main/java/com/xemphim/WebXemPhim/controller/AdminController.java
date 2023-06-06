@@ -5,15 +5,12 @@ import java.text.ParseException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xemphim.WebXemPhim.dto.NewDTO;
-import com.xemphim.WebXemPhim.dto.request.CreEpisodeLinkRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreEpisodeRequestDTO;
-import com.xemphim.WebXemPhim.dto.request.CreFilmRequestLinkDTO;
+import com.xemphim.WebXemPhim.dto.request.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.xemphim.WebXemPhim.common.APIResponse;
-import com.xemphim.WebXemPhim.dto.request.CreFilmRequestDTO;
 import com.xemphim.WebXemPhim.service.AdminService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +33,12 @@ public class AdminController {
             @RequestBody CreFilmRequestLinkDTO requestDTO, HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
         adminService.creFilmLink(requestDTO, request, response);
+    }
+    @PostMapping("film/newLinkFile")
+    public void creFilm2(
+            @ModelAttribute CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response
+    ) throws IOException {
+        adminService.creFilmLinkFile(requestDTO, request, response);
     }
     @PostMapping("film/delete/{filmName}")
     public void deleteFilm( @PathVariable(value="filmName") String filmName,HttpServletRequest request, HttpServletResponse response
