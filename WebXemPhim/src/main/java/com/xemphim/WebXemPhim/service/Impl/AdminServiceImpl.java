@@ -430,6 +430,39 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public void updateFilmFilePoster(String filmName, CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+        Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
+        if (film == null) {
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setStatus(400);
+            apiResponse.setError("FilmName wrong ");
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        } else {
+
+            film.setFilmName(requestDTO.getName());
+            film.setFilmDescription(requestDTO.getDescription());
+            film.setFilmDuration(requestDTO.getDuration());
+            film.setOddFilm(requestDTO.isOdd());
+            if(episodeRepository.findByFilm(film).size() > 1) {
+                film.setOddFilm(false);
+            }
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            film.setNation(nationRepository.findOneByNationId(requestDTO.getNation_id()));
+            film.setDirector(directorRepository.findOneByDirectorId(requestDTO.getDirector_id()));
+            film.setFilmProducer(filmProducerRepository.findOneByFilmProducerId(requestDTO.getProducer_id()));
+            film.setReleaseTime(dateFormat.parse(requestDTO.getRelease_time()));
+            String pathPoster = fileService.uploadFile(path.concat("content/"), requestDTO.getPoster());
+            film.setFilmPosterPath(pathPoster);
+            film.setTrailerPath(requestDTO.getTrailer());
+            filmRepository.save(film);
+            APIResponse apiResponse = new APIResponse();
+            apiResponse.setData("Success");
+            new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
+        }
+
+    }
+
+    @Override
     public void getProducer(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<FilmProducer> filmProducers = filmProducerRepository.findAll();
         List<NewDTO> newDTOS = new ArrayList<>();

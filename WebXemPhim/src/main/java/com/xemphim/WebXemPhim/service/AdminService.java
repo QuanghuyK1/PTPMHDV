@@ -66,4 +66,6 @@ public interface AdminService {
     void renameActor(int id, String newDir, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void creFilmLinkFile(CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    void updateFilmFilePoster(String filmName, CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException;
 }

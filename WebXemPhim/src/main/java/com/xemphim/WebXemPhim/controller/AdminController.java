@@ -67,6 +67,13 @@ public class AdminController {
     ) throws IOException, ParseException {
         adminService.updateFilm(filmName,requestDTO,request, response);
     }
+    @PostMapping("film/updateFile/{filmName}")
+    public void updateFilmFilePoster( @PathVariable(value="filmName") String filmName,
+                            @ModelAttribute CreFilm_FIle_Link_RequestDTO requestDTO,
+                            HttpServletRequest request, HttpServletResponse response
+    ) throws IOException, ParseException {
+        adminService.updateFilmFilePoster(filmName,requestDTO,request, response);
+    }
     @PostMapping("{filmName}/episode/new")
     public void episodesUpload(
             @PathVariable(value="filmName") String filmName, @ModelAttribute CreEpisodeRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response
