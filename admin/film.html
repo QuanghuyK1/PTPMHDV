@@ -273,7 +273,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Poster</label>
-                  <input class="form-control poster" type="file" id="formFile">
+                  <input class="form-control poster" type="file" id="fileInput">
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Description</label>
@@ -304,35 +304,35 @@
               <div class="modal-body modal-new">
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Name</label>
-                  <input type="text" class="form-control input-id name">
+                  <input type="text" class="form-control input-id name-new">
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Poster</label>
-                  <input class="form-control f-poster" type="file" id="fileInput">
+                  <input class="form-control f-poster" type="file" id="fileInput-new">
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Description</label>
-                  <textarea class="form-control textea" id="exampleFormControlTextarea1" rows="3"></textarea>                </div>
+                  <textarea class="form-control textea-new" id="exampleFormControlTextarea1" rows="3"></textarea>                </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Duration</label>
-                  <input type="text" class="form-control input-id dura">
+                  <input type="text" class="form-control input-id dura-new">
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Film Release Time</label>
-                  <input type="date" class="form-control input-id time">
+                  <input type="date" class="form-control input-id time-new">
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Trailer link</label>
-                  <input type="text" class="form-control input-id trailer">
+                  <input type="text" class="form-control input-id trailer-new">
                 </div>
                 <div class="mb-3">
                   <label for="exampleFormControlInput1" class="form-label">Play link</label>
-                  <input type="text" class="form-control input-id play-link">
+                  <input type="text" class="form-control input-id play-link-new">
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary save">Save changes</button>
+                <button type="button" class="btn btn-primary save-new">Save changes</button>
               </div>
             </div>
           </div>
@@ -371,7 +371,7 @@
               $('.input-id').val(foundObject.id);
               $('.input-name').val(foundObject.name);
             }*/
-            /*$('.btn-update').click(function() {
+            $('.btn-update').click(function() {
                 var buttonValue = $(this).val();
                 console.log(buttonValue)
                 var foundObject = searchById(buttonValue);
@@ -387,7 +387,7 @@
                 var temp3 = foundObject.release_time;
                 var name = foundObject.filmName;
                 console.log(temp);
-                var convertedDate = temp3.replace(/-/g, '/');
+
                 $('.name').on('input', function() {
                         temp = $(this).val(); // Lấy giá trị từ trường input khi có sự kiện 'input'
                         console.log(temp);
@@ -405,43 +405,69 @@
                         console.log(temp3);
                         convertedDate = temp3.replace(/-/g, '/');
                     });
-                 var mark = {
-                    name : temp,
-                    description :temp1,
-                    duration : temp2,
-                    odd : 1,
-                    producer_id : 1,
-                    release_time : convertedDate,
-                    nation_id : 1,
-                    director_id : 1,
-                    poster : foundObject.filmPosterPath,
-                    trailer : foundObject.trailerPath
-                }
+                 const formData = new FormData();
+                  formData.append('name', temp);
+                  formData.append('trailer', foundObject.trailerPath);
+                  formData.append('description', temp1);
+                  formData.append('duration', temp2);
+                  formData.append('odd', "1");
+                  formData.append('release_time', temp3);
+                  formData.append('producer_id', "1");
+                  formData.append('nation_id', "1");
+                  formData.append('director_id', "1");
+                  console.log(formData.get('duration'));
                 $('.save').click(function() {
-                   rename(name,mark);
+                    var fileInput = document.getElementById('fileInput');
+                  var file = fileInput.files[0];
+                  formData.append('poster', file);
+                  console.log(formData.get('poster')); // Check if 'poster' field is correctly appended
+                   rename(name,formData);
                 });
-            });*/
-
-            $('.save').click(function() {
+            });
+            $('.btn-insert').click(function() {
+                $('.save-new').click(function() {
+                  const formData = new FormData();
+                  formData.append('name', $('.name-new').val());
+                  var fileInput = document.getElementById('fileInput-new');
+                  var file = fileInput.files[0];
+                  formData.append('poster', file);
+                  console.log(formData.get('poster')); // Check if 'poster' field is correctly appended
+                  formData.append('trailer', $('.trailer-new').val());
+                  formData.append('episodeRequests[0].title', 'new');
+                  formData.append('episodeRequests[0].link', $('.play-link-new').val());
+                  formData.append('description', $('.textea-new').val());
+                  formData.append('duration', parseInt($('.dura-new').val()));
+                  formData.append('odd', "1");
+                  formData.append('release_time', $('.time-new').val().replace(/-/g, '/'));
+                  formData.append('producer_id', 1);
+                  formData.append('nation_id', 1);
+                  formData.append('director_id', 1);
+                  console.log(formData.get('duration'));
+                  console.log(formData.get('release_time'));
+                  console.log(formData.get('trailer'));
+                  add(formData);
+                });
+            });
+            /*$('.save').click(function() {
               const formData = new FormData();
               formData.append('name', $('.name').val());
               var fileInput = document.getElementById('fileInput');
               var file = fileInput.files[0];
               formData.append('poster', file);
               console.log(formData.get('poster')); // Check if 'poster' field is correctly appended
-              formData.append('trailer', "bbb");
+              formData.append('trailer', $('.trailer').val());
               formData.append('episodeRequests[0].title', 'new');
-              formData.append('episodeRequests[0].link', "bbb.com");
+              formData.append('episodeRequests[0].link', $('.play-link').val());
               formData.append('description', $('.textea').val());
-              formData.append('duration', $('.dura').val());
+              formData.append('duration', parseInt($('.dura').val()));
               formData.append('odd', "1");
               formData.append('release_time', $('.time').val().replace(/-/g, '/'));
               formData.append('producer_id', "1");
               formData.append('nation_id', "1");
               formData.append('director_id', "1");
-
+              console.log(formData.get('duration'));
               add(formData);
-            });
+            });*/
 
           });
         });
@@ -461,8 +487,9 @@
                 return response.json();
               })
               .then(data => {
+                console.log(data.data.films)
                 arr = data.data.films;
-                for (var i = 0; i < data.data.newFilms.length; i++) {
+                for (var i = 0; i < data.data.films.length; i++) {
                 cate='';
                 for(var j=0;j<data.data.films[i].filmCategory.length;j++){
                     cate += `${data.data.films[i].filmCategory[j]}`;
@@ -507,13 +534,12 @@
           return foundObject;
         }
         function rename(str_1,body1) {
-            fetch(`http://localhost:8081/admin/film/update/${str_1}`, {
+            fetch(`http://localhost:8081/admin/film/updateFile/${str_1}`, {
                         method: 'POST',
                         headers: new Headers({
                           'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                          'Content-Type': 'application/json'
                         }),
-                        body: JSON.stringify(body1)
+                        body: body1
                       })
                       .then(response => {
                         if (!response.ok) {
@@ -533,7 +559,6 @@
                         method: 'POST',
                         headers: new Headers({
                           'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
-                          'Content-Type': 'application/json'
                         }),body: data,
                       })
                       .then(response => {
