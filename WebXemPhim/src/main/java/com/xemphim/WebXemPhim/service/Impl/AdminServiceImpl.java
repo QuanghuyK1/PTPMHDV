@@ -453,7 +453,7 @@ public class AdminServiceImpl implements AdminService {
 //            film.setDirector(directorRepository.findOneByDirectorId(requestDTO.getDirector_id()));
 //            film.setFilmProducer(filmProducerRepository.findOneByFilmProducerId(requestDTO.getProducer_id()));
             film.setReleaseTime(dateFormat.parse(requestDTO.getRelease_time()));
-            String pathPoster = fileService.uploadFile(path.concat("content/"), requestDTO.getPoster());
+            String pathPoster = fileService.uploadFile(path, requestDTO.getPoster());
             film.setFilmPosterPath(pathPoster);
             film.setTrailerPath(requestDTO.getTrailer());
             filmRepository.save(film);
