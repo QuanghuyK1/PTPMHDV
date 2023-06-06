@@ -6,6 +6,7 @@ import java.util.List;
 
 public class CreFilm_FIle_Link_RequestDTO {
     private String name;
+    private int category;
     private String description;
     private int duration;
     private boolean odd;
@@ -17,6 +18,14 @@ public class CreFilm_FIle_Link_RequestDTO {
     private MultipartFile poster;
     private String trailer;
     private List<CreEpisodeLinkRequestDTO> episodeRequests;
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
 
     public String getDescription() {
         return description;

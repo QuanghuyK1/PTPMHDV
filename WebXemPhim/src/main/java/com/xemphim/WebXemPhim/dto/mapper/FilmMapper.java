@@ -33,8 +33,12 @@ public class FilmMapper {
         }
         filmDTO.setFilmCategory(categories2);
         filmDTO.setFilmRating(film.getRating());
-        filmDTO.setOdd(filmDTO.getOdd());
+        filmDTO.setOdd(film.isOddFilm());
         filmDTO.setFilmDescription(film.getFilmDescription());
+        filmDTO.setTrailerPath(film.getTrailerPath());
+        filmDTO.setFilmDuration(film.getFilmDuration());
+        filmDTO.setRelease_time(film.getReleaseTime());
+        filmDTO.setFilmCategory(categories2);
         return filmDTO;
     }
     public FilmDTO toDetailFilmDTO(Film film, List<Category> categories,List<Episode> episodes, List<CommentDTO> comments, List<EvaluationDTO> evaluations){

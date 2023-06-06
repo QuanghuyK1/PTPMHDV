@@ -45,6 +45,8 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private ActorRepository actorRepository;
     @Autowired
+    private FilmCategoryRepository filmCategoryRepository;
+    @Autowired
     private FileService fileService;
 
 
@@ -626,6 +628,7 @@ public class AdminServiceImpl implements AdminService {
                 new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
                 return;
             }
+            Category category = categoryRepository.findByCategoryId(requestDTO.getCategory());
             String poster = fileService.uploadFile(path, requestDTO.getPoster());
             String trailer =  requestDTO.getTrailer();
             Film film = new Film();
@@ -647,14 +650,24 @@ public class AdminServiceImpl implements AdminService {
             }
 
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            film.setReleaseTime(dateFormat.parse(requestDTO.getRelease_time()));
+
+
+
             film.setNation(nationRepository.findOneByNationId(requestDTO.getNation_id()));
             film.setDirector(directorRepository.findOneByDirectorId(requestDTO.getDirector_id()));
             film.setFilmProducer(filmProducerRepository.findOneByFilmProducerId(requestDTO.getProducer_id()));
-            film.setReleaseTime(dateFormat.parse(requestDTO.getRelease_time()));
+
             film.setStatus(true);
             film.setRating(Float.parseFloat("0"));
             filmRepository.save(film);
             film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(film.getFilmName());
+            FilmCategoryId filmCategoryId = new FilmCategoryId();
+            filmCategoryId.setFilm(film);
+            filmCategoryId.setCategory(category);
+            FilmCategory filmCategory = new FilmCategory();
+            filmCategory.setId(filmCategoryId);
+            filmCategoryRepository.save(filmCategory);
             if (requestDTO.getEpisodeRequests() != null) {
                 for (CreEpisodeLinkRequestDTO e : requestDTO.getEpisodeRequests()) {
                     Episode episode = new Episode();
