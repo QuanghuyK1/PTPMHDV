@@ -438,27 +438,25 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void active(String accountName,String purchaseDate, String packageId, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
-//        Account account = accountRepository.findOneByAccountName(accountName).get();
+    public void active(String accountName, String packageId, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+        Account account = accountRepository.findOneByAccountName(accountName).get();
         FilmPackage filmPackage = filmPackageRepository.findOneByfilmPackageId(packageId) ;
-//        PurchasedFilmPackageId id = new PurchasedFilmPackageId();
-//        id.setAccount(account);
-//        id.setFilmPackage(filmPackage);
-//        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
-//        Date date = dateFormat.parse(purchaseDate);
-//        Timestamp timestamp = new java.sql.Timestamp(date.getTime());;
-        PurchasedFilmPackage aPackage = purchasedFilmPackageRepository.getPackage(accountName,packageId,purchaseDate);
-        aPackage.setStatus(true);
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
         calendar.add(Calendar.MONTH, filmPackage.getUsedTime());
         Date newDate = calendar.getTime();
-        aPackage.setStart_date(currentDate);
-        aPackage.setExpiration_date(newDate);
-        purchasedFilmPackageRepository.save(aPackage);
+        PurchasedFilmPackage purchasedFilmPackage = new PurchasedFilmPackage();
+        PurchasedFilmPackageId id = new PurchasedFilmPackageId();
+        id.setAccount(account);
+        id.setFilmPackage(filmPackage);
+        id.setPurchase_date(currentDate);
+        purchasedFilmPackage.setStart_date(currentDate);
+        purchasedFilmPackage.setStatus(true);
+        purchasedFilmPackage.setExpiration_date(newDate);
+        purchasedFilmPackage.setId(id);
+        purchasedFilmPackageRepository.save(purchasedFilmPackage);
         APIResponse apiResponse = new APIResponse();
-
         apiResponse.setData("Success");
         new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
     }

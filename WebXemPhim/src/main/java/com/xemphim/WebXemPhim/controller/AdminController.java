@@ -61,13 +61,12 @@ public class AdminController {
     ) throws IOException {
         adminService.updateEpisode(filmId,epiId,requestDTO,request, response);
     }
-    @PostMapping("{accountName}/active/{packageId}/{purchaseDate}")
+    @PostMapping("{accountName}/active/{packageId}")
     public void active( @PathVariable(value="accountName") String accountName,
-                        @PathVariable(value="purchaseDate") String purchaseDate,
                                @PathVariable(value="packageId") String packageId,
                                HttpServletRequest request, HttpServletResponse response
     ) throws IOException, ParseException {
-        adminService.active(accountName,purchaseDate,packageId,request, response);
+        adminService.active(accountName,packageId,request, response);
     }
     @PostMapping("film/update/{filmName}")
     public void updateFilm( @PathVariable(value="filmName") String filmName,

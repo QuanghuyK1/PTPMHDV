@@ -143,7 +143,12 @@ public class HomeController {
     			output.setPurchaseDate((Date) object[1]);
     			output.setStartDate((Date) object[2]);
     			output.setExpirationDate((Date) object[3]);
-                output.setStatus(Integer.valueOf(Integer.parseInt(object[4].toString())));
+                if(new Date().before((Date) object[3])) {
+                    output.setStatus(1);
+                }
+                else {
+                    output.setStatus(0);
+                }
     			outputs.add(output);
     		}
     		return outputs;

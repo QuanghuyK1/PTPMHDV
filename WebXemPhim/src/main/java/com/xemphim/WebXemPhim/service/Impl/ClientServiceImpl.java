@@ -402,10 +402,9 @@ public class ClientServiceImpl implements ClientService {
         objects = filmPackageRepository.getFilmPackages();
         for (Object[] object : objects) {
             FilmPackageOutput filmPackageOutput = new FilmPackageOutput();
-            filmPackageOutput.setId((Integer) object[0]);
-            filmPackageOutput.setDiscountRate((Float) object[1]);
-            filmPackageOutput.setUsedTime((Integer) object[2]);
-            filmPackageOutput.setPrice((Integer) object[3]);
+            filmPackageOutput.setDiscountRate((Float) object[0]);
+            filmPackageOutput.setUsedTime((Integer) object[1]);
+            filmPackageOutput.setPrice((Integer) object[2]);
             filmPackageOutputs.add(filmPackageOutput);
         }
         return filmPackageOutputs;
