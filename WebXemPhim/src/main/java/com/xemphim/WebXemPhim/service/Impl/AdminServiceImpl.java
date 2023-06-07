@@ -375,15 +375,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateEpisode(String filmName, String id, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
+    public void updateEpisode(String filmId, String epiId, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
+        Film film = filmRepository.findByFilmId(filmId);
         if (film == null) {
             APIResponse apiResponse = new APIResponse();
             apiResponse.setStatus(400);
             apiResponse.setError("FilmName wrong ");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         } else {
-            Episode episode = episodeRepository.findOneByFilmAndEpisodeIdAndStatusTrue(film, id);
+            Episode episode = episodeRepository.findOneByFilmAndEpisodeIdAndStatusTrue(film, epiId);
             if (episode == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus(400);

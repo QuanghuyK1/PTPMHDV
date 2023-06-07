@@ -33,7 +33,7 @@ public interface AdminService {
 
     void creFilmLink(CreFilmRequestLinkDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
-    void updateEpisode(String filmName, String id, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void updateEpisode(String filmId, String epiId, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void updateFilm(String filmName, CreFilmRequestLinkDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException;
 

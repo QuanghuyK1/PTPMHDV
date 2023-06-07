@@ -52,13 +52,13 @@ public class AdminController {
     ) throws IOException {
         adminService.deleleEpisode(filmName,title,request, response);
     }
-    @PostMapping("{filmName}/episode/update/{id}")
-    public void updateEpisode( @PathVariable(value="filmName") String filmName,
-                               @PathVariable(value="id") String old_title,
+    @PostMapping("{filmId}/episode/update/{episodeId}")
+    public void updateEpisode( @PathVariable(value="filmId") String filmId,
+                               @PathVariable(value="episodeId") String epiId,
                                @RequestBody CreEpisodeLinkRequestDTO requestDTO,
                                HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
-        adminService.updateEpisode(filmName,old_title,requestDTO,request, response);
+        adminService.updateEpisode(filmId,epiId,requestDTO,request, response);
     }
     @PostMapping("film/update/{filmName}")
     public void updateFilm( @PathVariable(value="filmName") String filmName,

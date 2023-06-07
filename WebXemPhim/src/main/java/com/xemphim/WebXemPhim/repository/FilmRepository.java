@@ -13,4 +13,6 @@ public interface FilmRepository extends JpaRepository<Film, Integer>{
     ArrayList<Film> findByStatusOrderByReleaseTimeDesc(boolean status);
 
     Page<Film> findAllByFilmNameIgnoreCaseContainsAndStatusTrue(String filmName, Pageable pageable);
+
+    Film findByFilmId(String filmId);
 }
