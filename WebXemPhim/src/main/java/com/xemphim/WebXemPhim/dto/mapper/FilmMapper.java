@@ -58,7 +58,7 @@ public class FilmMapper {
         filmDTO.setRelease_time(film.getReleaseTime());
         List<EpisodeDTO> epi = new ArrayList<>();
         for (Episode e : episodes) {
-            epi.add(new EpisodeDTO(e.getTitle(),e.getEpisodePath(),e.getCreAt().toString()));
+            epi.add(new EpisodeDTO(e.getEpisodeId(),e.getTitle(),e.getEpisodePath(),e.getCreAt().toString()));
         }
         filmDTO.setComment(comments);
         filmDTO.setEpisodes(epi);

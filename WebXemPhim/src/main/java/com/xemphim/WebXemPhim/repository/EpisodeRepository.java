@@ -23,4 +23,6 @@ public interface EpisodeRepository extends JpaRepository<Episode, Integer>{
     Page<Episode> findEpisodesFavoritePagination(@Param("accountName") String accountName, Pageable pageable);
 
     Episode findOneByFilmAndTitleAndStatusTrue(Film film, String title);
+
+    Episode findOneByFilmAndEpisodeIdAndStatusTrue(Film film, String id);
 }

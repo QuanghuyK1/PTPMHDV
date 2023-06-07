@@ -375,7 +375,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateEpisode(String filmName, String oldTitle, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void updateEpisode(String filmName, String id, CreEpisodeLinkRequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Film film = filmRepository.findOneByFilmNameIgnoreCaseAndStatusTrue(filmName);
         if (film == null) {
             APIResponse apiResponse = new APIResponse();
@@ -383,7 +383,7 @@ public class AdminServiceImpl implements AdminService {
             apiResponse.setError("FilmName wrong ");
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
         } else {
-            Episode episode = episodeRepository.findOneByFilmAndTitleAndStatusTrue(film, oldTitle);
+            Episode episode = episodeRepository.findOneByFilmAndEpisodeIdAndStatusTrue(film, id);
             if (episode == null) {
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus(400);
