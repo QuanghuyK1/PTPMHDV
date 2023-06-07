@@ -14,12 +14,26 @@ public class PurchasedFilmPackage {
 	
 	@EmbeddedId
 	private PurchasedFilmPackageId id;
-	
-	@Column(name = "purchase_date")
-	private Date purchaseDate;
-	
-	@Column(name = "expiration_date")
-	private Date expirationDate;
+
+	private boolean status;
+	private Date expiration_date;
+	private Date start_date;
+
+	public Date getExpiration_date() {
+		return expiration_date;
+	}
+
+	public void setExpiration_date(Date expiration_date) {
+		this.expiration_date = expiration_date;
+	}
+
+	public Date getStart_date() {
+		return start_date;
+	}
+
+	public void setStart_date(Date start_date) {
+		this.start_date = start_date;
+	}
 
 	public PurchasedFilmPackageId getId() {
 		return id;
@@ -29,37 +43,11 @@ public class PurchasedFilmPackage {
 		this.id = id;
 	}
 
-	public Date getPurchaseDate() {
-		return purchaseDate;
+	public boolean isStatus() {
+		return status;
 	}
 
-	public void setPurchaseDate(Date purchaseDate) {
-		this.purchaseDate = purchaseDate;
-	}
-
-	public Date getExpiration_date() {
-		return expirationDate;
-	}
-
-	public void setExpiration_date(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(expirationDate, id, purchaseDate);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PurchasedFilmPackage other = (PurchasedFilmPackage) obj;
-		return Objects.equals(expirationDate, other.expirationDate) && Objects.equals(id, other.id)
-				&& Objects.equals(purchaseDate, other.purchaseDate);
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 }

@@ -68,9 +68,9 @@ public class ClientServiceImpl implements ClientService {
         PurchasedFilmPackageId id = new PurchasedFilmPackageId();
         id.setAccount(account.get());
         id.setFilmPackage(filmPackage);
-        purchasedFilmPackage.setPurchaseDate(new Date());
+        id.setPurchase_date(new Date());
         purchasedFilmPackage.setId(id);
-        purchasedFilmPackage.setExpiration_date(new Date());
+        purchasedFilmPackage.setStatus(false);
         purchasedFilmPackageRepository.save(purchasedFilmPackage);
         apiResponse.setData("ok");
         return apiResponse;
@@ -402,9 +402,10 @@ public class ClientServiceImpl implements ClientService {
         objects = filmPackageRepository.getFilmPackages();
         for (Object[] object : objects) {
             FilmPackageOutput filmPackageOutput = new FilmPackageOutput();
-            filmPackageOutput.setDiscountRate((Float) object[0]);
-            filmPackageOutput.setUsedTime((Integer) object[1]);
-            filmPackageOutput.setPrice((Integer) object[2]);
+            filmPackageOutput.setId((Integer) object[0]);
+            filmPackageOutput.setDiscountRate((Float) object[1]);
+            filmPackageOutput.setUsedTime((Integer) object[2]);
+            filmPackageOutput.setPrice((Integer) object[3]);
             filmPackageOutputs.add(filmPackageOutput);
         }
         return filmPackageOutputs;

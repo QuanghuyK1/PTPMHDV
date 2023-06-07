@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,6 +47,10 @@ public class AdminServiceImpl implements AdminService {
     private ActorRepository actorRepository;
     @Autowired
     private FilmCategoryRepository filmCategoryRepository;
+    @Autowired
+    private FilmPackageRepository filmPackageRepository;
+    @Autowired
+    private PurchasedFilmPackageRepository purchasedFilmPackageRepository;
     @Autowired
     private FileService fileService;
 
@@ -430,6 +435,32 @@ public class AdminServiceImpl implements AdminService {
             new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
 
         }
+    }
+
+    @Override
+    public void active(String accountName,String purchaseDate, String packageId, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+//        Account account = accountRepository.findOneByAccountName(accountName).get();
+        FilmPackage filmPackage = filmPackageRepository.findOneByfilmPackageId(packageId) ;
+//        PurchasedFilmPackageId id = new PurchasedFilmPackageId();
+//        id.setAccount(account);
+//        id.setFilmPackage(filmPackage);
+//        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+//        Date date = dateFormat.parse(purchaseDate);
+//        Timestamp timestamp = new java.sql.Timestamp(date.getTime());;
+        PurchasedFilmPackage aPackage = purchasedFilmPackageRepository.getPackage(accountName,packageId,purchaseDate);
+        aPackage.setStatus(true);
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.MONTH, filmPackage.getUsedTime());
+        Date newDate = calendar.getTime();
+        aPackage.setStart_date(currentDate);
+        aPackage.setExpiration_date(newDate);
+        purchasedFilmPackageRepository.save(aPackage);
+        APIResponse apiResponse = new APIResponse();
+
+        apiResponse.setData("Success");
+        new ObjectMapper().writeValue(response.getOutputStream(), apiResponse);
     }
 
     @Override

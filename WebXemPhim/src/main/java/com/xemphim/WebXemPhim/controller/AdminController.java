@@ -2,6 +2,7 @@ package com.xemphim.WebXemPhim.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xemphim.WebXemPhim.dto.NewDTO;
@@ -59,6 +60,14 @@ public class AdminController {
                                HttpServletRequest request, HttpServletResponse response
     ) throws IOException {
         adminService.updateEpisode(filmId,epiId,requestDTO,request, response);
+    }
+    @PostMapping("{accountName}/active/{packageId}/{purchaseDate}")
+    public void active( @PathVariable(value="accountName") String accountName,
+                        @PathVariable(value="purchaseDate") String purchaseDate,
+                               @PathVariable(value="packageId") String packageId,
+                               HttpServletRequest request, HttpServletResponse response
+    ) throws IOException, ParseException {
+        adminService.active(accountName,purchaseDate,packageId,request, response);
     }
     @PostMapping("film/update/{filmName}")
     public void updateFilm( @PathVariable(value="filmName") String filmName,

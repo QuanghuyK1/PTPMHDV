@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 
 public interface AdminService {
     User addUser(User user);
@@ -68,4 +69,6 @@ public interface AdminService {
     void creFilmLinkFile(CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     void updateFilmFilePoster(String filmName, CreFilm_FIle_Link_RequestDTO requestDTO, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException;
+
+    void active(String accountName, String purchaseDate, String packageId, HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException;
 }

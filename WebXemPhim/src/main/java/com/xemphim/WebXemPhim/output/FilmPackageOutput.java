@@ -1,13 +1,22 @@
 package com.xemphim.WebXemPhim.output;
 
 public class FilmPackageOutput {
+	private int id;
 	
 	private Float discountRate;
 	
 	private Integer usedTime;
 	
 	private Integer price;
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Float getDiscountRate() {
 		return discountRate;
 	}
