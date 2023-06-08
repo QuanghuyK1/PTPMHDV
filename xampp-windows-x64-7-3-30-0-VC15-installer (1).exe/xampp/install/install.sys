@@ -1,0 +1,10 @@
+DIR = D:\xampp-windows-x64-7-3-30-0-VC15-installer (1).exe\xampp
+xampp = 7.3.30
+
+server = 1.8.0
+perl = 0
+python = 0
+utils = 0
+java = 0
+other = 0
+usbstick = 0

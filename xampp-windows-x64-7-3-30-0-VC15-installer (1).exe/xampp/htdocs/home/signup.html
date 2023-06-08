@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600%7CUbuntu:300,400,500,700" rel="stylesheet"> 
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="css/nouislider.min.css">
+	<link rel="stylesheet" href="css/ionicons.min.css">
+	<link rel="stylesheet" href="css/plyr.css">
+	<link rel="stylesheet" href="css/photoswipe.css">
+	<link rel="stylesheet" href="css/default-skin.css">
+	<link rel="stylesheet" href="css/main.css">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">
+	<link rel="apple-touch-icon" href="icon/favicon-32x32.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="icon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="icon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="icon/apple-touch-icon-144x144.png">
+
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="author" content="Dmitry Volkov">
+	<title>FlixGo – Online Movies, TV Shows & Cinema HTML Template</title>
+
+</head>
+<body class="body">
+
+	<div class="sign section--bg" data-bg="img/section/section.jpg">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="sign__content">
+						<!-- registration form -->
+						<form action="#" class="sign__form" id="signup-form">
+							<a href="index.html" class="sign__logo">
+								<img src="img/logo.svg" alt="">
+							</a>
+
+							<div class="sign__group">
+								<input type="text" class="sign__input" placeholder="Name" id="username">
+							</div>
+
+							<div class="sign__group">
+								<input type="email" class="sign__input" placeholder="Email" id="email">
+							</div>
+							<div class="sign__group">
+								<input type="password" class="sign__input" placeholder="Password" id="password">
+							</div>
+
+							<button class="sign__btn" type="submit">Sign up</button>
+
+							<span class="sign__text">Already have an account? <a href="signin.html">Sign in!</a></span>
+						</form>
+						<!-- registration form -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- JS -->
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.mousewheel.min.js"></script>
+	<script src="js/jquery.mCustomScrollbar.min.js"></script>
+	<script src="js/wNumb.js"></script>
+	<script src="js/nouislider.min.js"></script>
+	<script src="js/plyr.min.js"></script>
+	<script src="js/jquery.morelines.min.js"></script>
+	<script src="js/photoswipe.min.js"></script>
+	<script src="js/photoswipe-ui-default.min.js"></script>
+	<script src="js/main.js"></script>
+	<script type="text/javascript">
+		const form = document.getElementById('signup-form');
+		form.addEventListener('submit', signUp);
+
+		function signUp(event) {
+		  event.preventDefault(); // prevent the form from submitting normally
+		  
+		  // get the user input values
+		  const username = document.querySelector('#username').value;
+		  const password = document.querySelector('#password').value;
+		  const email = document.querySelector('#email').value;
+		  const obj = {accountName: username, password: password, email: email};
+		  // make a POST request to sign up the user
+		  fetch('http://localhost:8081/signUp', {
+		    method: 'POST',
+		    headers: {
+		      'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(obj)
+		  })
+		  .then(response => {
+		    if (response.ok) {
+		      if (confirm("sign up is success! Now we go to back login")) {
+			  window.location.href = 'http://localhost/home/signin.html';
+				}else{
+					window.location.href = 'http://localhost/home/signin.html';
+				}
+		    }else{
+		    	if(response.error == "User already exists!"){
+			      confirm("User or email already exists")
+			    }else{
+			    	confirm("sign up not success")
+			    }
+		    }
+		  })
+		  .then(data => {
+		    // handle the successful response here
+		    console.log(data);
+		  })
+		  .catch(error => {
+		    // handle errors here
+		    console.error('Error:', error);
+		  });
+		}
+	</script>
+</body>
+
+</html>
