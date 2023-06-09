@@ -593,12 +593,23 @@
 			    body: JSON.stringify(payload)
 			  })
 			  .then(response => {
+			  	
 			    return response.json();
 			  })
 			  .then(data => {
 			    // handle the successful response here
 			    console.log(data);
-			    $('.error-label').html(`${data.error}`)
+			    if(data.error == null){
+			    	confirm("change password is success! Now we go to back login")
+			      	if (confirm("sign up is success! Now we go to back login")) {
+				  		window.location.href = 'http://localhost/home/signin.html';
+					}
+					else{
+						window.location.href = 'http://localhost/home/signin.html';
+					}
+			    }else{
+			    	$('.error-label').html(`${data.error}`)
+			    }
 			  })
 			  .catch(error => {
 			    // handle errors here
@@ -623,14 +634,18 @@
 			      $('.price__btn_1').html('Actived');
 			      clickThanhtoan('price__btn_2');
 			      clickThanhtoan('price__btn_3');
-			    } else if (data.data == 2) {
+			    } else if (data.data == 3) {
 			      $('.price__btn_2').html('Actived');
 			      clickThanhtoan('price__btn_1');
 			      clickThanhtoan('price__btn_3');
-			    } else if (data.data == 3) {
+			    } else if (data.data == 6) {
 			      $('.price__btn_3').html('Actived');
 			      clickThanhtoan('price__btn_2');
 			      clickThanhtoan('price__btn_1');
+			    }else{
+			    	clickThanhtoan('price__btn_2');
+			      clickThanhtoan('price__btn_1');
+			      clickThanhtoan('price__btn_3');
 			    }
 			   
 			  })
@@ -670,9 +685,9 @@
 					var compareDate = moment(compareDateStr, "YYYY-MM-DD");
 					if(data[i].used_time==1){
 						name = 'Basic Price';
-					}else if(data[i].used_time==2){
-						name = 'Premium Price';
 					}else if(data[i].used_time==3){
+						name = 'Premium Price';
+					}else if(data[i].used_time==6){
 						name = 'Cinematic Price';
 					}
 					if(currentDate.isBefore(compareDate)){

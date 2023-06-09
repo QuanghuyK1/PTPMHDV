@@ -105,7 +105,8 @@
 
 								<a href="signin.html" class="header__sign-in">
 									<i class="icon ion-ios-log-in"></i>
-									<span>sign in</span>
+									<span class="text-none">sign in</span>
+									<span class="text-us" style="text-transform: none;"></span>
 								</a>
 							</div>
 							<!-- end header auth -->
@@ -446,6 +447,18 @@
 			     window.location.href = 'http://localhost/home/list.html?name='+$('.input-search').val() + '_0';
 			  });
 			});
+		$(document).ready(function() {
+		  var us = sessionStorage.getItem('username');
+		  if(us!=null && us!='admin'){
+		  	$('.text-us').html(us);
+		  	$('.text-none').hide();
+			$('.header__sign-in').attr('href', '/home/profile.html');
+		  }else{
+		  	$('.text-us').hide();
+		  	$('.text-none').show();
+			$('.header__sign-in').attr('href', '/home/signin.html');
+		  }
+		});
 	</script>
 </body>
 

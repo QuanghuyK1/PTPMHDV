@@ -483,6 +483,10 @@
                   formData.append('name', $('.name-new').val());
                   var fileInput = document.getElementById('fileInput-new');
                   var file = fileInput.files[0];
+                  console.log($('.time-new'))
+                  var originalDate = $('.time-new').val();
+                var parts = originalDate.split("/");
+                var convertedDate = parts[2] + "/" + parts[1] + "/" + parts[0];
                   formData.append('poster', file);
                   console.log(formData.get('poster')); // Check if 'poster' field is correctly appended
                   formData.append('trailer', $('.trailer-new').val());

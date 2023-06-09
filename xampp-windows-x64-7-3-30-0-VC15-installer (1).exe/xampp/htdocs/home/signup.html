@@ -102,10 +102,17 @@
 		    body: JSON.stringify(obj)
 		  })
 		  .then(response => {
-		    if (response.ok) {
-		      if (confirm("sign up is success! Now we go to back login")) {
-			  window.location.href = 'http://localhost/home/signin.html';
-				}else{
+		  	return response.json();
+		  })
+		  .then(data => {
+		    // handle the successful response here
+		    console.log(data);
+		    if(data.data == 'Success'){
+		    	confirm("sign up is success! Now we go to back login")
+		      	if (confirm("sign up is success! Now we go to back login")) {
+			  		window.location.href = 'http://localhost/home/signin.html';
+				}
+				else{
 					window.location.href = 'http://localhost/home/signin.html';
 				}
 		    }else{
@@ -115,10 +122,6 @@
 			    	confirm("sign up not success")
 			    }
 		    }
-		  })
-		  .then(data => {
-		    // handle the successful response here
-		    console.log(data);
 		  })
 		  .catch(error => {
 		    // handle errors here

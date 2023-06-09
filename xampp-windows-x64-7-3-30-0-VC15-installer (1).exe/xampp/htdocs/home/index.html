@@ -1266,7 +1266,7 @@
 		});
 		$(document).ready(function() {
 		  var us = sessionStorage.getItem('username');
-		  if(us!=null){
+		  if(us!=null && us!='admin'){
 		  	$('.text-us').html(us);
 		  	$('.text-none').hide();
 			$('.header__sign-in').attr('href', '/home/profile.html');

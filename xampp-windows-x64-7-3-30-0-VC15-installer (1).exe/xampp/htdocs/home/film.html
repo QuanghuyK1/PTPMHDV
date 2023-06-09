@@ -186,7 +186,7 @@
 									<ul class="card__meta">
 										<li><span>Genre:</span> <a href="#" class="cate"></a></li>
 										<li class="release"></li>
-										<li><span>Running time:</span class="dura"> 120 min</li>
+										<li class="dura"><span>Running time:</span > 120 min</li>
 										<li><span>Country:</span> <a href="#" class="nation">USA</a> </li>
 									</ul>
 
@@ -936,7 +936,7 @@
 			}
 			$('.mota').html(data.data.filmDescription);
 			$('.release').html(data.data.release_time);
-			$('.dura').html(data.data.filmDuration);
+			$('.dura').html(`<span>Running time:</span > ${data.data.filmDuration} min`);
 			$('.nation').html(data.data.nation);
 			$('.card__rate').html(`<i class="icon ion-ios-star"></i>${data.data.filmRating}`);
 			const dateString = data.data.release_time;
@@ -1176,7 +1176,7 @@
 		});
 		$(document).ready(function() {
 		  var us = sessionStorage.getItem('username');
-		  if(us!=null){
+		  if(us!=null && us!='admin'){
 		  	$('.text-us').html(us);
 		  	$('.text-none').hide();
 			$('.header__sign-in').attr('href', '/home/profile.html');
